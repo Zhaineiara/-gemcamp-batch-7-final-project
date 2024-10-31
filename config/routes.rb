@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
+  get 'client/home',  to: 'client/home#dashboard'
+  get 'admin/home/',  to: 'admin/home#dashboard'
   devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
-  # Defines the root path route ("/")
-  # root "articles#index"
 end
