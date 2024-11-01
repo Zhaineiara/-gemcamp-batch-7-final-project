@@ -4,15 +4,15 @@ Rails.application.routes.draw do
 
   namespace :admin do
     devise_for :users, controllers: {
-      registrations: 'users/registrations',
-      sessions: 'users/sessions'
+      registrations: 'admin/registrations',
+      sessions: 'admin/sessions'
     }
   end
 
   namespace :client do
     devise_for :users, controllers: {
-      registrations: 'users/registrations',
-      sessions: 'users/sessions'
+      registrations: 'client/registrations',
+      sessions: 'client/sessions'
     }
   end
 
