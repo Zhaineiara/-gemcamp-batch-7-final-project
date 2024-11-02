@@ -1,5 +1,8 @@
 <h1>Admin Dashboard</h1>
 <p>Find me in app/views/admin/home/index.html.erb</p>
 
-<%= link_to 'LOG IN ADMIN', new_admin_user_session_path %>
-<%= link_to 'Sign out', destroy_admin_user_session_path, data: { 'turbo-method': :delete } %>
+<% if admin_user_signed_in? %>
+  <%= link_to 'Sign out', destroy_admin_user_session_path, data: { 'turbo-method': :delete } %>
+<% else %>
+  <%= link_to 'LOG IN ADMIN', new_admin_user_session_path %>
+<% end %>
