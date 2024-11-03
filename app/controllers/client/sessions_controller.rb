@@ -5,6 +5,11 @@ class Client::SessionsController < Devise::SessionsController
 
   def create
     user = User.find_by(email: params[:client_user][:email])
+    if user.nil? || user.encrypted_password.blank?
+      flash[:alert] = "Email or password can't be blank."
+      redirect_to new_client_user_session_path and return
+    end
+
     if user && user.role == 'admin'
       flash[:alert] = "You are not authorized to access the client panel."
       redirect_to new_client_user_session_path and return

@@ -1,29 +1,82 @@
-<h2>Sign up</h2>
-
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "client/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+<!-- Top Navigation -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand ms-2" href="#">Brand Image</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ms-auto mb-2 me-5 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Coins</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Claim</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Language</a>
+        </li>
+      </ul>
+    </div>
   </div>
+</nav>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
+<!-- Registration In Form -->
+<div class="container my-4">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+
+      <!-- Radio Button Group -->
+      <div class="btn-group position-relative top-0 start-50 translate-middle w-100 mt-5" role="group" aria-label="Basic radio toggle button group">
+        <%= link_to 'LOGIN', new_client_user_session_path, class: "btn btn-outline-success w-50 #{'active' if current_page?(new_client_user_session_path)}" %>
+        <%= link_to 'REGISTER', new_client_user_registration_path, class: "btn btn-outline-success w-50 #{'active' if current_page?(new_client_user_registration_path)}" %>
+      </div>
+
+      <% if flash[:notice] %>
+        <p class="flash notice"><%= flash[:notice] %></p>
+      <% end %>
+      <% if flash[:alert] %>
+        <p class="flash alert"><%= flash[:alert] %></p>
+      <% end %>
+
+      <!-- Form -->
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'form-signin' }) do |f| %>
+        <%= render "client/shared/error_messages", resource: resource %>
+        <div class="form-group mb-3">
+          <%= f.label :email, class: 'form-label' %>
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control' %>
+        </div>
+
+        <div class="form-group mb-3">
+          <%= f.label :password, class: 'form-label' %>
+          <% if @minimum_password_length %>
+            <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %>
+          <%= f.password_field :password, autocomplete: "new-password", class: 'form-control' %>
+        </div>
+
+        <div class="form-group mb-3">
+          <%= f.label :password_confirmation, class: 'form-label' %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
+        </div>
+
+        <div class="d-grid">
+          <%= f.submit "Sign up", class: 'btn btn-primary' %>
+        </div>
+      <% end %>
+    </div>
   </div>
+</div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+<!-- Bottom Navigation -->
+<footer class="fixed-bottom bg-light">
+  <div class="container">
+    <div class="d-flex justify-content-around py-2">
+      <a href="#" class="text-center">Share</a>
+      <a href="#" class="text-center">Invite</a>
+      <a href="#" class="text-center">Lottery</a>
+      <a href="#" class="text-center">Shop</a>
+      <a href="#" class="text-center">Me</a>
+    </div>
   </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "client/shared/links" %>
+</footer>

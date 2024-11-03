@@ -10,7 +10,6 @@ class Admin::SessionsController < Devise::SessionsController
       redirect_to new_admin_user_session_path and return
     end
 
-    user = User.find_by(email: params[:admin_user][:email])
     if user && user.role == 'client'
       flash[:alert] = "You are not authorized to access the admin panel."
       redirect_to new_admin_user_session_path and return
