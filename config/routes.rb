@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
   constraints(ClientDomainConstraint.new) do
     namespace :client do
+      get 'profile/profile'
       devise_for :users, controllers: {
         registrations: 'client/registrations',
         sessions: 'client/sessions'

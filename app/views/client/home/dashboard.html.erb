@@ -24,7 +24,8 @@
             <%= current_client_user.username %>
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><%= link_to 'Profile', client_profile_profile_path, class: 'dropdown-item' %></li>
+            <li><a class="dropdown-item" href="#">Contact</a></li>
             <li><%= button_to 'Sign Out', destroy_client_user_session_path, method: :delete, class: 'dropdown-item' %></li>
           </ul>
         </li>
