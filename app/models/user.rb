@@ -11,5 +11,8 @@ class User < ApplicationRecord
     countries: [:ph]
   }
 
+  validates :firstname, presence: true
+  validates :lastname, presence: true
+
   enum role: { client: 0, admin: 1 }
 end
