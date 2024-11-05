@@ -17,4 +17,5 @@ class User < ApplicationRecord
   validates :phone, presence: true
 
   enum role: { client: 0, admin: 1 }
+  mount_uploader :avatar, AvatarUploader
 end

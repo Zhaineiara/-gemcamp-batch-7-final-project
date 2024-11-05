@@ -38,7 +38,7 @@
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
   <div class="card bg-light text-dark p-4" style="width: 100%; max-width: 600px;">
     <div class="d-flex align-items-center mb-3">
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4Szkr4y7K4mXxrfFgrcbAowpmiku5jf1ihg&s.jpg" alt="User Image" class="rounded-circle me-3" style="width: 100px; height: 100px;">
+      <img src="<%= current_client_user.avatar.url if current_client_user.avatar? %>" alt="User Image" class="rounded-circle me-3" style="width: 100px; height: 100px;">
       <div>
         <p><strong>Username:</strong> <%= current_client_user.username %></p>
         <p><strong>Email:</strong> <%= current_client_user.email %></p>
