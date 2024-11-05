@@ -13,6 +13,8 @@ class User < ApplicationRecord
 
   validates :firstname, presence: true
   validates :lastname, presence: true
+  validates :username, presence: true
+  validates :phone, presence: true
 
   enum role: { client: 0, admin: 1 }
 end
