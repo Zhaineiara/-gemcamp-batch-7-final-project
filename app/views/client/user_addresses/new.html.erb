@@ -1,0 +1,70 @@
+<h1>New Address</h1>
+
+<%= form_with(model: @user_address, url: client_user_addresses_path, local: true) do |form| %>
+  <% if @user_address.errors.any? %>
+    <div class="error_messages">
+      <ul>
+        <% @user_address.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :genre %>
+    <%= form.select :genre, UserAddress.genres.keys.map { |genre| [genre.humanize, genre] }, prompt: 'Select genre' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :street_address %>
+    <%= form.text_field :street_address %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :phone_number %>
+    <%= form.text_field :phone_number %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :remark %>
+    <%= form.text_area :remark %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :is_default %>
+    <%= form.check_box :is_default %>
+    <%= form.label :is_default, "Set as Default Address" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :region_id, 'Region' %>
+    <%= form.collection_select :region_id, Address::Region.all, :id, :name, prompt: 'Select a region' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :province_id, 'Province' %>
+    <%= form.collection_select :province_id, Address::Province.all, :id, :name, prompt: 'Select a province' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :city_id, 'City' %>
+    <%= form.collection_select :city_id, Address::City.all, :id, :name, prompt: 'Select a city' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :barangay_id, 'Barangay' %>
+    <%= form.collection_select :barangay_id, Address::Barangay.all, :id, :name, prompt: 'Select a barangay' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.submit "Save Address" %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', client_user_addresses_path %>

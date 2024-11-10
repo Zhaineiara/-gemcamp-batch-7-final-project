@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_06_121925) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_10_035817) do
   create_table "address_barangays", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "city_id"
     t.string "code"
@@ -45,6 +45,23 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_06_121925) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "user_addresses", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.string "street_address"
+    t.string "phone_number"
+    t.string "remark"
+    t.boolean "is_default"
+    t.bigint "user_id", null: false
+    t.integer "region_id"
+    t.integer "province_id"
+    t.integer "city_id"
+    t.integer "barangay_id"
+    t.integer "genre"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_addresses_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb4", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -66,4 +83,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_06_121925) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "user_addresses", "users"
 end

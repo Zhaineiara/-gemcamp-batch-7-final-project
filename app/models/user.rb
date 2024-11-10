@@ -18,4 +18,6 @@ class User < ApplicationRecord
 
   enum role: { client: 0, admin: 1 }
   mount_uploader :avatar, AvatarUploader
+
+  has_many :user_addresses, dependent: :destroy
 end

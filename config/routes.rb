@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  get 'client/home',  to: 'client/home#dashboard'
-  get 'admin/home/',  to: 'admin/home#dashboard'
+  get 'client/home', to: 'client/home#dashboard'
+  get 'admin/home/', to: 'admin/home#dashboard'
 
   constraints(AdminDomainConstraint.new) do
     namespace :admin do
@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   constraints(ClientDomainConstraint.new) do
     namespace :client do
       get 'profile/profile'
+      resources :user_addresses, only: [:index, :new, :create, :edit, :update, :destroy]
+
       devise_for :users, controllers: {
         registrations: 'client/registrations',
         sessions: 'client/sessions'

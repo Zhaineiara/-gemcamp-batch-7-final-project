@@ -4,4 +4,5 @@ class Address::City < ApplicationRecord
 
   belongs_to :province, optional: true
   has_many :barangays
+  has_many :user_addresses
 end
