@@ -1,0 +1,70 @@
+<h1>Edit Address</h1>
+
+<%= form_with(model: @user_address, url: client_user_address_path(@user_address), local: true) do |form| %>
+  <% if @user_address.errors.any? %>
+    <div class="error_messages">
+      <ul>
+        <% @user_address.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="form-group">
+    <%= form.label :genre %>
+    <%= form.select :genre, UserAddress.genres.keys.map { |genre| [genre.humanize, genre] }, prompt: 'Select genre', selected: @user_address.genre %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :name %>
+    <%= form.text_field :name, value: @user_address.name %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :street_address %>
+    <%= form.text_field :street_address, value: @user_address.street_address %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :phone_number %>
+    <%= form.text_field :phone_number, value: @user_address.phone_number %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :remark %>
+    <%= form.text_area :remark, value: @user_address.remark %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :is_default %>
+    <%= form.check_box :is_default, checked: @user_address.is_default %>
+    <%= form.label :is_default, "Set as Default Address" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :region_id, 'Region' %>
+    <%= form.collection_select :region_id, Address::Region.all, :id, :name, prompt: 'Select a region', selected: @user_address.region_id %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :province_id, 'Province' %>
+    <%= form.collection_select :province_id, Address::Province.where(region_id: @user_address.region_id), :id, :name, prompt: 'Select a province', selected: @user_address.province_id %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :city_id, 'City' %>
+    <%= form.collection_select :city_id, Address::City.where(province_id: @user_address.province_id), :id, :name, prompt: 'Select a city', selected: @user_address.city_id %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :barangay_id, 'Barangay' %>
+    <%= form.collection_select :barangay_id, Address::Barangay.where(city_id: @user_address.city_id), :id, :name, prompt: 'Select a barangay', selected: @user_address.barangay_id %>
+  </div>
+
+  <div class="form-group">
+    <%= form.submit "Save Address" %>
+  </div>
+<% end %>
+
+<%= link_to 'Back', client_user_addresses_path %>

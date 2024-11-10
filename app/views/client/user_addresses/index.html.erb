@@ -1,0 +1,63 @@
+<div class="d-flex justify-content-between align-items-center mt-5 ms-5">
+  <h3>List of Address</h3>
+  <div class="d-flex ms-auto me-5">
+    <% if @user_addresses.size < 5 %>
+      <%= link_to 'Add Address', new_client_user_address_path, class: 'btn btn-primary me-2 mb-3' %>
+    <% end %>
+    <%= link_to 'Back to Profile', client_profile_profile_path, class: 'btn btn-success mb-3' %>
+  </div>
+</div>
+
+<% if @user_addresses.any? %>
+  <div class="table-responsive mx-5">
+    <table class="table table-bordered table-striped table-sm">
+      <thead class="thead-dark">
+      <tr>
+        <th class="text-center">#</th>
+        <th class="text-center">Name</th>
+        <th class="text-center">Street Address</th>
+        <th class="text-center">Phone Number</th>
+        <th class="text-center">Remark</th>
+        <th class="text-center">Region</th>
+        <th class="text-center">Province</th>
+        <th class="text-center">City</th>
+        <th class="text-center">Barangay</th>
+        <th class="text-center">Genre</th>
+        <th class="text-center">Is Default</th>
+        <th class="text-center">Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @user_addresses.each.with_index(1) do |address, numbering| %>
+        <tr>
+          <td class="text-center"><%= numbering %></td>
+          <td class="text-center"><%= address.name %></td>
+          <td class="text-center"><%= address.street_address %></td>
+          <td class="text-center"><%= address.phone_number %></td>
+          <td class="text-center"><%= address.remark %></td>
+          <td class="text-center"><%= address.region&.name %></td>
+          <td class="text-center"><%= address.province&.name %></td>
+          <td class="text-center"><%= address.city&.name %></td>
+          <td class="text-center"><%= address.barangay&.name %></td>
+          <td class="text-center"><%= address.genre.humanize %></td>
+          <td class="text-center"><%= address.is_default ? 'Yes' : 'No' %></td>
+          <td class="text-center">
+            <%= link_to edit_client_user_address_path(address), class: 'btn btn-warning btn-sm' do %>
+              <i class="bi bi-pencil"></i>
+            <% end %>
+
+            <%= link_to client_user_address_path(address), method: :delete, data: { turbo_method: 'delete', confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' do %>
+              <i class="bi bi-trash"></i>
+            <% end %>
+          </td>
+        </tr>
+
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+<% else %>
+  <div class="alert alert-info mx-5" role="alert">
+    No addresses found.
+  </div>
+<% end %>
