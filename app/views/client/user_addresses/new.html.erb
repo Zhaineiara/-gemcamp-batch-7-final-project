@@ -39,7 +39,7 @@
   <div class="card bg-light text-dark p-4" style="width: 100%; max-width: 600px;">
     <h1 class="text-center mb-4">New Address</h1>
 
-    <%= form_with(model: @user_address, url: client_user_addresses_path, local: true) do |form| %>
+    <%= form_with(model: @user_address, url: client_user_addresses_path, local: true, data: { controller: :location }) do |form| %>
       <% if @user_address.errors.any? %>
         <div class="alert alert-danger">
           <ul>
@@ -83,22 +83,34 @@
 
       <div class="form-group mb-3">
         <%= form.label :region_id, 'Region', class: 'form-label' %>
-        <%= form.collection_select :region_id, Address::Region.all, :id, :name, prompt: 'Select a region', class: 'form-select' %>
+        <%= form.collection_select :region_id,
+                                   Address::Region.order(name: :asc), :id, :name,
+                                   { prompt: 'Select a region' }, class: 'form-select',
+                                   data: { location_target: 'selectedRegionId', action: 'change->location#fetchProvinces' } %>
       </div>
 
       <div class="form-group mb-3">
         <%= form.label :province_id, 'Province', class: 'form-label' %>
-        <%= form.collection_select :province_id, Address::Province.all, :id, :name, prompt: 'Select a province', class: 'form-select' %>
+        <%= form.collection_select :province_id,
+                                   [], nil, nil,
+                                   { prompt: 'Select a province' }, class: 'form-select',
+                                   data: { location_target: 'selectedProvinceId', action: 'change->location#fetchCities' } %>
       </div>
 
       <div class="form-group mb-3">
         <%= form.label :city_id, 'City', class: 'form-label' %>
-        <%= form.collection_select :city_id, Address::City.all, :id, :name, prompt: 'Select a city', class: 'form-select' %>
+        <%= form.collection_select :city_id,
+                                   [], nil, nil,
+                                   { prompt: 'Select a city' }, class: 'form-select',
+                                   data: { location_target: 'selectedCityId', action: 'change->location#fetchBarangays' } %>
       </div>
 
       <div class="form-group mb-3">
         <%= form.label :barangay_id, 'Barangay', class: 'form-label' %>
-        <%= form.collection_select :barangay_id, Address::Barangay.all, :id, :name, prompt: 'Select a barangay', class: 'form-select' %>
+        <%= form.collection_select :barangay_id,
+                                   [], nil, nil,
+                                   { prompt: 'Select a barangay' }, class: 'form-select',
+                                   data: { location_target: 'selectedBarangayId' } %>
       </div>
 
       <div class="form-group text-center mb-3">

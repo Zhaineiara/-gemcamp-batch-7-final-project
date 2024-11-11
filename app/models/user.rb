@@ -20,4 +20,8 @@ class User < ApplicationRecord
   mount_uploader :avatar, AvatarUploader
 
   has_many :user_addresses, dependent: :destroy
+  has_many :address_regions, through: :addresses
+  has_many :address_provinces, through: :addresses
+  has_many :address_cities, through: :addresses
+  has_many :address_barangays, through: :addresses
 end
