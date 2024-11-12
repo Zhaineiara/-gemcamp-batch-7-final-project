@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_10_035817) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_12_084021) do
   create_table "address_barangays", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "city_id"
     t.string "code"
@@ -79,9 +79,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_10_035817) do
     t.string "firstname"
     t.string "lastname"
     t.string "avatar"
+    t.bigint "parent_id"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["parent_id"], name: "fk_rails_684a13307d"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "user_addresses", "users"
+  add_foreign_key "users", "users", column: "parent_id"
 end
