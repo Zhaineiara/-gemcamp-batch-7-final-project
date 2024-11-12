@@ -30,6 +30,7 @@ Rails.application.routes.draw do
   constraints(ClientDomainConstraint.new) do
     namespace :client do
       get 'profile/profile'
+      get 'invite_link/index'
       resources :user_addresses, only: [:index, :new, :create, :edit, :update, :destroy]
 
       devise_for :users, controllers: {
