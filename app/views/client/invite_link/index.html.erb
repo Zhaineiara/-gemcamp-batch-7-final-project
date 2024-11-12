@@ -1,5 +1,23 @@
 <!-- Top Navigation -->
 <%= render partial: 'client/shared/header' %>
 
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6 text-center">
+      <!-- QR Code Section -->
+      <div class="mb-4">
+        <div class="p-4 border border-primary rounded">
+          <%= @qrcode_svg.html_safe %>
+        </div>
+      </div>
+
+      <!-- Signup Link Section -->
+      <div class="alert alert-info mb-3">
+        <h6 class="text-truncate">http://client.com:3000/client/users/sign_up?promoter=<%= current_client_user.email %></h6>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Bottom Navigation -->
 <%= render partial: 'client/shared/footer' %>
