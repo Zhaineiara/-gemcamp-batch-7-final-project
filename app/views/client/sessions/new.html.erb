@@ -1,25 +1,5 @@
 <!-- Top Navigation -->
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <a class="navbar-brand ms-2" href="#">Brand Image</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ms-auto mb-2 me-5 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Coins</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Claim</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Language</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<%= render partial: 'client/shared/header' %>
 
 <!-- Sign In Form -->
 <div class="container my-4">
@@ -71,14 +51,4 @@
 </div>
 
 <!-- Bottom Navigation -->
-<footer class="fixed-bottom bg-light">
-  <div class="container">
-    <div class="d-flex justify-content-around py-2">
-      <a href="#" class="text-center">Share</a>
-      <a href="#" class="text-center">Invite</a>
-      <a href="#" class="text-center">Lottery</a>
-      <a href="#" class="text-center">Shop</a>
-      <a href="#" class="text-center">Me</a>
-    </div>
-  </div>
-</footer>
+<%= render partial: 'client/shared/footer' %>

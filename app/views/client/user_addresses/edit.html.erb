@@ -1,38 +1,5 @@
 <!-- Top Navigation -->
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <%= link_to 'SYSTEM MANAGEMENT', client_home_path, class: 'navbar-brand' %>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav ms-auto me-5">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Coins</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Claim</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Language</a>
-        </li>
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <%= current_client_user.username %>
-          </a>
-          <ul class="dropdown-menu">
-            <li><%= link_to 'Profile', client_profile_profile_path, class: 'dropdown-item' %></li>
-            <li><a class="dropdown-item" href="#">Contact</a></li>
-            <li><%= button_to 'Sign Out', destroy_client_user_session_path, method: :delete, class: 'dropdown-item' %></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+<%= render partial: 'client/shared/header' %>
 
 <!--Edit Address Form-->
 <div class="container d-flex justify-content-center align-items-center mt-5 mb-5" style="min-height: 80vh;">
@@ -113,14 +80,4 @@
 </div>
 
 <!-- Bottom Navigation -->
-<footer class="fixed-bottom bg-light">
-  <div class="container">
-    <div class="d-flex justify-content-around py-2">
-      <a href="#" class="text-center">Share</a>
-      <a href="#" class="text-center">Invite</a>
-      <a href="#" class="text-center">Lottery</a>
-      <a href="#" class="text-center">Shop</a>
-      <a href="#" class="text-center">Me</a>
-    </div>
-  </div>
-</footer>
+<%= render partial: 'client/shared/footer' %>
