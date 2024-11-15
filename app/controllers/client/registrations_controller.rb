@@ -1,4 +1,6 @@
 class Client::RegistrationsController < Devise::RegistrationsController
+  layout 'client'
+
   before_action :store_params, only: [:new]
   def after_sign_up_path_for(resource)
     client_home_path

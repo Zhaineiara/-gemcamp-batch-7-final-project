@@ -1,4 +1,6 @@
 class Client::InviteLinkController < ApplicationController
+  layout 'client'
+
   require "rqrcode"
   def index
     @qrcode = RQRCode::QRCode.new(invitation_link)
