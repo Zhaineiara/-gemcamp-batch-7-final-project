@@ -1,0 +1,37 @@
+<!-- Sidebar -->
+<div class="bg-light" style="width: 250px; min-height: 100vh;">
+  <div class="list-group list-group-flush">
+    <%= link_to 'Homepage', admin_home_path, class: 'list-group-item list-group-item-action' %>
+
+    <!-- Member Management -->
+    <a href="#memberManagement" class="list-group-item list-group-item-action" data-bs-toggle="collapse">
+      Member Management
+    </a>
+    <div class="collapse ps-3" id="memberManagement">
+      <a href="#" class="list-group-item list-group-item-action">User List</a>
+      <a href="#" class="list-group-item list-group-item-action">Item List</a>
+    </div>
+
+    <!-- Dashboard -->
+    <a href="#dashboardMenu" class="list-group-item list-group-item-action" data-bs-toggle="collapse">
+      Dashboard
+    </a>
+    <div class="collapse ps-3" id="dashboardMenu">
+      <a href="#" class="list-group-item list-group-item-action">Overview</a>
+      <a href="#" class="list-group-item list-group-item-action">Weekly</a>
+      <a href="#" class="list-group-item list-group-item-action">Monthly</a>
+      <a href="#" class="list-group-item list-group-item-action">Annually</a>
+    </div>
+
+    <!-- Orders -->
+    <a href="#ordersMenu" class="list-group-item list-group-item-action" data-bs-toggle="collapse">
+      Orders
+    </a>
+    <div class="collapse ps-3" id="ordersMenu">
+      <a href="#" class="list-group-item list-group-item-action">New</a>
+      <a href="#" class="list-group-item list-group-item-action">Processed</a>
+      <a href="#" class="list-group-item list-group-item-action">Shipped</a>
+      <a href="#" class="list-group-item list-group-item-action">Returned</a>
+    </div>
+  </div>
+</div>

@@ -10,12 +10,7 @@
         <div class="card-body p-4">
           <h2 class="text-center mb-4">Log in</h2>
 
-          <% if flash[:notice] %>
-            <p class="flash notice"><%= flash[:notice] %></p>
-          <% end %>
-          <% if flash[:alert] %>
-            <p class="flash alert"><%= flash[:alert] %></p>
-          <% end %>
+          <%= render partial: 'admin/shared/flash_sign_in_out' %>
 
           <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "needs-validation", novalidate: true }) do |f| %>
             <div class="form-group mb-3">
