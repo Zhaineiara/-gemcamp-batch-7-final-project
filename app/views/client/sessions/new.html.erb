@@ -9,12 +9,7 @@
         <%= link_to 'REGISTER', new_client_user_registration_path, class: "btn btn-outline-success w-50 #{'active' if current_page?(new_client_user_registration_path)}" %>
       </div>
 
-      <% if flash[:notice] %>
-        <p class="flash notice"><%= flash[:notice] %></p>
-      <% end %>
-      <% if flash[:alert] %>
-        <p class="flash alert"><%= flash[:alert] %></p>
-      <% end %>
+      <%= render partial: 'client/shared/flash_sign_in_out' %>
 
       <!-- Form -->
       <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-signin' }) do |f| %>
