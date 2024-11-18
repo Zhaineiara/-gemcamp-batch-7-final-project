@@ -31,7 +31,7 @@ class Client::RegistrationsController < Devise::RegistrationsController
   private
 
   def sign_up_params
-    params.require(:client_user).permit(:firstname, :lastname, :username, :email, :password, :password_confirmation)
+    params.require(:client_user).permit(:firstname, :lastname, :username, :email, :password, :password_confirmation, :parent_id)
   end
 
   def account_update_params
