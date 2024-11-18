@@ -19,7 +19,9 @@
   <!-- Sidebar Navigation -->
   <%= render partial: 'admin/shared/sidebar' %>
 
+  <div class="flex-grow-1 p-3 m-5">
   <%= yield %>
+  </div>
 
   <%= render partial: 'admin/shared/flash_sign_in_out' %>
 

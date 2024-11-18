@@ -20,6 +20,7 @@ Rails.application.routes.draw do
 
   constraints(AdminDomainConstraint.new) do
     namespace :admin do
+      get 'user_list/index'
       devise_for :users, controllers: {
         registrations: 'admin/registrations',
         sessions: 'admin/sessions'
