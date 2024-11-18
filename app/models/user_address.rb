@@ -1,9 +1,9 @@
 class UserAddress < ApplicationRecord
   belongs_to :user
-  belongs_to :region, class_name: 'Address::Region', optional: true
-  belongs_to :province, class_name: 'Address::Province', optional: true
-  belongs_to :city, class_name: 'Address::City', optional: true
-  belongs_to :barangay, class_name: 'Address::Barangay', optional: true
+  belongs_to :region, class_name: 'Address::Region'
+  belongs_to :province, class_name: 'Address::Province'
+  belongs_to :city, class_name: 'Address::City'
+  belongs_to :barangay, class_name: 'Address::Barangay'
 
   enum genre: { home: 0, office: 1 }
 
