@@ -23,4 +23,7 @@ class User < ApplicationRecord
   has_many :address_provinces, through: :addresses
   has_many :address_cities, through: :addresses
   has_many :address_barangays, through: :addresses
+
+  belongs_to :parent, class_name: User.name, foreign_key: :parent_id, counter_cache: :children_members, optional: true
+  has_many :children, class_name: User.name, foreign_key: :parent_id, dependent: :destroy
 end
