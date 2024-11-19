@@ -1,0 +1,41 @@
+<h2>Item List</h2>
+
+<%= link_to 'New Item', new_admin_item_path, class: 'btn btn-primary' %>
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Image</th>
+    <th>Quantity</th>
+    <th>Minimum Tickets</th>
+    <th>State</th>
+    <th>Batch Count</th>
+    <th>Online at</th>
+    <th>Offline at</th>
+    <th>Start at</th>
+    <th>Status</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @items.each do |item| %>
+    <tr>
+      <td><%= item.name %></td>
+      <td><%= "image" %></td>
+      <td><%= item.quantity %></td>
+      <td><%= item.minimum_tickets %></td>
+      <td><%= item.state %></td>
+      <td><%= item.batch_count %></td>
+      <td><%= item.online_at %></td>
+      <td><%= item.offline_at %></td>
+      <td><%= item.start_at %></td>
+      <td><%= item.status %></td>
+      <td>
+        <%= link_to 'Show', admin_item_path(item), class: 'btn btn-info' %>
+        <%= link_to 'Edit', edit_admin_item_path(item), class: 'btn btn-warning' %>
+        <%= link_to 'Delete', admin_item_path(item), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
