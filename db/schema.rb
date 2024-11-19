@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_19_055219) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_19_064218) do
   create_table "address_barangays", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "city_id"
     t.string "code"
@@ -43,6 +43,21 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_19_055219) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "categories", charset: "utf8mb4", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "item_category_ships", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.bigint "category_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_item_category_ships_on_category_id"
+    t.index ["item_id"], name: "index_item_category_ships_on_item_id"
   end
 
   create_table "items", charset: "utf8mb4", force: :cascade do |t|
@@ -101,6 +116,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_19_055219) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "item_category_ships", "categories"
+  add_foreign_key "item_category_ships", "items"
   add_foreign_key "user_addresses", "users"
   add_foreign_key "users", "users", column: "parent_id"
 end

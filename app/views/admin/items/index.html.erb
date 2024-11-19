@@ -1,6 +1,8 @@
-<h2>Item List</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Item List</h2>
+  <%= link_to 'New Item', new_admin_item_path, class: 'btn btn-primary' %>
+</div>
 
-<%= link_to 'New Item', new_admin_item_path, class: 'btn btn-primary' %>
 <table class="table table-bordered">
   <thead>
   <tr>
@@ -21,7 +23,7 @@
   <% @items.each do |item| %>
     <tr>
       <td><%= item.name %></td>
-      <td><%= "image" %></td>
+      <td><%= image_tag item.item_image.url, size: "100x100" if item.item_image.present? %></td>
       <td><%= item.quantity %></td>
       <td><%= item.minimum_tickets %></td>
       <td><%= item.state %></td>

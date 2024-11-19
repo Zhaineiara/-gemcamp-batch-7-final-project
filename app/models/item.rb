@@ -10,4 +10,7 @@ class Item < ApplicationRecord
   def destroy
     update(deleted_at: Time.current)
   end
+
+  has_many :item_category_ships
+  has_many :posts, through: :post_category_ships
 end

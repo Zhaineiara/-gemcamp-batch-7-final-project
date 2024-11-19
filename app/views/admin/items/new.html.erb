@@ -1,0 +1,56 @@
+<h1>New Item</h1>
+
+<%= form_with(model: @item, url: admin_items_path, local: true, class: 'form') do |form| %>
+  <div class="form-group">
+    <%= form.label :item_image, "Item Image" %>
+    <%= form.file_field :item_image, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :name, "Name" %>
+    <%= form.text_field :name, class: 'form-control', required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :quantity, "Quantity" %>
+    <%= form.number_field :quantity, class: 'form-control', required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :minimum_tickets, "Minimum Tickets" %>
+    <%= form.number_field :minimum_tickets, class: 'form-control', required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :state, "State" %>
+    <%= form.text_field :state, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :batch_count, "Batch Count" %>
+    <%= form.number_field :batch_count, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :online_at, "Online At" %>
+    <%= form.datetime_local_field :online_at, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :offline_at, "Offline At" %>
+    <%= form.datetime_local_field :offline_at, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :start_at, "Start At" %>
+    <%= form.datetime_local_field :start_at, class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :status, "Status" %>
+    <%= form.select :status, Item.statuses.keys.map { |key| [key.titleize, key] }, {}, class: 'form-control' %>
+  </div>
+
+  <%= form.submit "Create Item", class: 'btn btn-primary mt-4' %>
+  <%= link_to 'Back', admin_items_path, class: 'btn btn-secondary mt-4' %>
+<% end %>
