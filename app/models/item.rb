@@ -12,5 +12,5 @@ class Item < ApplicationRecord
   end
 
   has_many :item_category_ships
-  has_many :posts, through: :post_category_ships
+  has_many :categories, through: :item_category_ships
 end

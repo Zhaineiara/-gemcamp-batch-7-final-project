@@ -51,6 +51,11 @@
     <%= form.select :status, Item.statuses.keys.map { |key| [key.titleize, key] }, {}, class: 'form-control' %>
   </div>
 
+  <div class="form-group">
+    <%= form.label :category, "Category" %>
+    <%= form.collection_check_boxes :category_ids, Category.all, :id, :name, class: 'form-control' %>
+  </div>
+
   <%= form.submit "Create Item", class: 'btn btn-primary mt-4' %>
   <%= link_to 'Back', admin_items_path, class: 'btn btn-secondary mt-4' %>
 <% end %>

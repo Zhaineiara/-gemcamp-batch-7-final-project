@@ -4,7 +4,7 @@ class Admin::ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   def index
-    @items = Item.all
+    @items = Item.includes(:categories).all
   end
 
   def show
@@ -46,6 +46,6 @@ class Admin::ItemsController < ApplicationController
   end
 
   def item_params
-    params.require(:item).permit(:item_image, :name, :quantity, :minimum_tickets, :state, :batch_count, :online_at, :offline_at, :start_at, :status)
+    params.require(:item).permit(:item_image, :name, :quantity, :minimum_tickets, :state, :batch_count, :online_at, :offline_at, :start_at, :status, category_ids: [])
   end
 end

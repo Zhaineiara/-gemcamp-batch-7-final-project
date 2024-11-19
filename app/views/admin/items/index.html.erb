@@ -1,6 +1,9 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h2>Item List</h2>
-  <%= link_to 'New Item', new_admin_item_path, class: 'btn btn-primary' %>
+  <div class="d-flex ms-auto">
+    <%= link_to 'New Item', new_admin_item_path, class: 'btn btn-primary me-2' %>
+    <%= link_to 'View   Category', admin_categories_path, class: 'btn btn-success' %>
+  </div>
 </div>
 
 <table class="table table-bordered">
@@ -16,6 +19,7 @@
     <th>Offline at</th>
     <th>Start at</th>
     <th>Status</th>
+    <td>Category</td>
     <th>Actions</th>
   </tr>
   </thead>
@@ -32,6 +36,7 @@
       <td><%= item.offline_at %></td>
       <td><%= item.start_at %></td>
       <td><%= item.status %></td>
+      <td><%= item.categories.pluck(:name).join(',') %></td>
       <td>
         <%= link_to 'Show', admin_item_path(item), class: 'btn btn-info' %>
         <%= link_to 'Edit', edit_admin_item_path(item), class: 'btn btn-warning' %>

@@ -43,6 +43,10 @@
         <p style="margin-bottom: 8px;">
           <strong>Status:</strong> <%= @item.status %>
         </p>
+
+        <p style="margin-bottom: 8px;">
+          <strong>Category:</strong> <%= @item.categories.pluck(:name).join(',') %>
+        </p>
       </div>
 
       <%= link_to 'Back', admin_items_path, class: 'btn btn-secondary mt-3' %>
