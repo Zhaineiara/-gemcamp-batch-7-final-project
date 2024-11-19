@@ -36,7 +36,7 @@ class Admin::ItemsController < ApplicationController
 
   def destroy
     @item.destroy
-    redirect_to admin_items_path, notice: 'Item deleted successfully.'
+    redirect_to admin_item_path, notice: 'Item deleted successfully.'
   end
 
   private
