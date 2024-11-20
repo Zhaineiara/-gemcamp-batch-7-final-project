@@ -1,4 +1,6 @@
 class Item < ApplicationRecord
+  include AASM
+
   default_scope { where(deleted_at: nil) }
 
   validates :name, :quantity, :minimum_tickets, :batch_count, presence: true
@@ -13,4 +15,43 @@ class Item < ApplicationRecord
 
   has_many :item_category_ships
   has_many :categories, through: :item_category_ships
+
+  aasm column: :state do
+    state :pending, initial: true
+    state :starting, :paused, :ended, :cancelled
+
+    event :start do
+      transitions from: [:pending, :ended, :cancelled], to: :starting, guard: :can_start?
+      transitions from: :paused, to: :starting, after: :perform_start_actions
+    end
+
+    event :pause do
+      transitions from: :starting, to: :paused
+    end
+
+    event :end do
+      transitions from: :starting, to: :ended
+    end
+
+    event :cancel do
+      transitions from: [:starting, :paused], to: :cancelled
+    end
+  end
+
+  def can_start?
+    quantity > 0 && Time.current < offline_at && status == 1
+  end
+
+  def perform_start_actions
+    revise_batch_count
+    deduct_quantity
+  end
+
+  def revise_batch_count
+    item.update(batch_count: item.batch_count + 1)
+  end
+
+  def deduct_quantity
+    item.update(quantity: item.quantity - 1)
+  end
 end
