@@ -1,4 +1,6 @@
 class Admin::CategoriesController < ApplicationController
+  layout 'admin'
+
   before_action :set_category, only: [:edit, :update, :destroy]
 
   def index
@@ -15,7 +17,7 @@ class Admin::CategoriesController < ApplicationController
       flash[:notice] = 'Category created successfully'
       redirect_to admin_categories_path
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -26,8 +28,7 @@ class Admin::CategoriesController < ApplicationController
       flash[:notice] = 'Category updated successfully'
       redirect_to admin_categories_path
     else
-      flash[:alert] = 'Category failed to update'
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
