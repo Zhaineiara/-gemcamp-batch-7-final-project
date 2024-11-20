@@ -45,7 +45,7 @@
         </p>
 
         <p style="margin-bottom: 8px;">
-          <strong>Category:</strong> <%= @item.categories.pluck(:name).join(',') %>
+          <strong>Category:</strong> <%= @item.categories.pluck(:name).sort.join(', ') %>
         </p>
       </div>
 

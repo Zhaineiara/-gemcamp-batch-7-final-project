@@ -4,7 +4,7 @@ class Admin::CategoriesController < ApplicationController
   before_action :set_category, only: [:edit, :update, :destroy]
 
   def index
-    @categories = Category.all
+    @categories = Category.order(:name)
   end
 
   def new

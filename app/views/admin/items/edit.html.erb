@@ -53,7 +53,7 @@
 
   <div class="form-group">
     <%= form.label :category, "Category" %>
-    <%= form.collection_check_boxes :category_ids, Category.all, :id, :name, class: 'form-control' %>
+    <%= form.collection_check_boxes :category_ids, Category.order(:name), :id, :name, class: 'form-control' %>
   </div>
 
   <%= form.submit "Update Item", class: 'btn btn-success mt-4' %>

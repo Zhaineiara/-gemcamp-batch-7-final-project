@@ -4,7 +4,7 @@ class Admin::ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   def index
-    @items = Item.includes(:categories).all
+    @items = Item.includes(:categories).order(:name)
   end
 
   def show
