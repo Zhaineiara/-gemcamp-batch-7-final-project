@@ -1,53 +1,56 @@
 <div class="container mt-4">
-  <div class="card shadow mx-auto" style="max-width: 400px;"> <!-- Reduced max-width -->
+  <div class="card shadow mx-auto" style="max-width: 40%;">
     <div class="card-body text-center">
       <h2 class="card-title">Item Details</h2>
 
-      <div class="my-3"> <!-- Reduced top and bottom margin -->
+      <div class="my-3">
         <%= image_tag @item.item_image.url, class: "img-fluid rounded shadow-lg", style: "max-width: 100%; height: 150px;" if @item.item_image.present? %>
       </div>
 
-      <div class="text-left"> <!-- Aligns text to the left within the container -->
-        <p style="margin-bottom: 8px;">
-          <strong>Name:</strong> <%= @item.name %>
-        </p>
-
-        <p style="margin-bottom: 8px;">
-          <strong>Quantity:</strong> <%= @item.quantity %>
-        </p>
-
-        <p style="margin-bottom: 8px;">
-          <strong>Minimum Tickets:</strong> <%= @item.minimum_tickets %>
-        </p>
-
-        <p style="margin-bottom: 8px;">
-          <strong>State:</strong> <%= @item.state %>
-        </p>
-
-        <p style="margin-bottom: 8px;">
-          <strong>Batch Count:</strong> <%= @item.batch_count %>
-        </p>
-
-        <p style="margin-bottom: 8px;">
-          <strong>Online At:</strong> <%= @item.online_at&.strftime('%B %d, %Y %I:%M %p') %>
-        </p>
-
-        <p style="margin-bottom: 8px;">
-          <strong>Offline At:</strong> <%= @item.offline_at&.strftime('%B %d, %Y %I:%M %p') %>
-        </p>
-
-        <p style="margin-bottom: 8px;">
-          <strong>Start At:</strong> <%= @item.start_at&.strftime('%B %d, %Y %I:%M %p') %>
-        </p>
-
-        <p style="margin-bottom: 8px;">
-          <strong>Status:</strong> <%= @item.status %>
-        </p>
-
-        <p style="margin-bottom: 8px;">
-          <strong>Category:</strong> <%= @item.categories.pluck(:name).sort.join(', ') %>
-        </p>
-      </div>
+      <table style="width: 100%; border-collapse: collapse;">
+        <tbody>
+        <tr>
+          <td style="width: 35%; padding-left: 8px; padding-bottom: 1px; padding-top: 1px; font-weight: bold; text-align: left;">Name</td>
+          <td style="width: 65%; padding-left: 8px; text-align: left;"><%= @item.name %></td>
+        </tr>
+        <tr>
+          <td style="width: 35%; padding-left: 8px; padding-bottom: 1px; padding-top: 1px; font-weight: bold; text-align: left;">Quantity</td>
+          <td style="width: 65%; padding-left: 8px; text-align: left;"><%= @item.quantity %></td>
+        </tr>
+        <tr>
+          <td style="width: 35%; padding-left: 8px; padding-bottom: 1px; padding-top: 1px; font-weight: bold; text-align: left;">Minimum Tickets</td>
+          <td style="width: 65%; padding-left: 8px; text-align: left;"><%= @item.minimum_tickets %></td>
+        </tr>
+        <tr>
+          <td style="width: 35%; padding-left: 8px; padding-bottom: 1px; padding-top: 1px; font-weight: bold; text-align: left;">State</td>
+          <td style="width: 65%; padding-left: 8px; text-align: left;"><%= @item.state %></td>
+        </tr>
+        <tr>
+          <td style="width: 35%; padding-left: 8px; padding-bottom: 1px; padding-top: 1px; font-weight: bold; text-align: left;">Batch Count</td>
+          <td style="width: 65%; padding-left: 8px; text-align: left;"><%= @item.batch_count %></td>
+        </tr>
+        <tr>
+          <td style="width: 35%; padding-left: 8px; padding-bottom: 1px; padding-top: 1px; font-weight: bold; text-align: left;">Online At</td>
+          <td style="width: 65%; padding-left: 8px; text-align: left;"><%= @item.online_at&.strftime('%B %d, %Y %I:%M %p') %></td>
+        </tr>
+        <tr>
+          <td style="width: 35%; padding-left: 8px; padding-bottom: 1px; padding-top: 1px; font-weight: bold; text-align: left;">Offline At</td>
+          <td style="width: 65%; padding-left: 8px; text-align: left;"><%= @item.offline_at&.strftime('%B %d, %Y %I:%M %p') %></td>
+        </tr>
+        <tr>
+          <td style="width: 35%; padding-left: 8px; padding-bottom: 1px; padding-top: 1px; font-weight: bold; text-align: left;">Start At</td>
+          <td style="width: 65%; padding-left: 8px; text-align: left;"><%= @item.start_at&.strftime('%B %d, %Y %I:%M %p') %></td>
+        </tr>
+        <tr>
+          <td style="width: 35%; padding-left: 8px; padding-bottom: 1px; padding-top: 1px; font-weight: bold; text-align: left;">Status</td>
+          <td style="width: 65%; padding-left: 8px; text-align: left;"><%= @item.status %></td>
+        </tr>
+        <tr>
+          <td style="width: 35%; padding-left: 8px; padding-bottom: 1px; padding-top: 1px; font-weight: bold; text-align: left;">Category</td>
+          <td style="width: 65%; padding-left: 8px; text-align: left;"><%= @item.categories.pluck(:name).sort.join(', ') %></td>
+        </tr>
+        </tbody>
+      </table>
 
       <%= link_to 'Back', admin_items_path, class: 'btn btn-secondary mt-3' %>
     </div>
