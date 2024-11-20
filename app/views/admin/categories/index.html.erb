@@ -12,7 +12,7 @@
     <tr>
       <td><%= category.name %></td>
       <td><%= link_to :edit, edit_admin_category_path(category) %></td>
-      <td><%= button_to :delete, admin_category_path(category), method: :delete %></td>
+      <td><%= button_to :delete, admin_category_path(category), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %></td>
     </tr>
   <% end %>
 </table>
