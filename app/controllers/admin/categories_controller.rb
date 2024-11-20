@@ -19,13 +19,14 @@ class Admin::CategoriesController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit;end
 
   def update
     if @category.update(category_params)
       flash[:notice] = 'Category updated successfully'
       redirect_to admin_categories_path
     else
+      flash[:alert] = 'Category failed to update'
       render :edit
     end
   end
