@@ -11,6 +11,14 @@ export default class extends Controller {
         let target = this.selectedProvinceIdTarget
         $(target).empty();
 
+        let promptOption = document.createElement('option');
+        promptOption.value = "";
+        promptOption.text = "Select a province";
+        promptOption.selected = true;
+        target.appendChild(promptOption);
+
+        this.selectedProvinceIdTarget.value = "";
+
         $.ajax({
             type: 'GET',
             url: '/api/v1/regions/' + this.selectedRegionIdTarget.value + '/provinces',
@@ -32,13 +40,21 @@ export default class extends Controller {
         let target = this.selectedCityIdTarget
         $(target).empty()
 
+        let promptOption = document.createElement('option');
+        promptOption.value = "";
+        promptOption.text = "Select a city";
+        promptOption.selected = true;
+        target.appendChild(promptOption);
+
+        this.selectedCityIdTarget.value = "";
+
         $.ajax({
             type: 'GET',
             url: '/api/v1/provinces/' + this.selectedProvinceIdTarget.value + '/cities',
             dataType: 'json',
             success: (response) => {
                 console.log(response)
-                $.each(response, (index, record) => {
+                $.each(response, function (index, record) {
                     let option = document.createElement('option')
                     option.value = record.id
                     option.text = record.name
@@ -53,13 +69,21 @@ export default class extends Controller {
         let target = this.selectedBarangayIdTarget
         $(target).empty()
 
+        let promptOption = document.createElement('option');
+        promptOption.value = "";
+        promptOption.text = "Select a barangay";
+        promptOption.selected = true;
+        target.appendChild(promptOption);
+
+        this.selectedBarangayIdTarget.value = "";
+
         $.ajax({
             type: 'GET',
             url: '/api/v1/cities/' + this.selectedCityIdTarget.value + '/barangays',
             dataType: 'json',
             success: (response) => {
                 console.log(response)
-                $.each(response, (index, record) => {
+                $.each(response, function (index, record) {
                     let option = document.createElement('option')
                     option.value = record.id
                     option.text = record.name

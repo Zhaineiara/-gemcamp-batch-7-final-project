@@ -22,10 +22,15 @@ class Client::UserAddressesController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    @address = @user.user_addresses.find(params[:id])
+  end
 
   def update
     if @user_address.update(user_address_params)
+      if @user_address.is_default
+        @user.user_addresses.where.not(id: @user_address.id).update_all(is_default: false)
+      end
       redirect_to client_user_addresses_path, notice: 'Address was successfully updated.'
     else
       render :edit
