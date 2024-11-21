@@ -4,15 +4,7 @@
     <h1 class="text-center mb-4">New Address</h1>
 
     <%= form_with(model: @user_address, url: client_user_address_path(@user_address), data: { controller: :location, turbo: false }) do |form| %>
-      <% if @user_address.errors.any? %>
-        <div class="alert alert-danger">
-          <ul>
-            <% @user_address.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
-      <% end %>
+      <%= render partial: 'client/shared/validation_address' %>
 
       <div class="form-group mb-3">
         <%= form.label :genre, class: 'form-label' %>

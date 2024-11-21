@@ -1,0 +1,11 @@
+<% if @user_address.errors.any? %>
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>There were some problems with your submission:</strong>
+    <ul class="mb-0">
+      <% @user_address.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>
