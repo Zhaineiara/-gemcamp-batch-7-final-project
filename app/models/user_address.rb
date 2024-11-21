@@ -12,6 +12,7 @@ class UserAddress < ApplicationRecord
   validates :name, :street_address, :phone_number, presence: true
   validates :is_default, inclusion: { in: [true, false] }
   validate :max_address_limit, on: :create
+  validates :phone_number, phone: { possible: true, allow_blank: true, types: %i[voip mobile], countries: [:ph] }
 
   private
 

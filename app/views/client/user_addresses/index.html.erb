@@ -40,7 +40,9 @@
           <td class="text-center"><%= address.province&.name %></td>
           <td class="text-center"><%= address.city&.name %></td>
           <td class="text-center"><%= address.barangay&.name %></td>
-          <td class="text-center"><%= address.genre.humanize %></td>
+          <td class="text-center">
+            <%= address.genre.present? ? address.genre.humanize : 'Unknown' %>
+          </td>
           <td class="text-center"><%= address.is_default ? 'Yes' : 'No' %></td>
           <td class="text-center">
             <%= link_to edit_client_user_address_path(address), class: 'btn btn-warning btn-sm' do %>

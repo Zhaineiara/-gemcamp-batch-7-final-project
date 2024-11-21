@@ -24,6 +24,10 @@ class Client::UserAddressesController < ApplicationController
 
   def edit
     @address = @user.user_addresses.find(params[:id])
+
+    if @address.nil?
+      redirect_to client_user_addresses_path, alert: 'Address not found.'
+    end
   end
 
   def update

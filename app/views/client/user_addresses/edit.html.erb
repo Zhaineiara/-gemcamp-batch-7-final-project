@@ -30,7 +30,7 @@
       </div>
 
       <div class="form-group mb-3">
-        <%= form.label :phone_number, class: 'form-label' %>
+        <%= form.label :phone_number, 'Phone Number', class: 'form-label' %>
         <%= form.text_field :phone_number, class: 'form-control' %>
       </div>
 
@@ -48,31 +48,31 @@
       <div class="form-group mb-3">
         <%= form.label :region_id, 'Region', class: 'form-label' %>
         <%= form.collection_select :region_id, Address::Region.all, :id, :name,
-                                   { prompt: 'Select a region', selected: @address.region_id },
+                                   { prompt: 'Select a region', selected: @address&.region_id },
                                    class: 'form-select',
                                    data: { location_target: 'selectedRegionId', action: 'change->location#fetchProvinces' } %>
       </div>
 
       <div class="form-group mb-3">
         <%= form.label :province_id, 'Province', class: 'form-label' %>
-        <%= form.collection_select :province_id, Address::Province.where(region_id: @address.region_id), :id, :name,
-                                   { prompt: 'Select a province', selected: @address.province_id },
+        <%= form.collection_select :province_id, Address::Province.where(region_id: @address&.region_id), :id, :name,
+                                   { prompt: 'Select a province', selected: @address&.province_id },
                                    class: 'form-select',
                                    data: { location_target: 'selectedProvinceId', action: 'change->location#fetchCities' } %>
       </div>
 
       <div class="form-group mb-3">
         <%= form.label :city_id, 'City', class: 'form-label' %>
-        <%= form.collection_select :city_id, Address::City.where(province_id: @address.province_id), :id, :name,
-                                   { prompt: 'Select a city', selected: @address.city_id },
+        <%= form.collection_select :city_id, Address::City.where(province_id: @address&.province_id), :id, :name,
+                                   { prompt: 'Select a city', selected: @address&.city_id },
                                    class: 'form-select',
                                    data: { location_target: 'selectedCityId', action: 'change->location#fetchBarangays' } %>
       </div>
 
       <div class="form-group mb-3">
         <%= form.label :barangay_id, 'Barangay', class: 'form-label' %>
-        <%= form.collection_select :barangay_id, Address::Barangay.where(city_id: @address.city_id), :id, :name,
-                                   { prompt: 'Select a barangay', selected: @address.barangay_id },
+        <%= form.collection_select :barangay_id, Address::Barangay.where(city_id: @address&.city_id), :id, :name,
+                                   { prompt: 'Select a barangay', selected: @address&.barangay_id },
                                    class: 'form-select',
                                    data: { location_target: 'selectedBarangayId' } %>
       </div>
