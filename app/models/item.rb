@@ -21,8 +21,8 @@ class Item < ApplicationRecord
     state :starting, :paused, :ended, :cancelled
 
     event :start do
-      transitions from: [:pending, :ended, :cancelled], to: :starting, guard: :can_start?
-      transitions from: :paused, to: :starting, after: :perform_start_actions
+      transitions from: [:pending, :ended, :cancelled], to: :starting, guard: :can_start?, after: :perform_start_actions
+      transitions from: :paused, to: :starting
     end
 
     event :pause do
@@ -39,7 +39,7 @@ class Item < ApplicationRecord
   end
 
   def can_start?
-    quantity > 0 && Time.current < offline_at && status == 1
+    quantity > 0 && Time.current < offline_at && active?
   end
 
   def perform_start_actions
@@ -48,10 +48,10 @@ class Item < ApplicationRecord
   end
 
   def revise_batch_count
-    item.update(batch_count: item.batch_count + 1)
+    update(batch_count: batch_count + 1)
   end
 
   def deduct_quantity
-    item.update(quantity: item.quantity - 1)
+    update(quantity: quantity - 1)
   end
 end
