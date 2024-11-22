@@ -8,6 +8,6 @@ class Category < ApplicationRecord
   has_many :items, through: :item_category_ships
 
   def destroy
-    update(deleted_at: Time.now)
+    update(deleted_at: Time.current)
   end
 end
