@@ -26,6 +26,20 @@ class Ticket < ApplicationRecord
     end
   end
 
+  def refund_coins
+    Rails.logger.debug "Refunding coins for user #{user.id}"
+    if state == 'cancelled'
+      cancelled_tickets = user.tickets.where(state: 'cancelled')
+      cancelled_tickets_count = cancelled_tickets.count
+
+      cancelled_tickets.each do |ticket|
+        ticket.user.update!(coins: ticket.user.coins + 1)
+      end
+
+      user.update!(coins: user.coins + cancelled_tickets_count)
+    end
+  end
+
   private
 
   def check_coin_user
@@ -37,11 +51,6 @@ class Ticket < ApplicationRecord
 
   def deduct_coins
     user.update(coins: user.coins - coins)
-  end
-
-  def refund_coins
-    user.coins += 1
-    user.save
   end
 
   def generate_serial_number
