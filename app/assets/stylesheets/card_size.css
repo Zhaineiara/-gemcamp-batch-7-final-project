@@ -1,0 +1,25 @@
+
+.custom-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.custom-card-img {
+    height: 500px;
+    object-fit: cover;
+}
+
+.card-body {
+    flex-grow: 1;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.card-text {
+    font-size: 1rem;
+    line-height: 1.5;
+}
