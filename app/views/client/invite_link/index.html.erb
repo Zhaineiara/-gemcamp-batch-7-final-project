@@ -11,7 +11,7 @@
       <!-- Signup Link Section -->
       <div class="alert alert-info mb-3">
         <%= link_to "Sign Up Here",
-                    "http://client.com:3000/client/users/sign_up?promoter=#{current_client_user.email}",
+                    new_client_user_registration_path(promoter: current_client_user.email),
                     target: "_blank", class: "text-truncate" %>
       </div>
     </div>
