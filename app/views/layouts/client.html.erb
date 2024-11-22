@@ -13,8 +13,11 @@
 <body>
 <!-- Top Navigation -->
 <%= render partial: 'client/shared/header' %>
-
-<%= yield %>
+<div class="container my-4">
+  <div class="row justify-content-center">
+    <%= yield %>
+  </div>
+</div>
 
 <!-- Bottom Navigation -->
 <%= render partial: 'client/shared/footer' %>

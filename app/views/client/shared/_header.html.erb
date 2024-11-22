@@ -18,6 +18,12 @@
           <a class="nav-link active" aria-current="page" href="#">Language</a>
         </li>
 
+        <% unless client_user_signed_in? %>
+        <li class="nav-item">
+          <%= link_to 'LOGIN', new_client_user_session_path, class: "btn btn-outline-success #{'active' if current_page?(new_client_user_session_path)}" %>
+        </li>
+        <% end %>
+
         <% if client_user_signed_in? %>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

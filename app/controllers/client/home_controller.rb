@@ -1,6 +1,5 @@
 class Client::HomeController < ApplicationController
   layout 'client'
 
-  def dashboard
-  end
+  def dashboard;end
 end

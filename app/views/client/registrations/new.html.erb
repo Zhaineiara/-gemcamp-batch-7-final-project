@@ -18,7 +18,7 @@
         <% if @promoter.present? %>
           <div class="form-group mb-3">
             <%= f.label :promoter, class: 'form-label' %>
-            <%= f.text_field :username, value: (@promoter.firstname + " " + @promoter.lastname), autocomplete: "promoter", class: 'form-control', disabled: true %>
+            <%= f.text_field :username, value: (@promoter.email), autocomplete: "promoter", class: 'form-control', disabled: true %>
           </div>
         <% end %>
 
@@ -55,8 +55,12 @@
           <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
         </div>
 
-        <div class="d-grid mb-5">
+        <div class="d-grid mb-3">
           <%= f.submit "Sign up", class: 'btn btn-primary' %>
+        </div>
+
+        <div class="d-grid">
+          <%= link_to 'Back to Homepage',  client_root_path, class: 'btn btn-success' %>
         </div>
       <% end %>
     </div>

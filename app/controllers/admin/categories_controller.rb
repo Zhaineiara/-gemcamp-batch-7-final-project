@@ -1,5 +1,6 @@
 class Admin::CategoriesController < ApplicationController
   layout 'admin'
+  before_action :authenticate_admin_user!
 
   before_action :set_category, only: [:edit, :update, :destroy]
 

@@ -29,6 +29,7 @@ Rails.application.routes.draw do
         sessions: 'admin/sessions'
       }
     end
+    root 'admin/home#dashboard', as: :admin_root
   end
 
   constraints(ClientDomainConstraint.new) do
@@ -42,8 +43,7 @@ Rails.application.routes.draw do
         sessions: 'client/sessions'
       }
     end
+    root 'client/home#dashboard', as: :client_root
   end
-
-  root to: 'welcome#index'
 
 end
