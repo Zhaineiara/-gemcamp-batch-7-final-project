@@ -38,6 +38,8 @@ class Item < ApplicationRecord
     end
   end
 
+  private
+
   def can_start?
     quantity > 0 && Time.current < offline_at && active?
   end

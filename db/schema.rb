@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_20_015011) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_22_083927) do
   create_table "address_barangays", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "city_id"
     t.string "code"
@@ -77,6 +77,21 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_20_015011) do
     t.datetime "deleted_at"
   end
 
+  create_table "tickets", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "item_id", null: false
+    t.bigint "user_id", null: false
+    t.integer "batch_count", null: false
+    t.integer "coins", default: 1, null: false
+    t.string "state"
+    t.string "serial_number", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_tickets_on_item_id"
+    t.index ["serial_number"], name: "index_tickets_on_serial_number", unique: true
+    t.index ["state"], name: "index_tickets_on_state"
+    t.index ["user_id"], name: "index_tickets_on_user_id"
+  end
+
   create_table "user_addresses", charset: "utf8mb4", force: :cascade do |t|
     t.string "name"
     t.string "street_address"
@@ -119,6 +134,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_20_015011) do
 
   add_foreign_key "item_category_ships", "categories"
   add_foreign_key "item_category_ships", "items"
+  add_foreign_key "tickets", "items"
+  add_foreign_key "tickets", "users"
   add_foreign_key "user_addresses", "users"
   add_foreign_key "users", "users", column: "parent_id"
 end

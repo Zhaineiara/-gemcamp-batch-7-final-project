@@ -11,6 +11,7 @@ class User < ApplicationRecord
     countries: [:ph]
   }
 
+  validates :coins, numericality: { greater_than_or_equal_to: 0 }
   validates :firstname, presence: true
   validates :lastname, presence: true
   validates :username, presence: true
@@ -26,4 +27,5 @@ class User < ApplicationRecord
 
   belongs_to :parent, class_name: User.name, foreign_key: :parent_id, counter_cache: :children_members, optional: true
   has_many :children, class_name: User.name, foreign_key: :parent_id, dependent: :destroy
+  has_many :tickets
 end
