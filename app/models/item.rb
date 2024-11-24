@@ -15,6 +15,7 @@ class Item < ApplicationRecord
 
   has_many :item_category_ships
   has_many :categories, through: :item_category_ships
+  has_many :tickets
 
   aasm column: :state do
     state :pending, initial: true
@@ -34,7 +35,7 @@ class Item < ApplicationRecord
     end
 
     event :cancel do
-      transitions from: [:starting, :paused], to: :cancelled
+      transitions from: [:starting, :paused], to: :cancelled, after: :cancel_associated_tickets
     end
   end
 
@@ -55,5 +56,13 @@ class Item < ApplicationRecord
 
   def deduct_quantity
     update(quantity: quantity - 1)
+  end
+
+  def cancel_associated_tickets
+    tickets.pending.each do |ticket|
+      ticket.cancel!
+      ticket.save
+      ticket.refund_coins if ticket.cancelled?
+    end
   end
 end

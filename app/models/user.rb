@@ -11,7 +11,6 @@ class User < ApplicationRecord
     countries: [:ph]
   }
 
-  validates :coins, numericality: { greater_than_or_equal_to: 0 }
   validates :firstname, presence: true
   validates :lastname, presence: true
   validates :username, presence: true

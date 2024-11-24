@@ -9,6 +9,8 @@ class Ticket < ApplicationRecord
   belongs_to :user
   belongs_to :item
 
+  scope :pending, -> { where(state: 'pending') }
+
   aasm column: :state do
     state :pending, initial: true
     state :won, :lost, :cancelled
@@ -22,22 +24,15 @@ class Ticket < ApplicationRecord
     end
 
     event :cancel do
-      transitions from: :pending, to: :cancelled, after: :refund_coins
+      transitions from: :pending, to: :cancelled
     end
   end
 
+  after_commit :refund_coins, if: -> { saved_change_to_state? && state == 'cancelled' }
+
   def refund_coins
-    Rails.logger.debug "Refunding coins for user #{user.id}"
-    if state == 'cancelled'
-      cancelled_tickets = user.tickets.where(state: 'cancelled')
-      cancelled_tickets_count = cancelled_tickets.count
-
-      cancelled_tickets.each do |ticket|
-        ticket.user.update!(coins: ticket.user.coins + 1)
-      end
-
-      user.update!(coins: user.coins + cancelled_tickets_count)
-    end
+    Rails.logger.debug "Refunding coins for user #{user.id} and ticket #{id}"
+      user.update!(coins: user.coins + coins)
   end
 
   private
