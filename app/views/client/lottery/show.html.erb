@@ -1,0 +1,87 @@
+<div class="container mt-4">
+  <!-- Card for Item -->
+  <div class="card mx-auto" style="width: 500px;">
+    <!-- Item Image -->
+    <%= image_tag(@item.item_image.url,
+                  class: "card-img-top img-fluid",
+                  alt: "Image cap",
+                  style: "object-fit: cover; height: auto; max-height: 300px; width: 100%;") if @item.item_image.present? %>
+
+    <div class="card-body">
+      <!-- Item Details -->
+      <h5 class="card-title text-center"><%= @item.name %></h5>
+
+      <!-- Progress Bar with Percentage -->
+      <div class="d-flex align-items-center mb-3" style="height: 10px;">
+        <div class="progress flex-grow-1" style="height: 10px;">
+          <div
+            id="progress-bar"
+            class="progress-bar progress-bar-striped bg-warning"
+            role="progressbar"
+            style="width: 0%;"
+            aria-valuenow="0"
+            aria-valuemin="0"
+            aria-valuemax="100">
+          </div>
+        </div>
+        <!-- Percentage Display -->
+        <span id="progress-percentage" class="ms-2" style="font-weight: bold;">0%</span>
+      </div>
+
+      <!-- Ticket Count Controls -->
+      <%= form_with url: client_lottery_index_path(item_id: @item), method: :post, class: "ticket-form" do |f|%>
+        <div class="row text-center mb-3">
+          <div class="d-flex justify-content-center align-items-center">
+            <!-- Ticket Count Input -->
+            <%= f.number_field :minimum_ticket%>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <%= f.submit "Submit", class: "btn btn-warning w-100 mb-3", id: "submit-ticket" %>
+      <% end %>
+
+      <!-- Back Button -->
+      <%= link_to 'Back', client_lottery_index_path, class: 'btn btn-primary w-100' %>
+    </div>
+  </div>
+</div>
+
+<script>
+    document.addEventListener("turbo:load", () => {
+        initializeProgressBar();
+    });
+
+    function initializeProgressBar() {
+        const ticketInput = document.getElementById("ticket-count");
+        const progressBar = document.getElementById("progress-bar");
+        const progressPercentage = document.getElementById("progress-percentage");
+        const minimumTickets = <%= @item.minimum_tickets || 1 %>;
+
+        if (!ticketInput || !progressBar || !progressPercentage) return;
+
+        // Update the progress bar based on the ticket count
+        function updateProgress() {
+            const ticketCount = parseInt(ticketInput.value) || 0;
+            const progress = Math.min((ticketCount / minimumTickets) * 100, 100); // Cap progress at 100%
+            progressBar.style.width = `${progress}%`;
+            progressBar.setAttribute("aria-valuenow", progress);
+            progressPercentage.textContent = `${Math.round(progress)}%`;
+        }
+
+        // Change the ticket count and update progress
+        function changeTicketCount(delta) {
+            let currentCount = parseInt(ticketInput.value) || 0;
+            currentCount = Math.max(0, currentCount + delta); // Ensure no negative count
+            ticketInput.value = currentCount;
+            updateProgress();
+        }
+
+        // Attach event listeners to buttons
+        document.getElementById("decrease-ticket").addEventListener("click", () => changeTicketCount(-1));
+        document.getElementById("increase-ticket").addEventListener("click", () => changeTicketCount(1));
+
+        // Initialize the progress bar on load
+        updateProgress();
+    }
+</script>

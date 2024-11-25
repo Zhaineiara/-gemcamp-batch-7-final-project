@@ -24,6 +24,15 @@ Rails.application.routes.draw do
       resources :items
       resources :categories, except: :show
 
+      resources :items do
+        member do
+          put :start
+          put :pause
+          put :end
+          put :cancel
+        end
+      end
+
       devise_for :users, controllers: {
         registrations: 'admin/registrations',
         sessions: 'admin/sessions'
@@ -36,7 +45,7 @@ Rails.application.routes.draw do
     namespace :client do
       get 'profile/profile'
       get 'invite_link/index'
-      get 'lottery/index'
+      resources :lottery, only: [:index, :show, :create]
       resources :user_addresses, only: [:index, :new, :create, :edit, :update, :destroy]
 
       devise_for :users, controllers: {
