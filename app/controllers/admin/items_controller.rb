@@ -1,7 +1,6 @@
 class Admin::ItemsController < ApplicationController
   layout 'admin'
   before_action :authenticate_admin_user!
-
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -9,6 +8,7 @@ class Admin::ItemsController < ApplicationController
   end
 
   def show
+    @item
   end
 
   def new
@@ -24,8 +24,7 @@ class Admin::ItemsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit;end
 
   def update
     if @item.update(item_params)
@@ -36,8 +35,49 @@ class Admin::ItemsController < ApplicationController
   end
 
   def destroy
-    @item.destroy
-    redirect_to admin_item_path, notice: 'Item deleted successfully.'
+    if @item.destroy
+      redirect_to admin_items_path, notice: 'Item deleted successfully.'
+    end
+  end
+
+  def start
+    @item = Item.find_by(id: params[:id])
+    if @item&.may_start?
+      @item.start!
+      redirect_to admin_items_path
+    else
+      redirect_to admin_items_path, alert: @item.nil? ? 'Item not found.' : 'Cannot start this item.'
+    end
+  end
+
+  def pause
+    @item = Item.find_by(id: params[:id])
+    if @item&.may_pause?
+      @item.pause!
+      redirect_to admin_items_path
+    else
+      redirect_to admin_items_path, alert: @item.nil? ? 'Item not found.' : 'Cannot pause this item.'
+    end
+  end
+
+  def end
+    @item = Item.find_by(id: params[:id])
+    if @item&.may_end?
+      @item.end!
+      redirect_to admin_items_path
+    else
+      redirect_to admin_items_path, alert: @item.nil? ? 'Item not found.' : 'Cannot end this item.'
+    end
+  end
+
+  def cancel
+    @item = Item.find_by(id: params[:id])
+    if @item&.may_cancel?
+      @item.cancel!
+      redirect_to admin_items_path
+    else
+      redirect_to admin_items_path, alert: @item.nil? ? 'Item not found.' : 'Cannot cancel this item.'
+    end
   end
 
   private

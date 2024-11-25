@@ -42,7 +42,7 @@ class Item < ApplicationRecord
   private
 
   def can_start?
-    quantity > 0 && Time.current < offline_at && active?
+    quantity > 0 && Date.today < offline_at && active?
   end
 
   def perform_start_actions

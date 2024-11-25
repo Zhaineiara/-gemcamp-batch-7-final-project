@@ -3,7 +3,7 @@
 <%= form_with(model: @item, url: admin_item_path(@item), method: :patch, local: true, class: 'form') do |form| %>
   <div class="form-group">
     <%= form.label :item_image, "Item Image" %>
-    <%= form.file_field :item_image, class: 'form-control' %>
+    <%= form.file_field :item_image, class: 'form-control'%>
   </div>
 
   <div class="form-group">
@@ -23,37 +23,37 @@
 
   <div class="form-group">
     <%= form.label :state, "State" %>
-    <%= form.select :state, Item.aasm.states.map { |state| [state.name.to_s.titleize, state.name] }, {}, class: 'form-control' %>
+    <%= form.select :state, Item.aasm.states.map { |state| [state.name.to_s.titleize, state.name] }, {}, class: 'form-control', required: true %>
   </div>
 
   <div class="form-group">
     <%= form.label :batch_count, "Batch Count" %>
-    <%= form.number_field :batch_count, class: 'form-control', value: @item.batch_count %>
+    <%= form.number_field :batch_count, class: 'form-control', value: @item.batch_count, required: true%>
   </div>
 
   <div class="form-group">
     <%= form.label :online_at, "Online At" %>
-    <%= form.datetime_local_field :online_at, class: 'form-control', value: @item.online_at&.strftime('%Y-%m-%dT%H:%M') %>
+    <%= form.datetime_local_field :online_at, class: 'form-control', value: @item.online_at&.strftime('%Y-%m-%dT%H:%M'), required: true %>
   </div>
 
   <div class="form-group">
     <%= form.label :offline_at, "Offline At" %>
-    <%= form.datetime_local_field :offline_at, class: 'form-control', value: @item.offline_at&.strftime('%Y-%m-%dT%H:%M') %>
+    <%= form.datetime_local_field :offline_at, class: 'form-control', value: @item.offline_at&.strftime('%Y-%m-%dT%H:%M'), required: true %>
   </div>
 
   <div class="form-group">
     <%= form.label :start_at, "Start At" %>
-    <%= form.datetime_local_field :start_at, class: 'form-control', value: @item.start_at&.strftime('%Y-%m-%dT%H:%M') %>
+    <%= form.datetime_local_field :start_at, class: 'form-control', value: @item.start_at&.strftime('%Y-%m-%dT%H:%M'), required: true %>
   </div>
 
   <div class="form-group">
     <%= form.label :status, "Status" %>
-    <%= form.select :status, Item.statuses.keys.map { |key| [key.titleize, key] }, {}, class: 'form-control' %>
+    <%= form.select :status, Item.statuses.keys.map { |key| [key.titleize, key] }, {}, class: 'form-control', required: true %>
   </div>
 
   <div class="form-group">
     <%= form.label :category, "Category" %>
-    <%= form.collection_check_boxes :category_ids, Category.order(:name), :id, :name, class: 'form-control' %>
+    <%= form.collection_check_boxes :category_ids, Category.order(:name), :id, :name, class: 'form-control', required: true %>
   </div>
 
   <%= form.submit "Update Item", class: 'btn btn-success mt-4' %>

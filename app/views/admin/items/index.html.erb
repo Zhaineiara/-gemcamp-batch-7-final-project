@@ -23,6 +23,7 @@
     <th>Status</th>
     <th>Category</th>
     <th>Actions</th>
+    <th>Item State</th>
   </tr>
   </thead>
   <tbody>
@@ -40,11 +41,57 @@
       <td><%= item.status %></td>
       <td><%= item.categories.pluck(:name).join(', ') %></td>
       <td>
-        <%= link_to 'Show', admin_item_path(item), class: 'btn btn-info' %>
-        <%= link_to 'Edit', edit_admin_item_path(item), class: 'btn btn-warning' %>
-        <%= button_to 'Delete', admin_item_path(item), method: :delete, data: { turbo_method: 'delete', confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+        <%= link_to admin_item_path(item), class: 'btn btn-info' do %>
+          <i class="bi bi-eye"></i>
+        <% end %>
+        <%= link_to edit_admin_item_path(item), class: 'btn btn-warning' do %>
+          <i class="bi bi-pencil-square"></i>
+        <% end %>
+        <%= button_to admin_item_path(item), method: :delete, data: { turbo_method: 'delete', confirm: 'Are you sure?' }, class: 'btn btn-danger' do %>
+          <i class="bi bi-trash"></i>
+        <% end %>
+      </td>
+      <td>
+        <% if item.pending? || item.ended? || item.cancelled? %>
+          <%= button_to start_admin_item_path(item), method: :put, class: 'btn btn-success' do %>
+            <i class="bi bi-play-fill"></i>
+          <% end %>
+        <% end %>
+
+        <% if item.starting? %>
+          <%= button_to pause_admin_item_path(item), method: :put, class: 'btn btn-warning' do %>
+            <i class="bi bi-pause-fill"></i>
+          <% end %>
+          <%= button_to end_admin_item_path(item), method: :put, class: 'btn btn-danger' do %>
+            <i class="bi bi-stop-circle"></i>
+          <% end %>
+          <%= button_to cancel_admin_item_path(item), method: :put, class: 'btn btn-secondary' do %>
+            <i class="bi bi-x-circle-fill"></i>
+          <% end %>
+        <% end %>
+
+        <% if item.paused? %>
+          <%= button_to start_admin_item_path(item), method: :put, class: 'btn btn-success' do %>
+            <i class="bi bi-play-fill"></i>
+          <% end %>
+          <%= button_to cancel_admin_item_path(item), method: :put, class: 'btn btn-secondary' do %>
+            <i class="bi bi-x-circle-fill"></i>
+          <% end %>
+        <% end %>
       </td>
     </tr>
   <% end %>
   </tbody>
 </table>
+
+<%# if item.may_start? %>
+  <%#= button_to 'Start', start_admin_item_path(item), method: :put, class: 'btn btn-success' %>
+<%# elsif item.may_pause? %>
+  <%#= button_to 'Pause', pause_admin_item_path(item), method: :put, class: 'btn btn-warning' %>
+<%# elsif item.may_end? %>
+  <%#= button_to 'End', end_admin_item_path(item), method: :put, class: 'btn btn-danger' %>
+<%# elsif item.may_cancel? %>
+  <%#= button_to 'Cancel', cancel_admin_item_path(item), method: :put, class: 'btn btn-secondary' %>
+<%# else %>
+  <%#= button_to item.state.titleize, '#', class: 'btn btn-info', disabled: true %>
+<%# end %>
