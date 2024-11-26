@@ -1,3 +1,35 @@
+<div class="alert-container">
+  <% if flash[:notice] %>
+    <div class="alert alert-success alert-dismissible fade show" role="alert" id="ticket-notice">
+      <%= flash[:notice] %>
+    </div>
+    <script>
+        setTimeout(function () {
+            var notice = document.getElementById('ticket-notice');
+            if (notice) {
+                notice.style.display = 'none';
+            }
+        }, 3000);
+    </script>
+  <% end %>
+
+  <% if flash[:error] %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="ticket-error">
+      <%= flash[:error] %>
+    </div>
+    <script>
+        setTimeout(function () {
+            var error = document.getElementById('ticket-error');
+            if (error) {
+                error.style.display = 'none';
+            }
+        }, 3000);
+    </script>
+  <% end %>
+</div>
+
+
+
 <div class="container mt-4">
   <div class="card mx-auto" style="width: 500px;">
     <!-- Item Image -->

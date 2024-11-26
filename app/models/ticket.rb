@@ -38,14 +38,21 @@ class Ticket < ApplicationRecord
   private
 
   def check_coin_user
-    if user.coins < coins
+    if user.coins.nil? || user.coins < coins
       errors.add(:base, "Insufficient coins")
       throw(:abort)
     end
   end
 
   def deduct_coins
-    user.update(coins: user.coins - coins)
+    coins_to_deduct = self.coins
+
+    if user.coins.nil? || user.coins < coins_to_deduct
+      errors.add(:base, "You do not have enough coins to complete this transaction.")
+      throw(:abort)
+    end
+
+    user.update(coins: user.coins - coins_to_deduct)
   end
 
   def generate_serial_number
