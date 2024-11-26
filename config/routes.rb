@@ -45,7 +45,7 @@ Rails.application.routes.draw do
     namespace :client do
       get 'profile/profile'
       get 'invite_link/index'
-      resources :lottery, only: [:index, :show, :create]
+      resources :lottery
       resources :user_addresses, only: [:index, :new, :create, :edit, :update, :destroy]
 
       devise_for :users, controllers: {

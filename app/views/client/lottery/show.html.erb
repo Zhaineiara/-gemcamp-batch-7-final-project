@@ -1,11 +1,7 @@
 <div class="container mt-4">
-  <!-- Card for Item -->
   <div class="card mx-auto" style="width: 500px;">
     <!-- Item Image -->
-    <%= image_tag(@item.item_image.url,
-                  class: "card-img-top img-fluid",
-                  alt: "Image cap",
-                  style: "object-fit: cover; height: auto; max-height: 300px; width: 100%;") if @item.item_image.present? %>
+    <%= image_tag(@item.item_image.url, class: "card-img-top img-fluid", alt: "Image cap", style: "object-fit: cover; height: auto; max-height: 300px; width: 100%;") if @item.item_image.present? %>
 
     <div class="card-body">
       <!-- Item Details -->
@@ -18,27 +14,25 @@
             id="progress-bar"
             class="progress-bar progress-bar-striped bg-warning"
             role="progressbar"
-            style="width: 0%;"
-            aria-valuenow="0"
+            style="width: <%= @progress %>%;"
+            aria-valuenow="<%= @progress %>"
             aria-valuemin="0"
             aria-valuemax="100">
           </div>
         </div>
-        <!-- Percentage Display -->
-        <span id="progress-percentage" class="ms-2" style="font-weight: bold;">0%</span>
+        <span id="progress-percentage" class="ms-2" style="font-weight: bold;"><%= @progress.round %>%</span>
       </div>
 
       <!-- Ticket Count Controls -->
-      <%= form_with url: client_lottery_index_path(item_id: @item), method: :post, class: "ticket-form" do |f|%>
+      <%= form_with model: @item, url: client_lottery_index_path(item_id: @item), method: :post, class: "ticket-form" do |f| %>
         <div class="row text-center mb-3">
           <div class="d-flex justify-content-center align-items-center">
-            <!-- Ticket Count Input -->
-            <%= f.number_field :minimum_ticket%>
+            <%= f.number_field :minimum_tickets, id: 'ticket-count', class: 'form-control', min: 1, required: true, value: nil %>
           </div>
         </div>
 
         <!-- Submit Button -->
-        <%= f.submit "Submit", class: "btn btn-warning w-100 mb-3", id: "submit-ticket" %>
+        <%= f.submit "Buy Ticket", class: "btn btn-warning w-100 mb-3", id: "submit-ticket" %>
       <% end %>
 
       <!-- Back Button -->
@@ -46,6 +40,22 @@
     </div>
   </div>
 </div>
+
+<!-- List of Tickets for the Item -->
+<% if @tickets.any? %>
+  <div class="alert alert-success mt-5">
+    <strong>List of Tickets:</strong>
+    <ul>
+      <% @tickets.each do |ticket| %>
+        <li>Serial Number: <%= ticket.serial_number %></li>
+      <% end %>
+    </ul>
+  </div>
+<% else %>
+  <div class="alert alert-info mt-5">
+    <strong>No tickets available for this item yet.</strong>
+  </div>
+<% end %>
 
 <script>
     document.addEventListener("turbo:load", () => {
@@ -56,32 +66,22 @@
         const ticketInput = document.getElementById("ticket-count");
         const progressBar = document.getElementById("progress-bar");
         const progressPercentage = document.getElementById("progress-percentage");
-        const minimumTickets = <%= @item.minimum_tickets || 1 %>;
+
+        const totalProgress = parseFloat(progressBar.getAttribute("aria-valuenow")) || 0;
 
         if (!ticketInput || !progressBar || !progressPercentage) return;
 
-        // Update the progress bar based on the ticket count
         function updateProgress() {
             const ticketCount = parseInt(ticketInput.value) || 0;
-            const progress = Math.min((ticketCount / minimumTickets) * 100, 100); // Cap progress at 100%
-            progressBar.style.width = `${progress}%`;
-            progressBar.setAttribute("aria-valuenow", progress);
-            progressPercentage.textContent = `${Math.round(progress)}%`;
+            const minimumTickets = <%= @item.minimum_tickets || 1 %>;
+            const addedProgress = Math.min((ticketCount / minimumTickets) * 100, 100);
+
+            const newProgress = Math.min(totalProgress + addedProgress, 100);
+            progressBar.style.width = `${newProgress}%`;
+            progressBar.setAttribute("aria-valuenow", newProgress);
+            progressPercentage.textContent = `${Math.round(newProgress)}%`;
         }
 
-        // Change the ticket count and update progress
-        function changeTicketCount(delta) {
-            let currentCount = parseInt(ticketInput.value) || 0;
-            currentCount = Math.max(0, currentCount + delta); // Ensure no negative count
-            ticketInput.value = currentCount;
-            updateProgress();
-        }
-
-        // Attach event listeners to buttons
-        document.getElementById("decrease-ticket").addEventListener("click", () => changeTicketCount(-1));
-        document.getElementById("increase-ticket").addEventListener("click", () => changeTicketCount(1));
-
-        // Initialize the progress bar on load
-        updateProgress();
+        ticketInput.addEventListener("input", updateProgress);
     }
 </script>

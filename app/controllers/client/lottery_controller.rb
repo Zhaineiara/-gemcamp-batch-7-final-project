@@ -17,22 +17,35 @@ class Client::LotteryController < ApplicationController
   end
 
   def create
-    number_of_create = params[:minimum_tickets].to_i
+    number_of_tickets = params[:item][:minimum_tickets].to_i
     item = Item.find(params[:item_id])
-    puts item
-    if item.quantity > 0
-      number_of_create.times do
-        ticket = Ticket.new(item_id: item.id, user_id: current_client_user, batch_count: item.batch_count)
+    created_tickets = []
 
+    if item.quantity > 0
+      number_of_tickets.times do
+        ticket = Ticket.new(item_id: item.id, user_id: current_client_user.id, batch_count: item.batch_count)
         if ticket.save
-          redirect_to client_lottery_index_path
+          created_tickets << ticket
+        else
+          puts Rails.logger.debug ticket.errors.full_messages
         end
       end
+
+      flash[:success] = "Tickets created successfully!"
+      redirect_to client_lottery_path(item, ticket_serials: created_tickets.map(&:id))
+    else
+      flash[:error] = "Item is out of stock."
+      redirect_to client_lottery_index_path
     end
   end
 
   def show
-    @item
+    @item = Item.find(params[:id])
+    @tickets = @item.tickets.where(state: 'pending') || []
+    total_tickets = @tickets.count
+    minimum_tickets = @item.minimum_tickets || 1
+    progress = (total_tickets.to_f / minimum_tickets) * 100
+    @progress = [progress, 100].min
   end
 
   private
