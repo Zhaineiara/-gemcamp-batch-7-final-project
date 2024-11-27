@@ -3,13 +3,10 @@ class Ticket < ApplicationRecord
 
   before_create :deduct_coins
   before_create :generate_serial_number
-  before_create  :check_coin_user
   before_destroy :refund_coins
 
   belongs_to :user
   belongs_to :item
-
-  scope :pending, -> { where(state: 'pending') }
 
   aasm column: :state do
     state :pending, initial: true
@@ -24,35 +21,17 @@ class Ticket < ApplicationRecord
     end
 
     event :cancel do
-      transitions from: :pending, to: :cancelled
+      transitions from: :pending, to: :cancelled, after: :refund_coins
     end
-  end
-
-  after_commit :refund_coins, if: -> { saved_change_to_state? && state == 'cancelled' }
-
-  def refund_coins
-    Rails.logger.debug "Refunding coins for user #{user.id} and ticket #{id}"
-      user.update!(coins: user.coins + coins)
   end
 
   private
-
-  def check_coin_user
-    if user.coins.nil? || user.coins < coins
-      errors.add(:base, "Insufficient coins")
-      throw(:abort)
-    end
+  def refund_coins
+    Rails.logger.debug "Refunding coins for user #{user.id} and ticket #{id}"
+    user.update!(coins: user.coins + coins)
   end
-
   def deduct_coins
-    coins_to_deduct = self.coins
-
-    if user.coins.nil? || user.coins < coins_to_deduct
-      errors.add(:base, "You do not have enough coins to complete this transaction.")
-      throw(:abort)
-    end
-
-    user.update(coins: user.coins - coins_to_deduct)
+    user.update!(coins: user.coins - 1)
   end
 
   def generate_serial_number

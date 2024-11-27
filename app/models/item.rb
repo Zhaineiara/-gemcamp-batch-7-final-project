@@ -62,7 +62,6 @@ class Item < ApplicationRecord
     tickets.pending.each do |ticket|
       ticket.cancel!
       ticket.save
-      ticket.refund_coins if ticket.cancelled?
     end
   end
 end
