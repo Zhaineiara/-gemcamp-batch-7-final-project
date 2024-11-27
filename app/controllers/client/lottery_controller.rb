@@ -1,6 +1,7 @@
 class Client::LotteryController < ApplicationController
   before_action :set_item, only: :show
   layout 'client'
+
   def index
     @categories = Category.order(:name)
 
@@ -20,34 +21,25 @@ class Client::LotteryController < ApplicationController
     number_of_tickets = params[:item][:minimum_tickets].to_i
     item = Item.find(params[:item_id])
 
-    created_tickets = []
-
-    if item.quantity > 0
-      if current_client_user.coins < number_of_tickets
-        flash[:error] = "Insufficient coins. You need #{number_of_tickets - current_client_user.coins} more coin(s) to complete this purchase."
-        redirect_to client_lottery_path(item) and return
-      end
-
-      number_of_tickets.times do
-        ticket = Ticket.new(item_id: item.id, user_id: current_client_user.id, batch_count: item.batch_count)
-        if ticket.save
-          created_tickets << ticket
-        else
-          puts Rails.logger.debug ticket.errors.full_messages
-        end
-      end
-
-      flash[:notice] = "#{number_of_tickets} Tickets created successfully!"
-      redirect_to client_lottery_path(item, ticket_serials: created_tickets.map(&:id))
-    else
-      flash[:error] = "Item is out of stock."
-      redirect_to client_lottery_index_path
+    if current_client_user.coins < number_of_tickets
+      flash[:error] = "Insufficient coins. You need #{number_of_tickets - current_client_user.coins} more coin(s) to complete this purchase."
+      redirect_to client_lottery_path(item) and return
     end
+
+    number_of_tickets.times do
+      ticket = Ticket.new(item_id: item.id, user_id: current_client_user.id, batch_count: item.batch_count)
+      if ticket.save
+        flash[:notice] = "#{number_of_tickets} Tickets created successfully!"
+      else
+        flash[:alert] = ticket.errors.full_messages.to_sentence
+      end
+    end
+    redirect_to client_lottery_path(item)
   end
 
   def show
     @item = Item.find(params[:id])
-    @tickets = @item.tickets.where(state: 'pending') || []
+    @tickets = @item.tickets.pending
     total_tickets = @tickets.count
     minimum_tickets = @item.minimum_tickets || 1
     progress = (total_tickets.to_f / minimum_tickets) * 100

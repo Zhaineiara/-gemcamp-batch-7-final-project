@@ -35,6 +35,5 @@
 
 /node_modules
 .idea/
-/public/uploads/user
-/public/uploads/item
+/public/uploads
 

@@ -3,14 +3,14 @@
     <div class="col-md-6 text-center">
       <!-- QR Code Section -->
       <div class="mb-4">
-        <div class="p-4 border border-primary rounded">
+        <div class="p-4 border border-primary rounded m-auto">
           <%= @qrcode_svg.html_safe %>
         </div>
       </div>
 
       <!-- Signup Link Section -->
       <div class="alert alert-info mb-3">
-        <h6 class="text-truncate"><%= request.domain + ':3000' + new_client_user_registration_path(promoter: current_client_user.email)%></h6>
+        <h6 class="text-truncate text-wrap"><%= request.base_url + new_client_user_registration_path(promoter: current_client_user.email)%></h6>
       </div>
     </div>
   </div>
