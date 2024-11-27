@@ -56,15 +56,21 @@
       </div>
 
       <!-- Ticket Count Controls -->
-      <%= form_with model: @item, url: client_lottery_index_path(item_id: @item), method: :post, class: "ticket-form" do |f| %>
-        <div class="row text-center mb-3">
-          <div class="d-flex justify-content-center align-items-center">
-            <%= f.number_field :minimum_tickets, id: 'ticket-count', class: 'form-control', min: 1, required: true, value: nil %>
+      <% if client_user_signed_in? %>
+        <%= form_with model: @item, url: client_lottery_index_path(item_id: @item), method: :post, class: "ticket-form" do |f| %>
+          <div class="row text-center mb-3">
+            <div class="d-flex justify-content-center align-items-center">
+              <%= f.number_field :minimum_tickets, id: 'ticket-count', class: 'form-control', min: 1, required: true, value: nil %>
+            </div>
           </div>
-        </div>
 
-        <!-- Submit Button -->
-        <%= f.submit "Buy Ticket", class: "btn btn-warning w-100 mb-3", id: "submit-ticket" %>
+          <!-- Submit Button -->
+          <%= f.submit "Buy Ticket", class: "btn btn-warning w-100 mb-3", id: "submit-ticket" %>
+        <% end %>
+      <% else %>
+        <div class="alert alert-warning text-center">
+          <strong>You must be logged in to buy tickets.</strong>
+        </div>
       <% end %>
 
       <!-- Back Button -->
