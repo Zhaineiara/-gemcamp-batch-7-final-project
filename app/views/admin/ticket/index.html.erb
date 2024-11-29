@@ -1,0 +1,68 @@
+<%= render partial: 'admin/shared/flash_sign_in_out' %>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Ticket List</h2>
+</div>
+
+<%= form_with url: admin_ticket_index_path, method: :get, local: true do %>
+  <div class="form-group">
+    <%= label_tag :serial_number, "Serial Number" %>
+    <%= text_field_tag :serial_number, params[:serial_number], class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :item_name, "Item Name" %>
+    <%= text_field_tag :item_name, params[:item_name], class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :email, "Email" %>
+    <%= text_field_tag :email, params[:email], class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :state, "State" %>
+    <%= select_tag :state, options_for_select(['pending', 'won', 'lost', 'cancelled'], params[:state]), class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :start_date, "Start Date" %>
+    <%= date_field_tag :start_date, params[:start_date], class: 'form-control' %>
+  </div>
+
+  <div class="form-group">
+    <%= label_tag :end_date, "End Date" %>
+    <%= date_field_tag :end_date, params[:end_date], class: 'form-control' %>
+  </div>
+
+  <%= submit_tag "Filter", class: 'btn btn-primary' %>
+<% end %>
+
+<table class="table table-bordered mt-5">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Item</th>
+    <th>User</th>
+    <th>Batch Count</th>
+    <th>Coins</th>
+    <th>State</th>
+    <th>Serial Number</th>
+    <th>Created At</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @tickets.each_with_index do |ticket, numbering| %>
+    <tr>
+      <td><%= numbering+1 %></td>
+      <td><%= ticket.item.name %></td>
+      <td><%= ticket.user.email %></td>
+      <td><%= ticket.batch_count %></td>
+      <td><%= ticket.coins %></td>
+      <td><%= ticket.state %></td>
+      <td><%= ticket.serial_number %></td>
+      <td><%= ticket.created_at.strftime("%B %d, %Y") %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

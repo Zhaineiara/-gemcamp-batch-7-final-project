@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   constraints(AdminDomainConstraint.new) do
     namespace :admin do
       get 'user_list/index'
+      get 'ticket/index'
       resources :items
       resources :categories, except: :show
 
