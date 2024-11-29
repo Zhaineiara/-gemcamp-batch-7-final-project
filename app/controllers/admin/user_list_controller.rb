@@ -3,6 +3,6 @@ class Admin::UserListController < ApplicationController
   before_action :authenticate_admin_user!
 
   def index
-    @users = User.where(role: 'client')
+    @users = User.where(role: 0).includes(:children)
   end
 end

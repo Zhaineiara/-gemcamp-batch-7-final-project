@@ -81,13 +81,30 @@
 
 <!-- List of Tickets for the Item -->
 <% if @tickets.any? %>
-  <div class="alert alert-success mt-5">
-    <strong>List of Tickets:</strong>
-    <ul>
-      <% @tickets.each do |ticket| %>
-        <li>Serial Number: <%= ticket.serial_number %></li>
-      <% end %>
-    </ul>
+  <div class="alert alert-success mt-5 mb-5">
+    <strong>List of Tickets (Batch <%= @item.batch_count %>)</strong>
+    <% current_batch_tickets = @tickets.where(batch_count: @item.batch_count) %>
+
+    <% if current_batch_tickets.any? %>
+      <div class="row">
+        <% current_batch_tickets.each_with_index do |ticket, index| %>
+          <div class="col-md-4 mb-3">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Ticket <%= index + 1 %></h5>
+                <p class="card-text">
+                  <strong>Serial Number:</strong> <%= ticket.serial_number %><br>
+                </p>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="alert alert-warning mt-3">
+        <strong>No tickets available in the current batch yet.</strong>
+      </div>
+    <% end %>
   </div>
 <% else %>
   <div class="alert alert-info mt-5">

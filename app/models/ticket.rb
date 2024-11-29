@@ -37,7 +37,7 @@ class Ticket < ApplicationRecord
   def generate_serial_number
     number_count = nil
     Ticket.transaction do
-      number_count = Ticket.where(item_id: item.id).lock(true).count + 1
+      number_count = Ticket.where(item_id: item.id, batch_count: item.batch_count).lock(true).count + 1
     end
     number_count = number_count.to_s.rjust(4, '0')
     self.serial_number = "#{Time.current.strftime('%y%m%d')}-#{item.id}-#{item.batch_count}-#{number_count}"

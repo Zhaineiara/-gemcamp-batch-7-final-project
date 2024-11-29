@@ -48,11 +48,7 @@
         <div class="card h-100 custom-card">
           <img src="<%= item.item_image.url if item.item_image.present? %>" class="card-img-top custom-card-img" alt="<%= item.name %>">
           <div class="card-body">
-            <h5 class="card-title"><%= item.name %></h5>
-            <p class="card-text">
-              <strong>State:</strong> <%= item.state %> <br>
-              <strong>Status:</strong> <%= item.status %>
-            </p>
+            <h5 class="card-title text-center"><%= item.name %></h5>
             <%= link_to 'Buy Ticket', client_lottery_path(item), class: "btn btn-primary w-100" %>
           </div>
         </div>

@@ -5,7 +5,7 @@ class Client::UserAddressesController < ApplicationController
   before_action :set_user_address, only: [:edit, :update, :destroy]
 
   def index
-    @user_addresses = @user.user_addresses
+    @user_addresses = @user.user_addresses.includes(:region, :province, :city, :barangay)
   end
 
   def new
@@ -42,8 +42,14 @@ class Client::UserAddressesController < ApplicationController
   end
 
   def destroy
-    @user_address.destroy
-    redirect_to client_user_addresses_path, notice: 'Address was successfully deleted.'
+    if @user.user_addresses.count == 1
+      flash[:alert] = "You cannot delete the default address."
+    else
+      @user_address.destroy
+      flash[:notice] = 'Address was successfully deleted.'
+    end
+
+    redirect_to client_user_addresses_path
   end
 
   private

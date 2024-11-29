@@ -42,11 +42,32 @@ class Admin::ItemsController < ApplicationController
 
   def start
     @item = Item.find_by(id: params[:id])
-    if @item&.may_start?
-      @item.start!
-      redirect_to admin_items_path
+
+    if @item.nil?
+      redirect_to admin_items_path, alert: 'Item not found.'
     else
-      redirect_to admin_items_path, alert: @item.nil? ? 'Item not found.' : 'Cannot start this item.'
+      error_messages = []
+
+      if @item.quantity <= 0
+        error_messages << 'Quantity is 0 or less.'
+      end
+
+      if Date.today >= @item.offline_at
+        error_messages << 'Offline date has passed.'
+      end
+
+      if @item.status != 'active'
+        error_messages << 'Item status is not active.'
+      end
+
+      if @item.may_start?
+        @item.start!
+        redirect_to admin_items_path, notice: 'Item successfully started.'
+      else
+        if error_messages.any?
+          redirect_to admin_items_path, alert: error_messages.join(' ')
+        end
+      end
     end
   end
 

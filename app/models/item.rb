@@ -1,6 +1,9 @@
 class Item < ApplicationRecord
   include AASM
 
+  has_many :item_category_ships
+  has_many :categories, through: :item_category_ships
+  has_many :tickets
   default_scope { where(deleted_at: nil) }
 
   validates :name, :quantity, :minimum_tickets, :batch_count, presence: true
@@ -12,10 +15,6 @@ class Item < ApplicationRecord
   def destroy
     update(deleted_at: Time.current)
   end
-
-  has_many :item_category_ships
-  has_many :categories, through: :item_category_ships
-  has_many :tickets
 
   aasm column: :state do
     state :pending, initial: true
