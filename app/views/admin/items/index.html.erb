@@ -83,15 +83,3 @@
   <% end %>
   </tbody>
 </table>
-
-<%# if item.may_start? %>
-  <%#= button_to 'Start', start_admin_item_path(item), method: :put, class: 'btn btn-success' %>
-<%# elsif item.may_pause? %>
-  <%#= button_to 'Pause', pause_admin_item_path(item), method: :put, class: 'btn btn-warning' %>
-<%# elsif item.may_end? %>
-  <%#= button_to 'End', end_admin_item_path(item), method: :put, class: 'btn btn-danger' %>
-<%# elsif item.may_cancel? %>
-  <%#= button_to 'Cancel', cancel_admin_item_path(item), method: :put, class: 'btn btn-secondary' %>
-<%# else %>
-  <%#= button_to item.state.titleize, '#', class: 'btn btn-info', disabled: true %>
-<%# end %>

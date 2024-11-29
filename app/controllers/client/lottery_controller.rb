@@ -40,7 +40,9 @@ class Client::LotteryController < ApplicationController
   def show
     @item = Item.find(params[:id])
     @tickets = @item.tickets.pending
-    total_tickets = @tickets.count
+    current_batch_tickets = @tickets.where(batch_count: @item.batch_count)
+
+    total_tickets = current_batch_tickets.count
     minimum_tickets = @item.minimum_tickets || 1
     progress = (total_tickets.to_f / minimum_tickets) * 100
     @progress = [progress, 100].min

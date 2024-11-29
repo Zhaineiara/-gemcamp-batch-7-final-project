@@ -83,11 +83,23 @@ class Admin::ItemsController < ApplicationController
 
   def end
     @item = Item.find_by(id: params[:id])
+    @tickets = @item.tickets.pending
+    current_batch_tickets = @tickets.where(batch_count: @item.batch_count)
+    total_tickets = current_batch_tickets.count
+    minimum_tickets = @item.minimum_tickets || 1
+
+    if total_tickets < minimum_tickets
+      redirect_to admin_items_path, alert: 'Cannot end this item. The minimum number of tickets in an item must be reach.'
+      return
+    end
+
     if @item&.may_end?
       @item.end!
       redirect_to admin_items_path
+      return
     else
       redirect_to admin_items_path, alert: @item.nil? ? 'Item not found.' : 'Cannot end this item.'
+      return
     end
   end
 
