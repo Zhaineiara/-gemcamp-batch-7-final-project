@@ -30,7 +30,7 @@ class Item < ApplicationRecord
     end
 
     event :end do
-      transitions from: :starting, to: :ended
+      transitions from: :starting, to: :ended, after: :pick_winner
     end
 
     event :cancel do
@@ -61,6 +61,39 @@ class Item < ApplicationRecord
     tickets.pending.each do |ticket|
       ticket.cancel!
       ticket.save
+    end
+  end
+
+  def pick_winner
+    current_batch_tickets = tickets.where(batch_count: batch_count)
+    return if current_batch_tickets.empty?
+
+    winning_ticket = current_batch_tickets.sample
+
+    current_batch_tickets.each do |ticket|
+      ticket.lose! unless ticket == winning_ticket
+    end
+    winning_ticket.win!
+
+    default_address = winning_ticket.user.default_address
+
+    if default_address.nil?
+      raise "User does not have a default address"
+    end
+
+    if self.is_a?(Item)
+      Winner.create!(
+        item_id: self.id,
+        ticket: winning_ticket,
+        user: winning_ticket.user,
+        address_id: default_address.id,
+        item_batch_count: batch_count,
+        state: 'won',
+        price: nil,
+        paid_at: nil
+      )
+    else
+      raise "Invalid item type: #{self.class.name}"
     end
   end
 end

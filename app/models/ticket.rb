@@ -31,7 +31,7 @@ class Ticket < ApplicationRecord
     user.update!(coins: user.coins + coins)
   end
   def deduct_coins
-    user.update!(coins: user.coins - 1)
+    user.update!(coins: user.coins - coins)
   end
 
   def generate_serial_number
