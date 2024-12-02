@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       get 'ticket/index'
       resources :items
       resources :categories, except: :show
+      resources :offers
 
       resources :items do
         member do

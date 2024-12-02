@@ -5,4 +5,5 @@ class Offer < ApplicationRecord
   validates :coin, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
   enum status: { inactive: 0, active: 1 }
+  mount_uploader :image, OfferImageUploader
 end

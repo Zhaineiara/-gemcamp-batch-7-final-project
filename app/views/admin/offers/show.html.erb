@@ -1,0 +1,12 @@
+<h1>Offer Details</h1>
+
+<div class="offer-details">
+  <p><strong>Name:</strong> <%= @offer.name %></p>
+  <p><strong>Status:</strong> <%= @offer.status %></p>
+  <p><strong>Amount:</strong> <%= number_to_currency(@offer.amount, unit: "₱", precision: 2) %></p>
+  <p><strong>Coin:</strong> <%= @offer.coin %></p>
+
+  <%= image_tag @offer.image.url, size: "100x100" if @offer.image.present? %>
+
+  <%= link_to 'Back to Offers', admin_offers_path, class: 'btn btn-secondary mt-4' %>
+</div>

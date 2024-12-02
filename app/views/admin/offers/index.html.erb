@@ -1,0 +1,57 @@
+<%= render partial: 'admin/shared/flash_sign_in_out' %>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Offer List</h2>
+  <div class="d-flex ms-auto">
+    <%= link_to 'New Offer', new_admin_offer_path, class: 'btn btn-primary me-2' %>
+  </div>
+</div>
+
+<div class="mb-3">
+  <%= form_with(url: admin_offers_path, method: :get, local: true, class: 'form-inline') do |form| %>
+    <div class="d-flex">
+      <div class="me-2">
+        <%= form.label :status, 'Filter by Status' %>
+        <%= form.select :status, Offer.statuses.keys.map { |key| [key.titleize, key] }, { include_blank: 'All' }, class: 'form-select' %>
+      </div>
+      <div>
+        <%= form.submit 'Filter', class: 'btn btn-primary' %>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Image</th>
+    <th>Status</th>
+    <th>Amount</th>
+    <th>Coins</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @offers.each do |offer| %>
+    <tr>
+      <td><%= offer.name %></td>
+      <td><%= image_tag offer.image.url, size: "100x100" if offer.image.present? %></td>
+      <td><%= offer.status %></td>
+      <td><%= number_to_currency(offer.amount, unit: "₱", precision: 2) %></td>
+      <td><%= offer.coin %></td>
+      <td>
+        <%= link_to admin_offer_path(offer), class: 'btn btn-info' do %>
+          <i class="bi bi-eye"></i>
+        <% end %>
+        <%= link_to edit_admin_offer_path(offer), class: 'btn btn-warning' do %>
+          <i class="bi bi-pencil-square"></i>
+        <% end %>
+        <%= button_to admin_offer_path(offer), method: :delete, data: { turbo_method: 'delete', confirm: 'Are you sure?' }, class: 'btn btn-danger' do %>
+          <i class="bi bi-trash"></i>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
