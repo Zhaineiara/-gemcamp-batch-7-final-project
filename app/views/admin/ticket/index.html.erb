@@ -5,41 +5,56 @@
 </div>
 
 <%= form_with url: admin_ticket_index_path, method: :get, local: true do %>
-  <div class="form-group">
-    <%= label_tag :serial_number, "Serial Number" %>
-    <%= text_field_tag :serial_number, params[:serial_number], class: 'form-control' %>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label_tag :serial_number, "Serial Number" %>
+        <%= text_field_tag :serial_number, params[:serial_number], class: 'form-control' %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label_tag :item_name, "Item Name" %>
+        <%= text_field_tag :item_name, params[:item_name], class: 'form-control' %>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group">
-    <%= label_tag :item_name, "Item Name" %>
-    <%= text_field_tag :item_name, params[:item_name], class: 'form-control' %>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label_tag :email, "Email" %>
+        <%= text_field_tag :email, params[:email], class: 'form-control' %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label_tag :state, "State" %>
+        <%= select_tag :state, options_for_select([['Select a state', nil], 'pending', 'won', 'lost', 'cancelled'], params[:state]), class: 'form-control' %>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group">
-    <%= label_tag :email, "Email" %>
-    <%= text_field_tag :email, params[:email], class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= label_tag :state, "State" %>
-    <%= select_tag :state, options_for_select([['Select a state', nil], 'pending', 'won', 'lost', 'cancelled'], params[:state]), class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= label_tag :start_date, "Start Date" %>
-    <%= date_field_tag :start_date, params[:start_date], class: 'form-control' %>
-  </div>
-
-  <div class="form-group">
-    <%= label_tag :end_date, "End Date" %>
-    <%= date_field_tag :end_date, params[:end_date], class: 'form-control' %>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label_tag :start_date, "Start Date" %>
+        <%= date_field_tag :start_date, params[:start_date], class: 'form-control' %>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label_tag :end_date, "End Date" %>
+        <%= date_field_tag :end_date, params[:end_date], class: 'form-control' %>
+      </div>
+    </div>
   </div>
 
   <%= submit_tag "Filter", class: 'btn btn-primary' %>
 <% end %>
 
-<table class="table table-bordered mt-5">
-  <thead>
+<table class="table table-striped table-bordered mt-5 table-responsive">
+  <thead class="thead-dark">
   <tr>
     <th>#</th>
     <th>Item</th>
@@ -55,7 +70,7 @@
   <% @tickets.each_with_index do |ticket, numbering| %>
     <tr>
       <td><%= numbering+1 %></td>
-      <td><%= ticket.item.name %></td>
+      <td><%= ticket.item&.name %></td>
       <td><%= ticket.user.email %></td>
       <td><%= ticket.batch_count %></td>
       <td><%= ticket.coins %></td>
