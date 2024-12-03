@@ -1,11 +1,12 @@
 class Order < ApplicationRecord
   include AASM
 
-  before_validation :generate_serial_number, if: -> { serial_number.blank? }
+  before_create :generate_serial_number
+  after_create :update_serial_number
 
   validates :state, :genre, presence: true
   validates :offer_id, presence: true, if: -> { genre == "deposit" }
-  validates :serial_number, presence: true, uniqueness: true
+  validates :serial_number, presence: true, uniqueness: true, on: :update
   validates :amount, presence: true, if: -> { genre == "deposit" }
   validates :amount, numericality: { greater_than: 0 }, if: -> { genre == "deposit" }
   validates :coin, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
@@ -34,12 +35,17 @@ class Order < ApplicationRecord
     end
   end
 
+  private
   def generate_serial_number
-    number_count = format('%04d', Order.where(user_id: user_id).count + 1)
-    self.serial_number = "#{Time.current.strftime('%y%m%d')}-#{self.id}-#{user_id}-#{number_count}"
+    self.serial_number = "TEMPORARY"
   end
 
-  private
+  def update_serial_number
+    # After the order is saved and has an id, update the serial number
+    number_count = format('%04d', Order.where(user_id: user_id).count)
+    self.update_column(:serial_number, "#{Time.current.strftime('%y%m%d')}-#{self.id}-#{user_id}-#{number_count}")
+  end
+
   def increase_coins
     user.update(coins: user.coins + coin)
   end
