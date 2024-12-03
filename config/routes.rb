@@ -27,6 +27,14 @@ Rails.application.routes.draw do
       resources :categories, except: :show
       resources :offers
 
+      resources :orders, only: [:index] do
+        member do
+          put :submit
+          put :cancel
+          put :pay
+        end
+      end
+
       resources :items do
         member do
           put :start
