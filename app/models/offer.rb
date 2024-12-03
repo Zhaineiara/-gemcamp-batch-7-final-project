@@ -6,4 +6,6 @@ class Offer < ApplicationRecord
 
   enum status: { inactive: 0, active: 1 }
   mount_uploader :image, OfferImageUploader
+
+  has_many :orders
 end

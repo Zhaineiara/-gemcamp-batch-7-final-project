@@ -1,0 +1,38 @@
+<div class="container mt-5 mb-5">
+  <div class="card shadow-sm">
+    <div class="card-header text-center">
+      <h4><%= @offer.name %></h4>
+    </div>
+
+    <div class="card-body text-center">
+      <% if @offer.image.present? %>
+        <%= image_tag @offer.image.url, alt: @offer.name, class: 'img-fluid mb-3', style: 'max-height: 300px; object-fit: cover;' %>
+      <% else %>
+        <p>No image available for this offer.</p>
+      <% end %>
+
+      <p><strong>Amount:</strong> <%= number_to_currency(@offer.amount, unit: "₱", precision: 2) %></p>
+      <p><strong>Coins:</strong> <%= @offer.coin %></p>
+
+      <%= form_with url: new_client_shop_path(@offer), method: :post, local: true do |f| %>
+        <div class="form-group">
+          <%= f.hidden_field :user_id, value: current_client_user.id %>
+          <%= f.hidden_field :offer_id, value: @offer.id %>
+          <%= f.hidden_field :state, value: 'pending' %>
+          <%= f.hidden_field :amount, value: @offer.amount %>
+          <%= f.hidden_field :coin, value: @offer.coin %>
+
+          <!-- Dropdown for Genre selection -->
+          <%= f.select :genre, Order.genres.keys.map { |genre| [genre.humanize, genre] }, { prompt: "Choose a genre" }, class: 'form-control mb-3' %>
+
+          <%= f.text_area :remarks, placeholder: "Add any remarks (optional)", class: "form-control mb-2" %>
+        </div>
+
+        <div class="card-footer text-center">
+          <%= f.submit 'Place Order', class: 'btn btn-primary mt-3 mb-3 w-100' %>
+          <%= link_to 'Back to Shop', client_shop_index_path, class: 'btn btn-secondary w-100 mb-3' %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

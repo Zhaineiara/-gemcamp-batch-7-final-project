@@ -1,7 +1,7 @@
 class Order < ApplicationRecord
   include AASM
 
-  before_create :generate_serial_number, if: -> { serial_number.blank? }
+  before_validation :generate_serial_number, if: -> { serial_number.blank? }
 
   validates :state, :genre, presence: true
   validates :offer_id, presence: true, if: -> { genre == "deposit" }
@@ -34,11 +34,12 @@ class Order < ApplicationRecord
     end
   end
 
-  private
   def generate_serial_number
     number_count = format('%04d', Order.where(user_id: user_id).count + 1)
-    self.serial_number = "#{Time.current.strftime('%y%m%d')}-#{id}-#{user_id}-#{number_count}"
+    self.serial_number = "#{Time.current.strftime('%y%m%d')}-#{self.id}-#{user_id}-#{number_count}"
   end
+
+  private
   def increase_coins
     user.update(coins: user.coins + coin)
   end

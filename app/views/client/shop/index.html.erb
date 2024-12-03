@@ -1,6 +1,4 @@
-<%= stylesheet_link_tag "card_size", "data-turbo-track": "reload" %>
-
-<!--Banner-->
+<!-- Carousel -->
 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" style="max-width: 1300px;">
   <div class="carousel-inner">
     <div class="carousel-item active">
@@ -25,40 +23,35 @@
   <h4 class="mt-2">Announcement:</h4>
 </div>
 
-<!-- Card -->
-<div class="container mt-4">
-  <div class="row">
-    <div class="col-6 col-md-2 mb-2">
-      <%= link_to 'Show All', client_lottery_index_path, method: :get, class: "btn btn-secondary w-100" %>
-    </div>
-
-    <% @categories.each do |category| %>
-      <div class="col-6 col-md-2 mb-2">
-        <%= link_to category.name, client_lottery_index_path(category_id: category.id), method: :get, class: "btn btn-primary w-100" %>
-      </div>
-    <% end %>
-  </div>
-</div>
-
 <!-- Cards -->
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
-  <% if @items.any? %>
-    <% @items.each do |item| %>
+  <% if @offers.any? %>
+    <% @offers.each do |offer| %>
       <div class="col">
         <div class="card h-100">
-          <img src="<%= item.item_image.url if item.item_image.present? %>" class="card-img-top img-fluid" alt="<%= item.name %>" style="height: 200px; object-fit: cover;">
+          <img src="<%= offer.image.url if offer.image.present? %>" class="card-img-top img-fluid" alt="<%= offer.name %>" style="height: 200px; object-fit: cover;">
           <div class="card-body text-center">
-            <h5 class="card-title mb-3" style="font-weight: bold; color: #007bff;"><%= item.name %></h5>
+            <h5 class="card-title mb-3" style="font-weight: bold; color: #007bff;"><%= offer.name %></h5>
 
-            <%= link_to 'Buy Ticket', client_lottery_path(item), class: "btn btn-primary w-100 py-2", style: "font-size: 1.1rem;" %>
+            <div class="mb-3">
+              <p class="mb-1" style="font-size: 1.1rem; color: #333;">
+                <strong>Amount:</strong> <span class="text-success"><%= number_to_currency(offer.amount, unit: "₱", precision: 2) %></span>
+              </p>
+              <p style="font-size: 1.1rem; color: #333;">
+                <strong>Coins:</strong> <span class="text-danger"><%= offer.coin %></span>
+              </p>
+            </div>
+
+            <%= link_to 'Get Offer', client_shop_path(offer), class: "btn btn-primary w-100 py-2", style: "font-size: 1.1rem;" %>
           </div>
+
         </div>
       </div>
     <% end %>
   <% else %>
     <div class="col-12 d-flex justify-content-center align-items-center mx-auto">
       <div class="alert alert-warning text-center" role="alert">
-        <strong>No items available in this category.</strong>
+        <strong>No offers available in this category.</strong>
       </div>
     </div>
   <% end %>
