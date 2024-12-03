@@ -8,6 +8,7 @@ gem 'carrierwave'
 gem 'rest-client'
 gem "rqrcode", "~> 2.0"
 gem 'aasm'
+gem 'kaminari'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.0.8", ">= 7.0.8.6"

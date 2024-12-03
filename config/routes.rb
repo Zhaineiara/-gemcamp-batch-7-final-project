@@ -22,6 +22,7 @@ Rails.application.routes.draw do
     namespace :admin do
       get 'user_list/index'
       get 'ticket/index'
+      get 'order/index'
       resources :items
       resources :categories, except: :show
       resources :offers

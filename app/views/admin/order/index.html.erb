@@ -1,0 +1,103 @@
+<%= render partial: 'admin/shared/flash_sign_in_out' %>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Order List</h2>
+</div>
+
+<%= form_with url: admin_order_index_path, method: :get, local: true do %>
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label_tag :serial_number, "Serial Number" %>
+        <%= text_field_tag :serial_number, params[:serial_number], class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label_tag :email, "Customer Email" %>
+        <%= text_field_tag :email, params[:email], class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label_tag :genre, "Genre" %>
+        <%= select_tag :genre, options_for_select([['Select a genre', nil]] + Order.genres.keys.map { |key| [key.humanize, key] }, params[:genre]), class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label_tag :offer_id, "Offer" %>
+        <%= select_tag :offer_id, options_for_select([['Select an offer', nil]] + Offer.all.pluck(:name, :id), params[:offer_id]), class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label_tag :start_date, "Start Date" %>
+        <%= date_field_tag :start_date, params[:start_date], class: 'form-control' %>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label_tag :end_date, "End Date" %>
+        <%= date_field_tag :end_date, params[:end_date], class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <div class="form-group">
+        <%= label_tag :state, "State" %>
+        <%= select_tag :state, options_for_select([['Select a state', nil]] + Order.aasm.states.map { |state| [state.name.to_s.humanize, state.name] }, params[:state]), class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= submit_tag "Filter", class: 'btn btn-primary' %>
+  </div>
+<% end %>
+
+<table class="table table-striped table-bordered mt-5 table-responsive">
+  <thead class="thead-dark">
+  <tr>
+    <th>#</th>
+    <th>Offer</th>
+    <th>Customer</th>
+    <th>Serial Number</th>
+    <th>State</th>
+    <th>Amount</th>
+    <th>Coins</th>
+    <th>Remark</th>
+    <th>Genre</th>
+    <th>Created at</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @orders.each_with_index do |order, numbering| %>
+    <tr>
+      <td><%= numbering + 1 %></td>
+      <td><%= order.offer&.name %></td>
+      <td><%= order.user.email %></td>
+      <td><%= order.serial_number %></td>
+      <td><%= order.state %></td>
+      <td><%= order.amount %></td>
+      <td><%= order.coin %></td>
+      <td><%= order.remarks %></td>
+      <td><%= order.genre %></td>
+      <td><%= order.created_at.strftime("%B %d, %Y") %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= paginate @orders %>
