@@ -46,7 +46,7 @@
     <% @items.each do |item| %>
       <div class="col">
         <div class="card h-100">
-          <img src="<%= item.item_image.url if item.item_image.present? %>" class="card-img-top img-fluid" alt="<%= item.name %>" style="height: 200px; object-fit: cover;">
+          <img src="<%= item.item_image.url if item.item_image.present? %>" class="card-img-top img-fluid p-2" alt="<%= item.name %>" style="height: 200px; object-fit: cover;">
           <div class="card-body text-center">
             <h5 class="card-title mb-3" style="font-weight: bold; color: #007bff;"><%= item.name %></h5>
 

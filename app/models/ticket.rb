@@ -26,10 +26,12 @@ class Ticket < ApplicationRecord
   end
 
   private
+
   def refund_coins
     Rails.logger.debug "Refunding coins for user #{user.id} and ticket #{id}"
     user.update!(coins: user.coins + coins)
   end
+
   def deduct_coins
     user.update!(coins: user.coins - coins)
   end

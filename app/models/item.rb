@@ -77,16 +77,12 @@ class Item < ApplicationRecord
 
     default_address = winning_ticket.user.default_address
 
-    if default_address.nil?
-      raise "User does not have a default address"
-    end
-
     if self.is_a?(Item)
       Winner.create!(
         item_id: self.id,
         ticket: winning_ticket,
         user: winning_ticket.user,
-        address_id: default_address.id,
+        address_id: default_address&.id,
         item_batch_count: batch_count,
         state: 'won',
         price: nil,
