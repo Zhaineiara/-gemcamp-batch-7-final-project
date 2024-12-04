@@ -4,7 +4,7 @@ class Admin::ItemsController < ApplicationController
   before_action :set_item, only: [:show, :edit, :update, :destroy]
 
   def index
-    @items = Item.includes(:categories).order(:name)
+    @items = Item.includes(:categories).order(:name).page(params[:page]).per(5)
   end
 
   def show

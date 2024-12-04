@@ -10,10 +10,12 @@ class Client::LotteryController < ApplicationController
                    .where(status: 'active', state: 'starting')
                    .where(categories: { id: params[:category_id] })
                    .order(:name)
+                   .page(params[:page]).per(10)
     else
       @items = Item.includes(:categories)
                    .where(status: 'active', state: 'starting')
                    .order(:name)
+                   .page(params[:page]).per(10)
     end
   end
 

@@ -4,10 +4,10 @@ class Admin::OffersController < ApplicationController
   before_action :set_offer, only: [:show, :edit, :update, :destroy]
 
   def index
-    @offers = Offer.all
+    @offers = Offer.order(:name).page(params[:page]).per(5)
 
     if params[:status].present?
-      @offers = @offers.where(status: params[:status])
+      @offers = @offers.where(status: params[:status]).page(params[:page]).per(5)
     end
   end
 

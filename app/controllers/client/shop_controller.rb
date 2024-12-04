@@ -3,7 +3,7 @@ class Client::ShopController < ApplicationController
   layout 'client'
 
   def index
-    @offers = Offer.where(status: 'active').order(:name)
+    @offers = Offer.where(status: 'active').order(:name).page(params[:page]).per(10)
   end
 
   def show;end

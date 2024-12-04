@@ -55,3 +55,34 @@
   <% end %>
   </tbody>
 </table>
+
+<div class="mt-4 d-flex justify-content-center mb-5">
+  <ul class="pagination">
+    <li class="page-item <%= 'disabled' if @offers.first_page? %>">
+      <%= link_to 'First', request.params.merge(page: 1), class: 'page-link' %>
+    </li>
+
+    <li class="page-item <%= 'disabled' if @offers.first_page? %>">
+      <%= link_to 'Previous', request.params.merge(page: @offers.prev_page), class: 'page-link' %>
+    </li>
+
+    <%
+      start_page = [@offers.current_page - 1, 1].max
+      end_page = [start_page + 2, @offers.total_pages].min
+      start_page = [end_page - 2, 1].max
+    %>
+    <% (start_page..end_page).each do |page| %>
+      <li class="page-item <%= 'active' if page == @offers.current_page %>">
+        <%= link_to page, request.params.merge(page: page), class: 'page-link' %>
+      </li>
+    <% end %>
+
+    <li class="page-item <%= 'disabled' if @offers.last_page? %>">
+      <%= link_to 'Next', request.params.merge(page: @offers.next_page), class: 'page-link' %>
+    </li>
+
+    <li class="page-item <%= 'disabled' if @offers.last_page? %>">
+      <%= link_to 'Last', request.params.merge(page: @offers.total_pages), class: 'page-link' %>
+    </li>
+  </ul>
+</div>

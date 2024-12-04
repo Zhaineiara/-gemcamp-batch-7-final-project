@@ -63,3 +63,34 @@
     </div>
   <% end %>
 </div>
+
+<div class="mt-4 d-flex justify-content-center mb-5">
+  <ul class="pagination">
+    <li class="page-item <%= 'disabled' if @items.first_page? %>">
+      <%= link_to 'First', request.params.merge(page: 1), class: 'page-link' %>
+    </li>
+
+    <li class="page-item <%= 'disabled' if @items.first_page? %>">
+      <%= link_to 'Previous', request.params.merge(page: @items.prev_page), class: 'page-link' %>
+    </li>
+
+    <%
+      start_page = [@items.current_page - 1, 1].max
+      end_page = [start_page + 2, @items.total_pages].min
+      start_page = [end_page - 2, 1].max
+    %>
+    <% (start_page..end_page).each do |page| %>
+      <li class="page-item <%= 'active' if page == @items.current_page %>">
+        <%= link_to page, request.params.merge(page: page), class: 'page-link' %>
+      </li>
+    <% end %>
+
+    <li class="page-item <%= 'disabled' if @items.last_page? %>">
+      <%= link_to 'Next', request.params.merge(page: @items.next_page), class: 'page-link' %>
+    </li>
+
+    <li class="page-item <%= 'disabled' if @items.last_page? %>">
+      <%= link_to 'Last', request.params.merge(page: @items.total_pages), class: 'page-link' %>
+    </li>
+  </ul>
+</div>
