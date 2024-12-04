@@ -4,20 +4,28 @@
 <table class="table mb-5">
   <thead>
   <tr>
-    <th>Order ID</th>
+    <th>#</th>
     <th>Offer</th>
+    <th>Serial Number</th>
+    <th>State</th>
     <th>Amount</th>
-    <th>Status</th>
+    <th>Coins</th>
+    <th>Remarks</th>
+    <th>Genre</th>
     <th>Created At</th>
   </tr>
   </thead>
   <tbody>
-  <% @orders.each do |order| %>
+  <% @orders.each_with_index do |order, numbering| %>
     <tr>
-      <td><%= order.id %></td>
+      <td><%= numbering + 1 %></td>
       <td><%= order.offer.name %></td>
-      <td><%= order.amount %></td>
+      <td><%= order.serial_number %></td>
       <td><%= order.state %></td>
+      <td><%= order.amount %></td>
+      <td><%= order.coin %></td>
+      <td><%= order.remarks %></td>
+      <td><%= order.genre %></td>
       <td><%= order.created_at.strftime('%b %d, %Y') %></td>
     </tr>
   <% end %>

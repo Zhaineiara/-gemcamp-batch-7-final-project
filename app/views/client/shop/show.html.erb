@@ -15,17 +15,23 @@
       <p><strong>Amount:</strong> <%= number_to_currency(@offer.amount, unit: "₱", precision: 2) %></p>
       <p><strong>Coins:</strong> <%= @offer.coin %></p>
 
-      <%= form_with url: client_shop_index_path(offer_id: @offer), method: :post, local: true do |f| %>
-        <div class="form-group">
-          <%= f.select :genre, Order.genres.keys.map { |genre| [genre.humanize, genre] }, { prompt: "Choose a genre" }, class: 'form-control mb-3' %>
-          <%= f.text_area :remarks, placeholder: "Add any remarks (optional)", class: "form-control mb-2" %>
-        </div>
+      <% if client_user_signed_in? %>
+        <%= form_with url: client_shop_index_path(offer_id: @offer), method: :post, local: true do |f| %>
+          <div class="form-group">
+            <%= f.select :genre, Order.genres.keys.map { |genre| [genre.humanize, genre] }, { prompt: "Choose a genre" }, class: 'form-control mb-3' %>
+            <%= f.text_area :remarks, placeholder: "Add any remarks (optional)", class: "form-control mb-2" %>
+          </div>
 
-        <div class="card-footer text-center">
-          <%= f.submit 'Place Order', class: 'btn btn-primary mt-3 mb-3 w-100' %>
-          <%= link_to 'Back to Shop', client_shop_index_path, class: 'btn btn-secondary w-100 mb-3' %>
+          <div class="card-footer text-center">
+            <%= f.submit 'Place Order', class: 'btn btn-primary mt-3 mb-3 w-100' %>
+          </div>
+        <% end %>
+      <% else %>
+        <div class="alert alert-warning text-center">
+          <strong>You must be logged in to place an order.</strong>
         </div>
       <% end %>
+      <%= link_to 'Back to Shop', client_shop_index_path, class: 'btn btn-secondary w-100 mb-3' %>
     </div>
   </div>
 </div>

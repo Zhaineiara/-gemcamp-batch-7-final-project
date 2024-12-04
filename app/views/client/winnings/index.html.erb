@@ -4,6 +4,7 @@
 <table class="table mb-5">
   <thead>
   <tr>
+    <th>#</th>
     <th>Item</th>
     <th>Batch Count</th>
     <th>Coins</th>
@@ -13,8 +14,9 @@
   </tr>
   </thead>
   <tbody>
-  <% @tickets.each do |ticket| %>
+  <% @tickets.each_with_index do |ticket, numbering| %>
     <tr>
+      <td><%= numbering + 1 %></td>
       <td><%= ticket.item.name %></td>
       <td><%= ticket.batch_count %></td>
       <td><%= ticket.coins %></td>

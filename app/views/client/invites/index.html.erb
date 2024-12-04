@@ -5,12 +5,14 @@
   <thead>
   <tr>
     <th>Invited User</th>
+    <th>Email</th>
     <th>Created At</th>
   </tr>
   </thead>
   <tbody>
-  <% @users.each do |user| %>
+  <% @users.each_with_index do |user, numbering| %>
     <tr>
+      <td><%= numbering + 1 %></td>
       <td><%= user.email %></td>
       <td><%= user.created_at.strftime('%b %d, %Y') %></td>
     </tr>
