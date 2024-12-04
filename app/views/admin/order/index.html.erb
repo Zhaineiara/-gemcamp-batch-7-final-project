@@ -97,9 +97,9 @@
       <td><%= order.genre %></td>
       <td><%= order.created_at.strftime("%B %d, %Y") %></td>
       <td>
-        <%= button_to 'Submit', submit_admin_order_path(order), method: :put, data: { confirm: 'Are you sure you want to submit?' }, class: 'btn btn-primary btn-sm' %>
-        <%= button_to 'Cancel', cancel_admin_order_path(order), method: :put, class: 'btn btn-warning btn-sm' %>
-        <%= button_to 'Pay', pay_admin_order_path(order), method: :put, class: 'btn btn-success btn-sm' %>
+        <%= button_to 'Submit', submit_admin_order_path(order), method: :put, data: { confirm: 'Are you sure you want to submit?' }, class: 'btn btn-primary btn-sm d-inline' %>
+        <%= button_to 'Cancel', cancel_admin_order_path(order), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
+        <%= button_to 'Pay', pay_admin_order_path(order), method: :put, class: 'btn btn-success btn-sm d-inline' %>
       </td>
     </tr>
   <% end %>
