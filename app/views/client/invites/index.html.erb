@@ -1,0 +1,19 @@
+<%= render partial: 'client/shared/profile' %>
+
+<h3 class="mt-5">Your Invite List</h3>
+<table class="table mb-5">
+  <thead>
+  <tr>
+    <th>Invited User</th>
+    <th>Created At</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= user.email %></td>
+      <td><%= user.created_at.strftime('%b %d, %Y') %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

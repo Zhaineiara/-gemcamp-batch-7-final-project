@@ -1,0 +1,31 @@
+<!-- Flash Sign In/Out Message -->
+<%= render partial: 'client/shared/flash_sign_in_out' %>
+
+<div class="container d-flex justify-content-center" style="min-height: 35px;">
+  <div class="card bg-light text-dark p-4" style="width: 100%; max-width: 600px;">
+    <div class="d-flex align-items-center mb-3">
+      <img src="<%= current_client_user.avatar.url if current_client_user.avatar? %>" alt="User Image" class="rounded-circle me-3" style="width: 100px; height: 100px;">
+      <div>
+        <p><strong>Username:</strong> <%= current_client_user.username %></p>
+        <p><strong>Email:</strong> <%= current_client_user.email %></p>
+        <p><strong>Coins:</strong> <%= current_client_user.coins %></p>
+      </div>
+    </div>
+
+    <div class="text-center mb-4">
+      <button class="btn btn-warning w-100" style="border-radius: 20px;">CASH IN NOW</button>
+    </div>
+
+    <div class="btn-group w-100 mt-4" role="group" aria-label="Profile Actions">
+      <%= link_to 'Edit Profile', edit_client_user_registration_path, class: "btn btn-primary w-50 me-2" %>
+      <%= link_to 'Address', client_user_addresses_path, class: "btn btn-success w-50 ms-2" %>
+    </div>
+  </div>
+</div>
+
+<div class="container d-flex justify-content-center mt-4">
+  <%= link_to 'Order History', client_orders_path, class: "btn btn-info w-100 mb-2 me-2" %>
+  <%= link_to 'Lottery History', client_lotteries_path, class: "btn btn-info w-100 mb-2 me-2" %>
+  <%= link_to 'Invite', client_invites_path, class: "btn btn-info w-100 mb-2 me-2" %>
+  <%= link_to 'Winnings', client_winnings_path, class: "btn btn-info w-100 mb-2" %>
+</div>

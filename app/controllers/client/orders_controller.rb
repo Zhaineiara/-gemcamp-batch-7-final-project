@@ -1,7 +1,7 @@
-class Client::ProfileController < ApplicationController
+class Client::OrdersController < ApplicationController
   layout 'client'
 
-  def profile
+  def index
     @orders = current_client_user.orders
   end
 end

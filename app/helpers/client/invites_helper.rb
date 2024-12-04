@@ -1,0 +1,2 @@
+module Client::InvitesHelper
+end

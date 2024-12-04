@@ -1,0 +1,58 @@
+<%= render partial: 'client/shared/profile' %>
+
+<h3 class="mt-5">Your Lottery History</h3>
+<table class="table mb-5">
+  <thead>
+  <tr>
+    <th>Item</th>
+    <th>Batch Count</th>
+    <th>Coins</th>
+    <th>State</th>
+    <th>Serial Number</th>
+    <th>Created At</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @tickets.each do |ticket| %>
+    <tr>
+      <td><%= ticket.item.name %></td>
+      <td><%= ticket.batch_count %></td>
+      <td><%= ticket.coins %></td>
+      <td><%= ticket.state %></td>
+      <td><%= ticket.serial_number %></td>
+      <td><%= ticket.created_at.strftime('%b %d, %Y') %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<div class="mt-4 d-flex justify-content-center mb-5">
+  <ul class="pagination">
+    <li class="page-item <%= 'disabled' if @tickets.first_page? %>">
+      <%= link_to 'First', request.params.merge(page: 1), class: 'page-link' %>
+    </li>
+
+    <li class="page-item <%= 'disabled' if @tickets.first_page? %>">
+      <%= link_to 'Previous', request.params.merge(page: @tickets.prev_page), class: 'page-link' %>
+    </li>
+
+    <%
+      start_page = [@tickets.current_page - 1, 1].max
+      end_page = [start_page + 2, @tickets.total_pages].min
+      start_page = [end_page - 2, 1].max
+    %>
+    <% (start_page..end_page).each do |page| %>
+      <li class="page-item <%= 'active' if page == @tickets.current_page %>">
+        <%= link_to page, request.params.merge(page: page), class: 'page-link' %>
+      </li>
+    <% end %>
+
+    <li class="page-item <%= 'disabled' if @tickets.last_page? %>">
+      <%= link_to 'Next', request.params.merge(page: @tickets.next_page), class: 'page-link' %>
+    </li>
+
+    <li class="page-item <%= 'disabled' if @tickets.last_page? %>">
+      <%= link_to 'Last', request.params.merge(page: @tickets.total_pages), class: 'page-link' %>
+    </li>
+  </ul>
+</div>

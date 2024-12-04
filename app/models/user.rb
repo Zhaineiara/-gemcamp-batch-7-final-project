@@ -27,6 +27,7 @@ class User < ApplicationRecord
   belongs_to :parent, class_name: User.name, foreign_key: :parent_id, counter_cache: :children_members, optional: true
   has_many :children, class_name: User.name, foreign_key: :parent_id, dependent: :destroy
   has_many :tickets
+  has_many :orders
 
   def default_address
     user_addresses.find_by(is_default: true)
