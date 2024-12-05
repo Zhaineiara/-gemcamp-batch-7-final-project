@@ -10,12 +10,18 @@
   </tr>
   </thead>
   <tbody>
-  <% @users.each_with_index do |user, numbering| %>
+  <% if @users.empty? %>
     <tr>
-      <td><%= numbering + 1 %></td>
-      <td><%= user.email %></td>
-      <td><%= user.created_at.strftime('%b %d, %Y') %></td>
+      <td colspan="3" class="text-center">No user invite history available.</td>
     </tr>
+  <% else %>
+    <% @users.each_with_index do |user, numbering| %>
+      <tr>
+        <td><%= numbering + 1 %></td>
+        <td><%= user.email %></td>
+        <td><%= user.created_at.strftime('%b %d, %Y') %></td>
+      </tr>
+    <% end %>
   <% end %>
   </tbody>
 </table>
