@@ -13,6 +13,7 @@ class Client::ClaimsController < ApplicationController
 
     if @user_address.save
       @winner.update(state: 'claimed')
+      @winner.update(address_id: @user_address.id)
       redirect_to client_winnings_path, notice: "Prize claimed successfully!"
     else
       render :new, alert: "There was an error claiming your prize."

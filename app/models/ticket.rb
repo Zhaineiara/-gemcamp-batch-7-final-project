@@ -7,7 +7,6 @@ class Ticket < ApplicationRecord
 
   belongs_to :user
   belongs_to :item
-  belongs_to :winner
 
   aasm column: :state do
     state :pending, initial: true
