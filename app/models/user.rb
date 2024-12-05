@@ -28,6 +28,7 @@ class User < ApplicationRecord
   has_many :children, class_name: User.name, foreign_key: :parent_id, dependent: :destroy
   has_many :tickets
   has_many :orders
+  has_many :winners
 
   def default_address
     user_addresses.find_by(is_default: true)

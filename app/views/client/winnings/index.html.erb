@@ -11,50 +11,64 @@
     <th>State</th>
     <th>Serial Number</th>
     <th>Created At</th>
+    <th>Actions</th>
   </tr>
   </thead>
   <tbody>
-  <% @tickets.each_with_index do |ticket, numbering| %>
+  <% if @winners.empty? %>
     <tr>
-      <td><%= numbering + 1 %></td>
-      <td><%= ticket.item.name %></td>
-      <td><%= ticket.batch_count %></td>
-      <td><%= ticket.coins %></td>
-      <td><%= ticket.state %></td>
-      <td><%= ticket.serial_number %></td>
-      <td><%= ticket.created_at.strftime('%b %d, %Y') %></td>
+      <td colspan="8" class="text-center">No winning history available.</td>
     </tr>
+  <% else %>
+    <% @winners.each_with_index do |winner, numbering| %>
+      <tr>
+        <td><%= numbering + 1 %></td>
+        <td><%= winner.ticket.item.name %></td>
+        <td><%= winner.ticket.batch_count %></td>
+        <td><%= winner.ticket.coins %></td>
+        <td><%= winner.state %></td>
+        <td><%= winner.ticket.serial_number %></td>
+        <td><%= winner.created_at.strftime('%b %d, %Y') %></td>
+        <td>
+          <% if winner.state == 'won' %>
+            <%= link_to "Claim Prize", new_client_claim_path(winner_id: winner.id), class: "btn btn-primary btn-sm" %>
+          <% else %>
+            <span class="text-muted">Already Claimed</span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
   <% end %>
   </tbody>
 </table>
 
 <div class="mt-4 d-flex justify-content-center mb-5">
   <ul class="pagination">
-    <li class="page-item <%= 'disabled' if @tickets.first_page? %>">
+    <li class="page-item <%= 'disabled' if @winners.first_page? %>">
       <%= link_to 'First', request.params.merge(page: 1), class: 'page-link' %>
     </li>
 
-    <li class="page-item <%= 'disabled' if @tickets.first_page? %>">
-      <%= link_to 'Previous', request.params.merge(page: @tickets.prev_page), class: 'page-link' %>
+    <li class="page-item <%= 'disabled' if @winners.first_page? %>">
+      <%= link_to 'Previous', request.params.merge(page: @winners.prev_page), class: 'page-link' %>
     </li>
 
     <%
-      start_page = [@tickets.current_page - 1, 1].max
-      end_page = [start_page + 2, @tickets.total_pages].min
+      start_page = [@winners.current_page - 1, 1].max
+      end_page = [start_page + 2, @winners.total_pages].min
       start_page = [end_page - 2, 1].max
     %>
     <% (start_page..end_page).each do |page| %>
-      <li class="page-item <%= 'active' if page == @tickets.current_page %>">
+      <li class="page-item <%= 'active' if page == @winners.current_page %>">
         <%= link_to page, request.params.merge(page: page), class: 'page-link' %>
       </li>
     <% end %>
 
-    <li class="page-item <%= 'disabled' if @tickets.last_page? %>">
-      <%= link_to 'Next', request.params.merge(page: @tickets.next_page), class: 'page-link' %>
+    <li class="page-item <%= 'disabled' if @winners.last_page? %>">
+      <%= link_to 'Next', request.params.merge(page: @winners.next_page), class: 'page-link' %>
     </li>
 
-    <li class="page-item <%= 'disabled' if @tickets.last_page? %>">
-      <%= link_to 'Last', request.params.merge(page: @tickets.total_pages), class: 'page-link' %>
+    <li class="page-item <%= 'disabled' if @winners.last_page? %>">
+      <%= link_to 'Last', request.params.merge(page: @winners.total_pages), class: 'page-link' %>
     </li>
   </ul>
 </div>

@@ -1,10 +1,4 @@
 Rails.application.routes.draw do
-  namespace :client do
-    get 'winnings/index'
-    get 'invites/index'
-    get 'lotteries/index'
-    get 'orders/index'
-  end
   namespace :api do
     namespace :v1 do
       resources :regions, only: %i[index show], defaults: { format: :json } do
@@ -69,6 +63,7 @@ Rails.application.routes.draw do
       resources :lotteries, only: [:index]
       resources :invites, only: [:index]
       resources :winnings, only: [:index]
+      resources :claims, only: [:new, :create]
 
       devise_for :users, controllers: {
         registrations: 'client/registrations',
