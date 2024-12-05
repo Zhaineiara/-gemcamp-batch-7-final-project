@@ -31,7 +31,11 @@
         <td><%= winner.created_at.strftime('%b %d, %Y') %></td>
         <td>
           <% if winner.state == 'won' %>
-            <%= link_to "Claim Prize", edit_client_claim_path(winner), class: "btn btn-primary btn-sm" %>
+            <% if winner.user.user_addresses.exists? %>
+              <%= link_to "Claim Prize", edit_client_claim_path(winner), class: "btn btn-primary btn-sm" %>
+            <% else %>
+              <%= link_to "Claim Prize", new_client_claim_path(winner_id: winner.id), class: "btn btn-primary btn-sm" %>
+            <% end %>
           <% else %>
             <span class="text-muted">Already Claimed</span>
           <% end %>

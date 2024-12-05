@@ -1,0 +1,66 @@
+<div class="container d-flex justify-content-center align-items-center mt-5 mb-5" style="min-height: 80vh;">
+  <div class="card bg-light text-dark p-4" style="width: 100%; max-width: 600px;">
+    <h1 class="text-center mb-4">Claim Prize</h1>
+    <%= form_with(model: @user_address, url: client_claims_path(winner_id: @winner.id), local: true, data: { controller: :location, turbo: false }) do |form| %>
+      <%= render partial: 'client/shared/validation_address' %>
+      <div class="form-group mb-3">
+        <%= form.label :name, class: 'form-label' %>
+        <%= form.text_field :name, class: 'form-control' %>
+      </div>
+      <div class="form-group mb-3">
+        <%= form.label :street_address, class: 'form-label' %>
+        <%= form.text_field :street_address, class: 'form-control' %>
+      </div>
+      <div class="form-group mb-3">
+        <%= form.label :phone_number, 'Phone Number', class: 'form-label' %>
+        <%= form.text_field :phone_number, class: 'form-control' %>
+      </div>
+      <div class="form-group mb-3">
+        <%= form.label :remark, class: 'form-label' %>
+        <%= form.text_area :remark, class: 'form-control' %>
+      </div>
+      <div class="form-group mb-3">
+        <%= form.label :is_default, class: 'form-label' %>
+        <%= form.check_box :is_default, class: 'form-check-input' %>
+        <%= form.label :is_default, "Set as Default Address", class: 'form-check-label' %>
+      </div>
+      <div class="form-group mb-3">
+        <%= form.label :region_id, 'Region', class: 'form-label' %>
+        <%= form.collection_select :region_id,
+                                   Address::Region.order(name: :asc), :id, :name,
+                                   { prompt: 'Select a region' }, class: 'form-select',
+                                   data: { location_target: 'selectedRegionId', action: 'change->location#fetchProvinces', required: true } %>
+      </div>
+      <div class="form-group mb-3">
+        <%= form.label :province_id, 'Province', class: 'form-label' %>
+        <%= form.collection_select :province_id,
+                                   [], nil, nil,
+                                   { prompt: 'Select a province' }, class: 'form-select',
+                                   data: { location_target: 'selectedProvinceId', action: 'change->location#fetchCities', required: true } %>
+      </div>
+      <div class="form-group mb-3">
+        <%= form.label :city_id, 'City', class: 'form-label' %>
+        <%= form.collection_select :city_id,
+                                   [], nil, nil,
+                                   { prompt: 'Select a city' }, class: 'form-select',
+                                   data: { location_target: 'selectedCityId', action: 'change->location#fetchBarangays' }, required: true %>
+      </div>
+      <div class="form-group mb-3">
+        <%= form.label :barangay_id, 'Barangay', class: 'form-label' %>
+        <%= form.collection_select :barangay_id,
+                                   [], nil, nil,
+                                   { prompt: 'Select a barangay' }, class: 'form-select',
+                                   data: { location_target: 'selectedBarangayId' }, required: true %>
+      </div>
+      <div class="form-group text-center mb-3">
+        <%= button_tag "Reset", type: "reset", class: "btn btn-secondary w-100" %>
+      </div>
+      <div class="form-group text-center mb-3">
+        <%= form.submit "Claim Prize", class: 'btn btn-primary w-100' %>
+      </div>
+    <% end %>
+    <div class="form-group text-center mb-3">
+      <%= link_to 'Back to Winnings', client_winnings_path, class: 'btn btn-success w-100' %>
+    </div>
+  </div>
+</div>

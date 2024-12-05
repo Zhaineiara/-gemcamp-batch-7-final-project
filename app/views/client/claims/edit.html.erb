@@ -1,14 +1,25 @@
-<div class="container d-flex justify-content-center align-items-center mt-5 mb-5" style="min-height: 80vh;">
+<div class="container d-flex justify-content-center align-items-center mt-2 mb-5" style="min-height: 80vh;">
   <div class="card bg-light text-dark p-4" style="width: 100%; max-width: 600px;">
     <h1 class="text-center mb-4">Claim Prize</h1>
 
     <%= form_with(model: @winner, url: client_claim_path, local: true, method: :patch, data: { turbo: false }) do |form| %>
-      <div class="field">
-        <% @user_addresses.each do |address| %>
-          <%= form.radio_button :user_address_id, address.id %>
-          <%= "#{address.street_address}, #{address.barangay.name}, #{address.city.name}, #{address.province.name}, #{address.region.name}" %>
-        <% end %>
+      <div class="form-group mb-4">
+        <label for="user_address_id" class="form-label">Select Address:</label>
+        <div class="list-group">
+          <% @user_addresses.each do |address| %>
+            <label class="list-group-item d-flex align-items-start">
+              <%= form.radio_button :user_address_id, address.id, class: 'form-check-input me-3' %>
+              <div>
+                <p class="mb-0 fw-bold"><%= address.street_address %></p>
+                <p class="mb-0 text-muted">
+                  <%= "#{address.barangay.name}, #{address.city.name}, #{address.province.name}, #{address.region.name}" %>
+                </p>
+              </div>
+            </label>
+          <% end %>
+        </div>
       </div>
+
 
       <div class="form-group text-center mb-3">
         <%= form.submit "Claim Prize", class: 'btn btn-primary w-100' %>
@@ -17,6 +28,10 @@
 
     <div class="form-group text-center mb-3">
       <%= link_to 'Back to Winnings', client_winnings_path, class: 'btn btn-success w-100' %>
+    </div>
+
+    <div class="form-group text-center mb-3">
+      <%= link_to 'Add Other Address', new_client_claim_path(winner_id: @winner.id), class: 'btn btn-warning w-100' %>
     </div>
   </div>
 </div>

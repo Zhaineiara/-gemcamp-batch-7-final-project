@@ -63,7 +63,7 @@ Rails.application.routes.draw do
       resources :lotteries, only: [:index]
       resources :invites, only: [:index]
       resources :winnings, only: [:index]
-      resources :claims, only: [:edit, :update]
+      resources :claims, only: [:new, :create, :edit, :update]
 
       devise_for :users, controllers: {
         registrations: 'client/registrations',
