@@ -17,7 +17,7 @@
   <% @tickets.each_with_index do |ticket, numbering| %>
     <tr>
       <td><%= numbering + 1 %></td>
-      <td><%= ticket.item.name %></td>
+      <td><%= ticket.item&.name %></td>
       <td><%= ticket.batch_count %></td>
       <td><%= ticket.coins %></td>
       <td><%= ticket.state %></td>
