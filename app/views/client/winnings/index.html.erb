@@ -12,6 +12,7 @@
     <th>Serial Number</th>
     <th>Created At</th>
     <th>Actions</th>
+    <th>Share</th>
   </tr>
   </thead>
   <tbody>
@@ -38,6 +39,13 @@
             <% end %>
           <% else %>
             <span class="text-muted">Already Claimed</span>
+          <% end %>
+        </td>
+        <td>
+          <% if winner.shared? %>
+            <button class="btn btn-danger btn-sm" disabled>Shared</button>
+          <% else %>
+            <%= link_to "Share", edit_client_share_path(winner), class: "btn btn-danger btn-sm" %>
           <% end %>
         </td>
       </tr>

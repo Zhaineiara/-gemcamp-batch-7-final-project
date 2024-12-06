@@ -64,6 +64,7 @@ Rails.application.routes.draw do
       resources :invites, only: [:index]
       resources :winnings, only: [:index]
       resources :claims, only: [:new, :create, :edit, :update]
+      resources :share, only: [:edit, :update]
 
       devise_for :users, controllers: {
         registrations: 'client/registrations',

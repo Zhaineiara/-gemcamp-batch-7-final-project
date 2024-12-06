@@ -6,6 +6,8 @@ class Winner < ApplicationRecord
   belongs_to :ticket
   belongs_to :user_address, foreign_key: 'address_id', optional: true
 
+  mount_uploader :picture, SharePictureUploader
+
   aasm column: :state do
     state :won, initial: true
     state :claimed, :submitted, :paid, :shipped, :delivered, :shared, :published, :remove_published

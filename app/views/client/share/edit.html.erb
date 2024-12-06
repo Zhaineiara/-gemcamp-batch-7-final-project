@@ -1,0 +1,27 @@
+<div class="container d-flex justify-content-center align-items-center mt-2 mb-5" style="min-height: 80vh;">
+  <div class="card bg-light text-dark p-4" style="width: 100%; max-width: 600px;">
+    <h1 class="text-center mb-4">Share Your Winning</h1>
+
+    <%= form_with(model: @winner, url: client_share_path, method: :patch, local: true, class: 'form', html: { multipart: true }) do |form| %>
+      <div class="form-group mb-4">
+        <label for="picture" class="form-label">Upload Image:</label>
+        <%= form.file_field :picture, class: 'form-control' %>
+      </div>
+
+      <div class="form-group mb-4">
+        <label for="comment" class="form-label">Add a Comment:</label>
+        <%= form.text_area :comment, class: 'form-control', rows: 4, placeholder: "Share your experience or thoughts..." %>
+      </div>
+
+      <% if @winner.shared? %>
+        <p class="text-danger text-center">You have already shared this winning.</p>
+      <% else %>
+        <%= form.submit "Share Now", class: 'btn btn-primary w-100' %>
+      <% end %>
+    <% end %>
+
+    <div class="form-group text-center mt-3 mb-3">
+      <%= link_to 'Back to Winnings', client_winnings_path, class: 'btn btn-success w-100' %>
+    </div>
+  </div>
+</div>
