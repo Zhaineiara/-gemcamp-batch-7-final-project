@@ -1,6 +1,10 @@
 class Client::ShareController < ApplicationController
   layout 'client'
 
+  def index
+    @winners = Winner.shared.page(params[:page]).per(10)
+  end
+
   def edit
     @winner = Winner.find(params[:id])
   end

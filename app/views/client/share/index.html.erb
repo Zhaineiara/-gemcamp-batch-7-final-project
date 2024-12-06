@@ -1,0 +1,82 @@
+<%= stylesheet_link_tag "card_size", "data-turbo-track": "reload" %>
+
+<!--Banner-->
+<div id="carouselExample" class="carousel slide" data-bs-ride="carousel" style="max-width: 1300px;">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2022/05/pjimage-148.jpg" class="d-block w-100" alt="First Slide" style="max-height: 300px; object-fit: cover;"> <!-- Set max-height -->
+    </div>
+    <div class="carousel-item">
+      <img src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/06/collage-maker-22-jun-2023-06-11-pm-2075.jpg" class="d-block w-100" alt="Second Slide" style="max-height: 300px; object-fit: cover;"> <!-- Set max-height -->
+    </div>
+    <div class="carousel-item">
+      <img src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/01/bungou-stray-dogs-how-dazai-flips-the-anime-mentor-trope-on-its-head.jpg" class="d-block w-100" alt="Third Slide" style="max-height: 300px; object-fit: cover;"> <!-- Set max-height -->
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+
+  <h4 class="mt-2">Announcement:</h4>
+</div>
+
+<table class="table mb-5">
+  <thead>
+  <tr>
+    <th>Username</th>
+    <th>Image</th>
+    <th>Comment</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% if @winners.empty? %>
+    <tr>
+      <td colspan="7" class="text-center">No ticket history available.</td>
+    </tr>
+  <% else %>
+    <% @winners.each do |winner| %>
+      <tr>
+        <td><%= winner.user&.username %></td>
+        <td><%= image_tag winner.picture.url if winner.picture.present? %></td>
+        <td><%= winner.comment %></td>
+      </tr>
+    <% end %>
+  <% end %>
+  </tbody>
+</table>
+
+<div class="mt-4 d-flex justify-content-center mb-5">
+  <ul class="pagination">
+    <li class="page-item <%= 'disabled' if @winners.first_page? %>">
+      <%= link_to 'First', request.params.merge(page: 1), class: 'page-link' %>
+    </li>
+
+    <li class="page-item <%= 'disabled' if @winners.first_page? %>">
+      <%= link_to 'Previous', request.params.merge(page: @winners.prev_page), class: 'page-link' %>
+    </li>
+
+    <%
+      start_page = [@winners.current_page - 1, 1].max
+      end_page = [start_page + 2, @winners.total_pages].min
+      start_page = [end_page - 2, 1].max
+    %>
+    <% (start_page..end_page).each do |page| %>
+      <li class="page-item <%= 'active' if page == @winners.current_page %>">
+        <%= link_to page, request.params.merge(page: page), class: 'page-link' %>
+      </li>
+    <% end %>
+
+    <li class="page-item <%= 'disabled' if @winners.last_page? %>">
+      <%= link_to 'Next', request.params.merge(page: @winners.next_page), class: 'page-link' %>
+    </li>
+
+    <li class="page-item <%= 'disabled' if @winners.last_page? %>">
+      <%= link_to 'Last', request.params.merge(page: @winners.total_pages), class: 'page-link' %>
+    </li>
+  </ul>
+</div>
