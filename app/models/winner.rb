@@ -4,7 +4,7 @@ class Winner < ApplicationRecord
   belongs_to :user
   belongs_to :item
   belongs_to :ticket
-  belongs_to :user_address, foreign_key: 'address_id'
+  belongs_to :user_address, foreign_key: 'address_id', optional: true
 
   aasm column: :state do
     state :won, initial: true
