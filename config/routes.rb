@@ -66,6 +66,12 @@ Rails.application.routes.draw do
       resources :claims, only: [:new, :create, :edit, :update]
       resources :share, only: [:edit, :update, :index]
 
+      resources :orders, controller: 'orders', only: [:index] do
+        member do
+          put :cancel
+        end
+      end
+
       devise_for :users, controllers: {
         registrations: 'client/registrations',
         sessions: 'client/sessions'

@@ -13,6 +13,7 @@
     <th>Remarks</th>
     <th>Genre</th>
     <th>Created At</th>
+    <th>Action</th>
   </tr>
   </thead>
   <tbody>
@@ -32,6 +33,13 @@
         <td><%= order.remarks %></td>
         <td><%= order.genre %></td>
         <td><%= order.created_at.strftime('%b %d, %Y') %></td>
+        <td>
+          <% if order.cancelled? %>
+            <button class="btn btn-danger btn-sm" disabled>Cancelled Order</button>
+          <% else %>
+            <%= button_to 'Cancel Order', cancel_client_order_path(order), method: :put, class: 'btn btn-danger btn-sm d-inline' %>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   <% end %>
