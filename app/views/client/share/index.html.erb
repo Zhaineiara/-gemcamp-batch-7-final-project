@@ -25,30 +25,46 @@
   <h4 class="mt-2">Announcement:</h4>
 </div>
 
-<table class="table mb-5">
-  <thead>
-  <tr>
-    <th>Username</th>
-    <th>Image</th>
-    <th>Comment</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% if @winners.empty? %>
-    <tr>
-      <td colspan="7" class="text-center">No ticket history available.</td>
-    </tr>
-  <% else %>
-    <% @winners.each do |winner| %>
-      <tr>
-        <td><%= winner.user&.username %></td>
-        <td><%= image_tag winner.picture.url if winner.picture.present? %></td>
-        <td><%= winner.comment %></td>
-      </tr>
+<div class="container mt-5">
+  <div class="row">
+    <% if @winners.empty? %>
+      <div class="col-12 text-center text-muted">
+        No feedback history available.
+      </div>
+    <% else %>
+      <% @winners.each do |winner| %>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <!-- Image Section -->
+            <div class="p-3">
+              <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                <% if winner.picture.present? %>
+                  <%= image_tag winner.picture.url, class: "img-fluid rounded", alt: "Winner Image", style: "max-height: 100%; max-width: 100%;" %>
+                <% else %>
+                  <span class="text-muted">No image available</span>
+                <% end %>
+              </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+              <h5 class="card-title fw-bold">
+                <%= winner.user&.username || "Anonymous" %>
+              </h5>
+              <p class="card-text">
+                <%= winner.comment %>
+              </p>
+            </div>
+            <!-- Card Footer -->
+            <div class="card-footer d-flex justify-content-center gap-2">
+              <a href="#" class="btn btn-sm btn-info text-white">Share</a>
+              <a href="#" class="btn btn-sm btn-danger">Comment</a>
+            </div>
+          </div>
+        </div>
+      <% end %>
     <% end %>
-  <% end %>
-  </tbody>
-</table>
+  </div>
+</div>
 
 <div class="mt-4 d-flex justify-content-center mb-5">
   <ul class="pagination">
