@@ -23,6 +23,7 @@ Rails.application.routes.draw do
       resources :user_list, only: [:index, :show]
       get 'ticket/index'
       get 'order/index'
+      resources :invite_list, only: [:index]
       resources :items
       resources :categories, except: :show
       resources :offers

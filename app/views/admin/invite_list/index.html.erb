@@ -1,0 +1,42 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Invite List</h2>
+</div>
+
+<%= form_with url: admin_invite_list_index_path, method: :get, local: true, class: "mb-4" do |f| %>
+  <div class="input-group">
+    <%= f.label :parent_email, "Search by Parent Email", class: "form-label" %>
+    <%= f.text_field :parent_email, value: params[:parent_email], placeholder: "Enter Parent Email", class: "form-control" %>
+    <div class="input-group-append">
+      <%= f.submit "Search", class: "btn btn-primary" %>
+    </div>
+  </div>
+<% end %>
+
+<table class="table table-bordered table-striped">
+  <thead class="thead-dark">
+  <tr>
+    <th>Parent Email</th>
+    <th>Email</th>
+    <th>Total Deposit</th>
+    <th>Member Total Deposit</th>
+    <th>Coins</th>
+    <th>Created At</th>
+    <th>Used Coins Count</th>
+    <th>Child Members</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= user.parent_email %></td>
+      <td><%= user.email %></td>
+      <td><%= user.total_deposit || 0 %></td>
+      <td><%= user.children.sum(:total_deposit) %> </td>
+      <td><%= user.coins || 0 %></td>
+      <td><%= user.created_at.strftime("%Y-%m-%d") %></td>
+      <td><%= @total_used_coins[user.id] || 0 %></td>
+      <td><%= user.children_members || 0 %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
