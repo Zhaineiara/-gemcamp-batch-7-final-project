@@ -1,4 +1,5 @@
 class Client::InviteLinkController < ApplicationController
+  before_action :authenticate_client_user!
   layout 'client'
 
   require "rqrcode"

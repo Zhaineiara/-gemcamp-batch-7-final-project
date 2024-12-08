@@ -3,13 +3,11 @@
 <footer class="fixed-bottom bg-light">
   <div class="container">
     <div class="d-flex justify-content-around py-2">
-      <%= link_to 'Share', client_share_index_path, class: 'text-center footer_link' %></li>
-      <% if client_user_signed_in? %>
+        <%= link_to 'Share', client_share_index_path, class: 'text-center footer_link' %></li>
         <%= link_to 'Invite', client_invite_link_index_path, class: 'text-center footer_link' %></li>
-      <% end %>
-      <%= link_to 'Lottery', client_lottery_index_path, class: 'text-center footer_link' %></li>
-      <%= link_to 'Shop', client_shop_index_path, class: 'text-center footer_link' %></li>
-      <%= link_to 'Me', client_profile_profile_path, class: 'text-center footer_link' %></li>
+        <%= link_to 'Lottery', client_lottery_index_path, class: 'text-center footer_link' %></li>
+        <%= link_to 'Shop', client_shop_index_path, class: 'text-center footer_link' %></li>
+        <%= link_to 'Me', client_profile_profile_path, class: 'text-center footer_link' %></li>
     </div>
   </div>
 </footer>
