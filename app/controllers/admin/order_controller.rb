@@ -48,11 +48,26 @@ class Admin::OrderController < ApplicationController
 
   def pay
     @order = Order.find_by(id: params[:id])
-    if @order&.may_pay?
-      @order.pay!
-      redirect_to admin_order_index_path, notice: 'Order has been paid.'
+
+    if @order&.genre == 'deduct'
+      if @order.user.coins >= @order.coin
+        if @order.may_pay?
+          @order.pay!
+          redirect_to admin_order_index_path, notice: 'Order has been paid.'
+        else
+          redirect_to admin_order_index_path, alert: 'Unable to mark the order as paid.'
+        end
+      else
+        @order.cancel!
+        redirect_to admin_order_index_path, alert: 'Not enough coins to process the deduction. Order Cancelled.'
+      end
     else
-      redirect_to admin_order_index_path, alert: 'Unable to mark the order as paid.'
+      if @order&.may_pay?
+        @order.pay!
+        redirect_to admin_order_index_path, notice: 'Order has been paid.'
+      else
+        redirect_to admin_order_index_path, alert: 'Unable to mark the order as paid.'
+      end
     end
   end
 

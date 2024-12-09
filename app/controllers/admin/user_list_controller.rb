@@ -49,7 +49,7 @@ class Admin::UserListController < ApplicationController
     )
 
     if order.save
-      flash[:notice] = 'Increase order created successfully!'
+      flash[:notice] = 'Deduct order created successfully!'
       redirect_to admin_user_list_path(@user)
     else
       flash[:alert] = order.errors.full_messages.to_sentence

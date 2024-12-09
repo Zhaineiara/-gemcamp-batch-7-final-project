@@ -32,6 +32,7 @@ class Order < ApplicationRecord
 
     event :pay do
       transitions from: :submitted, to: :paid, after: :handle_paid_state
+      transitions from: :pending, to: :paid, if: :can_transition_to_paid?, after: :handle_paid_state
     end
   end
 
@@ -95,5 +96,9 @@ class Order < ApplicationRecord
     decrease_coins_if_not_deduct
     increase_coins_if_deduct
     decrease_total_deposit_if_deposit
+  end
+
+  def can_transition_to_paid?
+    ['increase', 'deduct', 'bonus', 'share'].include?(genre)
   end
 end
