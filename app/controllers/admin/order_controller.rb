@@ -39,11 +39,16 @@ class Admin::OrderController < ApplicationController
   def cancel
     @order = Order.find_by(id: params[:id])
     if @order&.may_cancel?
-      @order.cancel!
-      redirect_to admin_order_index_path, notice: 'Order has been cancelled.'
+      if @order.cancel
+        redirect_to admin_order_index_path, notice: 'Order has been cancelled.'
+      else
+        redirect_to admin_order_index_path, alert: @order.errors.full_messages.to_sentence
+      end
     else
       redirect_to admin_order_index_path, alert: 'Unable to cancel the order.'
     end
+  rescue ActiveRecord::Rollback
+    redirect_to admin_order_index_path, alert: 'Insufficient coins or deposit to cancel the order.'
   end
 
   def pay
@@ -57,9 +62,6 @@ class Admin::OrderController < ApplicationController
         else
           redirect_to admin_order_index_path, alert: 'Unable to mark the order as paid.'
         end
-      else
-        @order.cancel!
-        redirect_to admin_order_index_path, alert: 'Not enough coins to process the deduction. Order Cancelled.'
       end
     else
       if @order&.may_pay?
