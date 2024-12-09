@@ -13,7 +13,7 @@ class Client::ShopController < ApplicationController
     order = Order.new(
       user_id: current_client_user.id,
       offer_id: offer.id,
-      genre: params[:genre],
+      genre: 0,
       remarks: params[:remarks],
       state: 'pending',
       amount: offer.amount,
