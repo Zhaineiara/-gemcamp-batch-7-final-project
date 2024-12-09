@@ -10,20 +10,38 @@ class Admin::UserListController < ApplicationController
     @user = User.find(params[:id])
   end
 
-  def create
+  def create_increase
+    @user = User.find(params[:id])
+    order = Order.new(
+      user_id: @user.id,
+      genre: 'increase',
+      remarks: params[:order][:remarks].to_sym,
+      state: 'pending',
+      amount: params[:order][:amount],
+      coin: params[:order][:coin]
+    )
+
+    if order.save
+      flash[:notice] = 'Increase order created successfully!'
+      redirect_to admin_user_list_path(@user)
+    else
+      flash[:alert] = order.errors.full_messages.to_sentence
+      render :show
+    end
+  end
+
+  def create_deduct
     Rails.logger.debug("Submitted params: #{params[:order].inspect}")
     @order = Order.new(order_params)
     if @order.save
-      # Handle success
     else
       Rails.logger.debug("Order errors: #{@order.errors.full_messages}")
-      # Handle failure
     end
 
     @user = User.find(params[:id])
     order = Order.new(
       user_id: @user.id,
-      genre: 'increase',
+      genre: 'deduct',
       remarks: params[:order][:remarks].to_sym,
       state: 'pending',
       amount: params[:order][:amount],

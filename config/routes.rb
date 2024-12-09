@@ -22,9 +22,9 @@ Rails.application.routes.draw do
     namespace :admin do
       resources :user_list, only: [:index, :show]do
         member do
-          post 'increase', to: 'user_list#create', as: :create_increase
-          post 'deduct', to: 'user_list#create', as: :create_deduct
-          post 'bonus', to: 'user_list#create', as: :create_bonus
+          post 'increase', to: 'user_list#create_increase', as: :create_increase
+          post 'deduct', to: 'user_list#create_deduct', as: :create_deduct
+          post 'bonus', to: 'user_list#create_bonus', as: :create_bonus
         end
       end
 

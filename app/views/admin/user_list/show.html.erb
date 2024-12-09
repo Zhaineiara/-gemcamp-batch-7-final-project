@@ -46,21 +46,23 @@
 
             <!-- Deduct Tab -->
             <div class="tab-pane fade" id="deduct" role="tabpanel" aria-labelledby="deduct-tab">
-              <form action="#" method="post">
+              <%= form_with url: create_deduct_admin_user_list_path(@user), method: :post, local: true do |f| %>
                 <div class="mb-3">
-                  <label for="deduct-coins" class="form-label">Coins</label>
-                  <input type="text" id="deduct-coins" class="form-control">
+                  <%= f.label :coins, 'Coins', class: 'form-label' %>
+                  <%= f.number_field :coins, name: 'order[coin]', class: 'form-control', required: true %>
                 </div>
                 <div class="mb-3">
-                  <label for="deduct-genre" class="form-label">Genre</label>
-                  <input type="text" id="deduct-genre" class="form-control">
+                  <%= f.label :genre, 'Genre', class: 'form-label' %>
+                  <%= f.text_field :genre, value: 'deduct', class: 'form-control', readonly: true %>
                 </div>
                 <div class="mb-3">
-                  <label for="deduct-remarks" class="form-label">Remarks</label>
-                  <input type="text" id="deduct-remarks" class="form-control">
+                  <%= f.label :remarks, 'Remarks', class: 'form-label' %>
+                  <%= f.text_area :remarks, name: 'order[remarks]', class: 'form-control', required: true %>
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
+                <div class="mb-3">
+                  <%= f.submit 'Submit', class: 'btn btn-primary' %>
+                </div>
+              <% end %>
             </div>
 
             <!-- Bonus Tab -->
