@@ -30,6 +30,7 @@ class Admin::OrderController < ApplicationController
     @order = Order.find_by(id: params[:id])
     if @order&.may_submit?
       @order.submit!
+      @order.save
       redirect_to admin_order_index_path, notice: 'Order has been submitted.'
     else
       redirect_to admin_order_index_path, alert: 'Unable to submit the order.'
@@ -40,6 +41,7 @@ class Admin::OrderController < ApplicationController
     @order = Order.find_by(id: params[:id])
     if @order&.may_cancel?
       if @order.cancel
+        @order.save
         redirect_to admin_order_index_path, notice: 'Order has been cancelled.'
       else
         redirect_to admin_order_index_path, alert: @order.errors.full_messages.to_sentence
@@ -58,6 +60,7 @@ class Admin::OrderController < ApplicationController
       if @order.user.coins >= @order.coin
         if @order.may_pay?
           @order.pay!
+          @order.save
           redirect_to admin_order_index_path, notice: 'Order has been paid.'
         else
           redirect_to admin_order_index_path, alert: 'Unable to mark the order as paid.'
@@ -66,6 +69,7 @@ class Admin::OrderController < ApplicationController
     else
       if @order&.may_pay?
         @order.pay!
+        @order.save
         redirect_to admin_order_index_path, notice: 'Order has been paid.'
       else
         redirect_to admin_order_index_path, alert: 'Unable to mark the order as paid.'
