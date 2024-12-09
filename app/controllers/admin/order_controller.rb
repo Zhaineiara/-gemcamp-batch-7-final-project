@@ -18,8 +18,8 @@ class Admin::OrderController < ApplicationController
       @orders = @orders.where(created_at: start_date.beginning_of_day..end_date.end_of_day) if start_date && end_date
     end
 
-    @subtotal_amount = @orders.to_a.sum(&:amount)
-    @subtotal_coins = @orders.to_a.sum(&:coin)
+    @subtotal_amount = @orders.to_a.sum { |order| order.amount&.to_i || 0 }
+    @subtotal_coins = @orders.to_a.sum { |order| order.coin&.to_i || 0 }
 
     total_orders = Order.all
     @total_amount = total_orders.sum(:amount)

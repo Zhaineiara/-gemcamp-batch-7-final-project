@@ -20,7 +20,14 @@ Rails.application.routes.draw do
 
   constraints(AdminDomainConstraint.new) do
     namespace :admin do
-      resources :user_list, only: [:index, :show]
+      resources :user_list, only: [:index, :show]do
+        member do
+          post 'increase', to: 'user_list#create', as: :create_increase
+          post 'deduct', to: 'user_list#create', as: :create_deduct
+          post 'bonus', to: 'user_list#create', as: :create_bonus
+        end
+      end
+
       get 'ticket/index'
       get 'order/index'
       resources :invite_list, only: [:index]
@@ -49,21 +56,6 @@ Rails.application.routes.draw do
         registrations: 'admin/registrations',
         sessions: 'admin/sessions'
       }
-    end
-
-    namespace :users, only: [] do
-      resources :clients, only: [] do
-        member do
-          get 'orders/increase/new', to: 'orders#new', as: :new_increase
-          post 'orders/increase', to: 'orders#create', as: :create_increase
-
-          get 'orders/deduct/new', to: 'orders#new', as: :new_deduct
-          post 'orders/deduct', to: 'orders#create', as: :create_deduct
-
-          get 'orders/bonus/new', to: 'orders#new', as: :new_bonus
-          post 'orders/bonus', to: 'orders#create', as: :create_bonus
-        end
-      end
     end
     root 'admin/home#dashboard', as: :admin_root
   end

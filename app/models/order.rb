@@ -13,7 +13,7 @@ class Order < ApplicationRecord
   validates :remarks, length: { maximum: 500 }, allow_blank: true
 
   belongs_to :user
-  belongs_to :offer
+  belongs_to :offer, optional: true
 
   enum genre: { deposit: 0, increase: 1, deduct: 2, bonus: 3, share: 4 }
 

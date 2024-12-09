@@ -1,0 +1,113 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Balance Operate</h2>
+</div>
+
+<div class="container mt-4">
+  <div class="row">
+    <!-- Left Card -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <!-- Tabs -->
+          <ul class="nav nav-tabs mb-3" id="coinsTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="increase-tab" data-bs-toggle="tab" data-bs-target="#increase" type="button" role="tab" aria-controls="increase" aria-selected="true">Increase</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="deduct-tab" data-bs-toggle="tab" data-bs-target="#deduct" type="button" role="tab" aria-controls="deduct" aria-selected="false">Deduct</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link" id="bonus-tab" data-bs-toggle="tab" data-bs-target="#bonus" type="button" role="tab" aria-controls="bonus" aria-selected="false">Bonus</button>
+            </li>
+          </ul>
+
+          <!-- Tab Contents -->
+          <div class="tab-content" id="coinsTabContent">
+            <!-- Increase Tab -->
+            <div class="tab-pane fade show active" id="increase" role="tabpanel" aria-labelledby="increase-tab">
+              <%= form_with url: create_increase_admin_user_list_path(@user), method: :post, local: true do |f| %>
+                <div class="mb-3">
+                  <%= f.label :coins, 'Coins', class: 'form-label' %>
+                  <%= f.number_field :coins, name: 'order[coin]', class: 'form-control', required: true %>
+                </div>
+                <div class="mb-3">
+                  <%= f.label :genre, 'Genre', class: 'form-label' %>
+                  <%= f.text_field :genre, value: 'increase', class: 'form-control', readonly: true %>
+                </div>
+                <div class="mb-3">
+                  <%= f.label :remarks, 'Remarks', class: 'form-label' %>
+                  <%= f.text_area :remarks, name: 'order[remarks]', class: 'form-control', required: true %>
+                </div>
+                <div class="mb-3">
+                  <%= f.submit 'Submit', class: 'btn btn-primary' %>
+                </div>
+              <% end %>
+            </div>
+
+            <!-- Deduct Tab -->
+            <div class="tab-pane fade" id="deduct" role="tabpanel" aria-labelledby="deduct-tab">
+              <form action="#" method="post">
+                <div class="mb-3">
+                  <label for="deduct-coins" class="form-label">Coins</label>
+                  <input type="text" id="deduct-coins" class="form-control">
+                </div>
+                <div class="mb-3">
+                  <label for="deduct-genre" class="form-label">Genre</label>
+                  <input type="text" id="deduct-genre" class="form-control">
+                </div>
+                <div class="mb-3">
+                  <label for="deduct-remarks" class="form-label">Remarks</label>
+                  <input type="text" id="deduct-remarks" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+
+            <!-- Bonus Tab -->
+            <div class="tab-pane fade" id="bonus" role="tabpanel" aria-labelledby="bonus-tab">
+              <form action="#" method="post">
+                <div class="mb-3">
+                  <label for="bonus-coins" class="form-label">Coins</label>
+                  <input type="text" id="bonus-coins" class="form-control">
+                </div>
+                <div class="mb-3">
+                  <label for="bonus-genre" class="form-label">Genre</label>
+                  <input type="text" id="bonus-genre" class="form-control">
+                </div>
+                <div class="mb-3">
+                  <label for="bonus-remarks" class="form-label">Remarks</label>
+                  <input type="text" id="bonus-remarks" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Card -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" id="username" class="form-control" value="<%= @user.username %>" readonly>
+          </div>
+          <div class="mb-3">
+            <label for="promoter-name" class="form-label">Promoter Name</label>
+            <input type="text" id="promoter-name" class="form-control" value="<%= @user.parent&.username || 'N/A' %>" readonly>
+          </div>
+          <div class="mb-2">
+            <label for="coins" class="form-label">Coins</label>
+            <input type="text" id="coins" class="form-control" value="<%= @user.coins %>" readonly>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mt-4">
+  <%= link_to 'Back to User List', admin_user_list_index_path, class: 'btn btn-secondary' %>
+</div>
