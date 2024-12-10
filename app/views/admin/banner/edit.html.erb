@@ -1,0 +1,31 @@
+<h1>Edit Banner</h1>
+
+<%= form_with(model: @banner, url: admin_banner_path, method: :patch, local: true, class: 'form') do |form| %>
+  <div class="form-group">
+    <%= form.label :preview, "Banner Image" %>
+    <%= form.file_field :preview, class: 'form-control'%>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :online_at, "Online At" %>
+    <%= form.datetime_local_field :online_at, class: 'form-control', required: true %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :offline_at, "Offline At" %>
+    <%= form.datetime_local_field :offline_at, class: 'form-control', required: true %>
+  </div>
+
+  <div class="form-group mb-3">
+    <%= form.label :status, "Status", class: "form-label fw-bold" %>
+    <%= form.select :status, Banner.statuses.keys.map { |key| [key.titleize, key] }, {prompt: "Select Status"}, class: "form-control", required: true %>
+  </div>
+
+  <div class="form-group text-center">
+    <%= form.submit "Update Banner", class: "btn btn-primary w-100" %>
+  </div>
+
+  <div class="form-group text-center mt-3">
+    <%= link_to 'Back to Banner List', admin_banner_index_path, class: 'btn btn-success w-100' %>
+  </div>
+<% end %>

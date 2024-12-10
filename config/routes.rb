@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       resources :categories, except: :show
       resources :offers
       resources :news_tickers, except: :show
+      resources :banner, except: :show
 
       resources :orders, controller: 'order', only: [:index] do
         member do

@@ -1,0 +1,37 @@
+<%= render partial: 'admin/shared/flash_sign_in_out' %>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Banner List</h2>
+  <div class="d-flex ms-auto">
+    <%= link_to 'Add New Banner', new_admin_banner_path, class: 'btn btn-primary me-2' %>
+  </div>
+</div>
+
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <th>#</th>
+    <th>Preview</th>
+    <th>Online At</th>
+    <th>Offline At</th>
+    <th>Status</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @banners.each_with_index do |banner, numbering| %>
+    <tr>
+      <td><%= numbering + 1 %></td>
+      <td class="text-center"><%= image_tag banner.preview.url, width: "150px" if banner.preview.present? %></td>
+      <td><%= banner.online_at %></td>
+      <td><%= banner.online_at %></td>
+      <td><%= banner.status %></td>
+      <td class="text-center">
+        <div class="d-inline-flex gap-2">
+          <%= link_to 'Edit', edit_admin_banner_path(banner), class: 'btn btn-warning btn-sm' %>
+          <%= button_to 'Delete', admin_banner_path(banner), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-sm' %>
+        </div>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
