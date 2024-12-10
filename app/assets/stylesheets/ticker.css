@@ -25,7 +25,7 @@
 .news-ticker {
     display: inline-block;
     white-space: nowrap;
-    animation: ticker-scroll 60s linear infinite;
+    animation: ticker-scroll 20s linear infinite;
 }
 
 .news-item {
@@ -39,9 +39,9 @@
 /* Continuous scrolling animation */
 @keyframes ticker-scroll {
     0% {
-        transform: translateX(100%); /* Start off-screen on the right */
+        transform: translateX(0);
     }
     100% {
-        transform: translateX(-100%); /* Scroll to the left and loop */
+        transform: translateX(-50%); /* Halfway for seamless effect */
     }
 }
