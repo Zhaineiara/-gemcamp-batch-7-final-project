@@ -1,136 +1,86 @@
 <%= render partial: 'client/shared/flash_sign_in_out' %>
 <%= render 'client/shared/banner', banners: @banners %>
 
-<!--Card-->
-<div class="container my-4">
-  <!--Winners feedback-->
-  <h4 class="text-center mb-4">Winners Feedback</h4>
-  <!--Row1-->
-  <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-    <div class="col">
-      <div class="card h-100">
-        <img src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/01/bungou-stray-dogs-how-dazai-flips-the-anime-mentor-trope-on-its-head.jpg" class="card-img-top" alt="Item 1">
-        <div class="card-body">
-          <h5 class="card-title">Item 1 Title</h5>
-          <p class="card-text">Description for Item 1. This is a brief overview of the content.</p>
+<!-- Winners Feedback Section -->
+<div class="container mt-5">
+  <h4 class="text-center mb-4">Winners' Feedback</h4>
+  <div class="container">
+    <div class="row">
+      <% if @winners.empty? %>
+        <div class="col-12 text-center text-muted">
+          No feedback history available.
         </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <img src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2022/05/pjimage-148.jpg" class="card-img-top" alt="Item 2">
-        <div class="card-body">
-          <h5 class="card-title">Item 2 Title</h5>
-          <p class="card-text">Description for Item 2. This is a brief overview of the content.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <img src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/06/collage-maker-22-jun-2023-06-11-pm-2075.jpg" class="card-img-top" alt="Item 3">
-        <div class="card-body">
-          <h5 class="card-title">Item 3 Title</h5>
-          <p class="card-text">Description for Item 3. This is a brief overview of the content.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+      <% else %>
+        <% @winners.each do |winner| %>
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+              <!-- Image Section -->
+              <div class="p-3">
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                  <% if winner.picture.present? %>
+                    <%= image_tag winner.picture.url, class: "img-fluid rounded", alt: "Winner Image", style: "max-height: 100%; max-width: 100%;" %>
+                  <% else %>
+                    <span class="text-muted">No image available</span>
+                  <% end %>
+                </div>
+              </div>
+              <!-- Card Body -->
+              <div class="card-body">
+                <h5 class="card-title fw-bold">
+                  <%= winner.user&.username || "Anonymous" %>
+                </h5>
+                <p class="card-text">
+                  <%= winner.comment %>
+                </p>
+              </div>
+              <!-- Card Footer -->
+              <div class="card-footer d-flex justify-content-center gap-2">
+                <a href="#" class="btn btn-sm btn-info text-white">Share</a>
+                <a href="#" class="btn btn-sm btn-danger">Comment</a>
+              </div>
+            </div>
+          </div>
+        <% end %>
 
-  <!--Row2-->
-  <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-    <div class="col">
-      <div class="card h-100">
-        <img src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/01/bungou-stray-dogs-how-dazai-flips-the-anime-mentor-trope-on-its-head.jpg" class="card-img-top" alt="Item 1">
-        <div class="card-body">
-          <h5 class="card-title">Item 1 Title</h5>
-          <p class="card-text">Description for Item 1. This is a brief overview of the content.</p>
+        <div class="col-md-4 mb-4">
+          <%= link_to client_share_index_path, class: "text-decoration-none" do %>
+            <div class="card h-100 shadow-sm">
+              <div class="d-flex align-items-center justify-content-center h-100">
+                <h5 class="text-muted text-center">More...</h5>
+              </div>
+            </div>
+          <% end %>
         </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <img src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2022/05/pjimage-148.jpg" class="card-img-top" alt="Item 2">
-        <div class="card-body">
-          <h5 class="card-title">Item 2 Title</h5>
-          <p class="card-text">Description for Item 2. This is a brief overview of the content.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <img src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/06/collage-maker-22-jun-2023-06-11-pm-2075.jpg" class="card-img-top" alt="Item 3">
-        <div class="card-body">
-          <h5 class="card-title">Item 3 Title</h5>
-          <p class="card-text">Description for Item 3. This is a brief overview of the content.</p>
-        </div>
-      </div>
+      <% end %>
     </div>
   </div>
 </div>
 
 <!--Card-->
-<div class="container my-4">
-  <!--Coming soon-->
+<div class="container mt-5">
   <h4 class="text-center mb-4">Coming Soon</h4>
-  <!--Row1-->
-  <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-    <div class="col">
-      <div class="card h-100">
-        <img src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/01/bungou-stray-dogs-how-dazai-flips-the-anime-mentor-trope-on-its-head.jpg" class="card-img-top" alt="Item 1">
-        <div class="card-body">
-          <h5 class="card-title">Item 1 Title</h5>
-          <p class="card-text">Description for Item 1. This is a brief overview of the content.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <img src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2022/05/pjimage-148.jpg" class="card-img-top" alt="Item 2">
-        <div class="card-body">
-          <h5 class="card-title">Item 2 Title</h5>
-          <p class="card-text">Description for Item 2. This is a brief overview of the content.</p>
-        </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <img src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/06/collage-maker-22-jun-2023-06-11-pm-2075.jpg" class="card-img-top" alt="Item 3">
-        <div class="card-body">
-          <h5 class="card-title">Item 3 Title</h5>
-          <p class="card-text">Description for Item 3. This is a brief overview of the content.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-5">
+      <% @items.each do |item| %>
+        <div class="col">
+          <div class="card h-100">
+            <img src="<%= item.item_image.url if item.item_image.present? %>" class="card-img-top img-fluid p-2" alt="<%= item.name %>" style="height: 200px; object-fit: cover;">
+            <div class="card-body text-center">
+              <h5 class="card-title mb-3" style="font-weight: bold; color: #007bff;"><%= item.name %></h5>
 
-  <!--Row2-->
-  <div class="row row-cols-1 row-cols-md-3 g-4 mb-4">
-    <div class="col">
-      <div class="card h-100">
-        <img src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/01/bungou-stray-dogs-how-dazai-flips-the-anime-mentor-trope-on-its-head.jpg" class="card-img-top" alt="Item 1">
-        <div class="card-body">
-          <h5 class="card-title">Item 1 Title</h5>
-          <p class="card-text">Description for Item 1. This is a brief overview of the content.</p>
+              <%= link_to 'Buy Ticket', client_lottery_path(item), class: "btn btn-primary w-100 py-2", style: "font-size: 1.1rem;" %>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      <% end %>
+
     <div class="col">
-      <div class="card h-100">
-        <img src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2022/05/pjimage-148.jpg" class="card-img-top" alt="Item 2">
-        <div class="card-body">
-          <h5 class="card-title">Item 2 Title</h5>
-          <p class="card-text">Description for Item 2. This is a brief overview of the content.</p>
+      <%= link_to client_lottery_index_path, class: "text-decoration-none" do %>
+        <div class="card h-100 shadow-sm">
+          <div class="d-flex align-items-center justify-content-center h-100" style="height: 200px;">
+            <h5 class="text-muted text-center">More...</h5>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="col">
-      <div class="card h-100">
-        <img src="https://static1.cbrimages.com/wordpress/wp-content/uploads/2023/06/collage-maker-22-jun-2023-06-11-pm-2075.jpg" class="card-img-top" alt="Item 3">
-        <div class="card-body">
-          <h5 class="card-title">Item 3 Title</h5>
-          <p class="card-text">Description for Item 3. This is a brief overview of the content.</p>
-        </div>
-      </div>
+      <% end %>
     </div>
   </div>
 </div>
