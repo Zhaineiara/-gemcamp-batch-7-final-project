@@ -4,7 +4,7 @@ class Admin::BannerController < ApplicationController
   before_action :set_banner, only: [:edit, :update, :destroy]
 
   def index
-    @banners = Banner.all
+    @banners = Banner.order(status: :desc).page(params[:page]).per(10)
   end
 
   def new

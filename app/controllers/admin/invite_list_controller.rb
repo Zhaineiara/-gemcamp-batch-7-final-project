@@ -9,9 +9,10 @@ class Admin::InviteListController < ApplicationController
                  .select("users.*, parents.email AS parent_email")
                  .group("users.id, parents.email")
                  .order(:parent_email)
+                 .page(params[:page]).per(10)
 
     if params[:parent_email].present?
-      @users = @users.where("parents.email LIKE ?", "%#{params[:parent_email]}%")
+      @users = @users.where("parents.email LIKE ?", "%#{params[:parent_email]}%").page(params[:page]).per(10)
     end
 
     @total_used_coins = @users.map { |user| [user.id, Ticket.where(user_id: user.id).sum(:coins)] }.to_h
