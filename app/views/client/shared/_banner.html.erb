@@ -1,0 +1,64 @@
+<%= stylesheet_link_tag "ticker", "data-turbo-track": "reload" %>
+
+<!-- Banner -->
+<% if @banners.present? %>
+  <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" style="max-width: 1300px;">
+    <div class="carousel-inner">
+      <% @banners.each_with_index do |banner, index| %>
+        <div class="carousel-item <%= 'active' if index.zero? %>">
+          <%= image_tag banner.preview.url, class: "d-block w-100", alt: "Banner", style: "max-height: 300px; object-fit: cover;" if banner.preview.present? %>
+        </div>
+      <% end %>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+<% else %>
+  <p>No banners available.</p>
+<% end %>
+
+<!-- News Ticker -->
+<% if @news_tickers.present? %>
+  <div class="news-ticker-container" style="margin-top: 20px;">
+    <!-- Title -->
+    <div class="news-ticker-title">
+      <strong>Announcement:</strong>
+    </div>
+
+    <!-- Ticker Box -->
+    <div class="news-ticker-wrapper">
+      <div class="news-ticker">
+        <% @news_tickers.each do |news| %>
+          <span class="news-item"><%= news.content %></span>
+        <% end %>
+        <% @news_tickers.each do |news| %> <!-- Duplicate the content for seamless scroll -->
+          <span class="news-item"><%= news.content %></span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% else %>
+  <p>No news available.</p>
+<% end %>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const ticker = document.querySelector(".news-ticker");
+        const wrapper = document.querySelector(".news-ticker-wrapper");
+
+        wrapper.addEventListener("mouseenter", () => {
+            ticker.style.animationPlayState = "paused";
+        });
+
+        wrapper.addEventListener("mouseleave", () => {
+            ticker.style.animationPlayState = "running";
+        });
+    });
+</script>

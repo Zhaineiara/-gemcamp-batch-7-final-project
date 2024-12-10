@@ -3,6 +3,8 @@ class Client::ShareController < ApplicationController
 
   def index
     @winners = Winner.shared.page(params[:page]).per(10)
+    @banners = Banner.active.where("online_at <= ? AND offline_at > ?", Time.current, Time.current)
+    @news_tickers = NewsTicker.active.limit(5)
   end
 
   def edit
