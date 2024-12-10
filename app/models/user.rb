@@ -29,6 +29,7 @@ class User < ApplicationRecord
   has_many :tickets
   has_many :orders
   has_many :winners
+  has_many :news_tickers
 
   def default_address
     user_addresses.find_by(is_default: true)
