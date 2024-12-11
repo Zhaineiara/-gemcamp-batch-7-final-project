@@ -34,10 +34,12 @@
         <td><%= order.genre %></td>
         <td><%= order.created_at.strftime('%b %d, %Y') %></td>
         <td>
-          <% if order.cancelled? %>
-            <button class="btn btn-danger btn-sm" disabled>Cancelled Order</button>
-          <% else %>
+          <% if order.may_cancel? %>
+            <% if order.submitted? %>
             <%= button_to 'Cancel Order', cancel_client_order_path(order), method: :put, class: 'btn btn-danger btn-sm d-inline' %>
+            <% end %>
+          <% elsif order.cancelled? %>
+            <span class="text-muted">Cancelled</span>
           <% end %>
         </td>
       </tr>

@@ -2,15 +2,21 @@ class Client::OrdersController < ApplicationController
   layout 'client'
 
   def index
-    @orders = current_client_user.orders.page(params[:page]).per(10)
+    @orders = current_client_user.orders.order(created_at: :desc).page(params[:page]).per(10)
   end
 
   def cancel
     @order = Order.find(params[:id])
 
     if @order&.may_cancel? && sufficient_balance?(@order)
-      @order.cancel!
-      redirect_to client_orders_path, notice: 'Order has been cancelled.'
+      if current_client_user && @order.pending?
+        redirect_to client_orders_path, notice: "Can't cancel pending order"
+      elsif current_client_user && @order.paid?
+        redirect_to client_orders_path, notice: "Can't cancel paid order"
+      else
+        @order.cancel!
+        redirect_to client_orders_path, notice: 'Order has been cancelled.'
+      end
     else
       redirect_to client_orders_path, alert: 'Unable to cancel the order due to insufficient coin balance or deposit balance'
     end
