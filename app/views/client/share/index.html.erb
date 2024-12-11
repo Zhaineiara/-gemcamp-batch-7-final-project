@@ -21,19 +21,15 @@
                 <% end %>
               </div>
             </div>
-            <!-- Card Body -->
-            <div class="card-body">
+
+            <!-- Card Footer -->
+            <div class="card-footer justify-content-center gap-2">
               <h5 class="card-title fw-bold">
                 <%= winner.user&.username || "Anonymous" %>
               </h5>
               <p class="card-text">
                 <%= winner.comment %>
               </p>
-            </div>
-            <!-- Card Footer -->
-            <div class="card-footer d-flex justify-content-center gap-2">
-              <a href="#" class="btn btn-sm btn-info text-white">Share</a>
-              <a href="#" class="btn btn-sm btn-danger">Comment</a>
             </div>
           </div>
         </div>
