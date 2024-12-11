@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
   constraints(AdminDomainConstraint.new) do
     namespace :admin do
-      resources :user_list, only: [:index, :show]do
+      resources :user_list, only: [:index, :show] do
         member do
           post 'increase', to: 'user_list#create_increase', as: :create_increase
           post 'deduct', to: 'user_list#create_deduct', as: :create_deduct
@@ -36,6 +36,7 @@ Rails.application.routes.draw do
       resources :offers
       resources :news_tickers, except: :show
       resources :banner, except: :show
+      resources :winners, only: [:index]
 
       resources :orders, controller: 'order', only: [:index] do
         member do
@@ -51,6 +52,19 @@ Rails.application.routes.draw do
           put :pause
           put :end
           put :cancel
+        end
+      end
+
+      resources :winners do
+        member do
+          put :claim
+          put :submit
+          put :pay
+          put :ship
+          put :deliver
+          put :share
+          put :publish
+          put :remove_publish
         end
       end
 

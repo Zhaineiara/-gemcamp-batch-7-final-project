@@ -1,0 +1,74 @@
+<%= render partial: 'admin/shared/flash_sign_in_out' %>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Winner List</h2>
+</div>
+
+<table class="table table-striped table-bordered mt-5 table-responsive">
+  <thead class="thead-dark">
+  <tr>
+    <th>#</th>
+    <th>Item Name</th>
+    <th>Ticket Serial Number</th>
+    <th>Email</th>
+    <th>Address</th>
+    <th>Batch Count</th>
+    <th>State</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @winners.each_with_index do |winner, numbering| %>
+    <tr>
+      <td><%= numbering + 1 %></td>
+      <td><%= winner.item&.name %></td>
+      <td><%= winner.ticket&.serial_number %></td>
+      <td><%= winner.user&.email %></td>
+      <td><%= "#{winner.user_address&.barangay.name}, #{winner.user_address&.city.name}, #{winner.user_address&.province.name}, #{winner.user_address&.region.name}" %></td>
+      <td><%= winner.item_batch_count %></td>
+      <td><%= winner.state %></td>
+
+      <td>
+        <%= button_to 'Claim', claim_admin_winner_path(winner), method: :put, class: 'btn btn-primary btn-sm d-inline' %>
+        <%= button_to 'Submit', submit_admin_winner_path(winner), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
+        <%= button_to 'Pay', pay_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm d-inline' %>
+        <%= button_to 'Ship', ship_admin_winner_path(winner), method: :put, class: 'btn btn-primary btn-sm d-inline' %>
+        <%= button_to 'Deliver', deliver_admin_winner_path(winner), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
+        <%= button_to 'Publish', publish_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm d-inline' %>
+        <%= button_to 'Remove Publish', remove_publish_admin_winner_path(winner), method: :put, class: 'btn btn-danger btn-sm d-inline' %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<div class="mt-4 d-flex justify-content-center mb-5">
+  <ul class="pagination">
+    <li class="page-item <%= 'disabled' if @winners.first_page? %>">
+      <%= link_to 'First', request.params.merge(page: 1), class: 'page-link' %>
+    </li>
+
+    <li class="page-item <%= 'disabled' if @winners.first_page? %>">
+      <%= link_to 'Previous', request.params.merge(page: @winners.prev_page), class: 'page-link' %>
+    </li>
+
+    <%
+      start_page = [@winners.current_page - 1, 1].max
+      end_page = [start_page + 2, @winners.total_pages].min
+      start_page = [end_page - 2, 1].max
+    %>
+    <% (start_page..end_page).each do |page| %>
+      <li class="page-item <%= 'active' if page == @winners.current_page %>">
+        <%= link_to page, request.params.merge(page: page), class: 'page-link' %>
+      </li>
+    <% end %>
+
+    <li class="page-item <%= 'disabled' if @winners.last_page? %>">
+      <%= link_to 'Next', request.params.merge(page: @winners.next_page), class: 'page-link' %>
+    </li>
+
+    <li class="page-item <%= 'disabled' if @winners.last_page? %>">
+      <%= link_to 'Last', request.params.merge(page: @winners.total_pages), class: 'page-link' %>
+    </li>
+  </ul>
+</div>

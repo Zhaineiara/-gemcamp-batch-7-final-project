@@ -37,7 +37,7 @@ class Winner < ApplicationRecord
     end
 
     event :publish do
-      transitions from: [:share, :remove_published], to: :published
+      transitions from: [:shared, :remove_published], to: :published
     end
 
     event :remove_publish do
