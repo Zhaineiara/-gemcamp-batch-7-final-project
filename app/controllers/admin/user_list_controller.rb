@@ -1,9 +1,48 @@
 class Admin::UserListController < ApplicationController
   layout 'admin'
   before_action :authenticate_admin_user!
+  require 'csv'
 
   def index
     @users = User.where(role: 0).includes(:children).page(params[:page]).per(10)
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        csv_string = CSV.generate(headers: true) do |csv|
+          # Add header row
+          csv << [
+            User.human_attribute_name(:id),
+            User.human_attribute_name(:firstname),
+            User.human_attribute_name(:lastname),
+            User.human_attribute_name(:email),
+            User.human_attribute_name(:phone),
+            'Parent Email',
+            'Total Deposit',
+            'Member Total Deposits',
+            User.human_attribute_name(:coins),
+            'Children Members'
+          ]
+
+          # Add user rows
+          @users.each do |user|
+            csv << [
+              user.id,
+              user.firstname,
+              user.lastname,
+              user.email,
+              user.phone,
+              user.parent&.email || 'N/A',
+              user.total_deposit,
+              user.children.present? ? user.children.sum { |child| child.total_deposit || 0 } : 0,
+              user.coins,
+              user.children_members || 0
+            ]
+          end
+        end
+        send_data csv_string, filename: "user_list_#{Date.today}.csv"
+      end
+    end
   end
 
   def show
