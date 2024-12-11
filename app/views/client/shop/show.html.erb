@@ -19,7 +19,6 @@
         <%= form_with url: client_shop_index_path(offer_id: @offer), method: :post, local: true do |f| %>
           <div class="form-group">
             <%= f.text_field :genre, value: 'Deposit', class: 'form-control mb-3', readonly: true %>
-            <%= f.text_area :remarks, placeholder: "Add any remarks (optional)", class: "form-control mb-2" %>
           </div>
 
             <%= f.submit 'Place Order', class: 'btn btn-primary mt-3 mb-3 w-100' %>

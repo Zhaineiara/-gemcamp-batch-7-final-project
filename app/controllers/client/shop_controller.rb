@@ -16,7 +16,6 @@ class Client::ShopController < ApplicationController
       user_id: current_client_user.id,
       offer_id: offer.id,
       genre: 0,
-      remarks: params[:remarks],
       amount: offer.amount,
       coin: offer.coin
     )
