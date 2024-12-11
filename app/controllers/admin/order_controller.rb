@@ -2,6 +2,7 @@ class Admin::OrderController < ApplicationController
   layout 'admin'
   before_action :authenticate_admin_user!
   before_action :set_order, only: [:submit, :cancel, :pay]
+  require 'csv'
 
   def index
     @orders = Order.includes(:offer, :user).order(created_at: :asc).page(params[:page]).per(10)
@@ -24,6 +25,42 @@ class Admin::OrderController < ApplicationController
     total_orders = Order.all
     @total_amount = total_orders.sum(:amount)
     @total_coins = total_orders.sum(:coin)
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        csv_string = CSV.generate(headers: true) do |csv|
+          csv << [
+            Order.human_attribute_name(:id),
+            'Offer',
+            'Customer',
+            'Serial Number',
+            'State',
+            'Amount',
+            'Coins',
+            'Remark',
+            'Genre',
+            'Created at',
+          ]
+
+          @orders.each do |order|
+            csv << [
+              order.id,
+              order.offer&.name,
+              order.user.email,
+              order.serial_number,
+              order.state,
+              order.amount,
+              order.coin,
+              order.remarks,
+              order.genre,
+              order.created_at.strftime('%Y-%m-%d %H:%M:%S')
+            ]
+          end
+        end
+        send_data csv_string, filename: "order_list_#{Date.today}.csv"
+      end
+    end
   end
 
   def submit
