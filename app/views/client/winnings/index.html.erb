@@ -42,10 +42,11 @@
           <% end %>
         </td>
         <td>
-          <% if winner.shared? %>
-            <button class="btn btn-danger btn-sm" disabled>Shared</button>
-          <% else %>
+
+          <% if winner.may_share? %>
             <%= link_to "Share", edit_client_share_path(winner), class: "btn btn-danger btn-sm" %>
+          <% elsif winner.shared? %>
+            <span class="text-muted">Shared</span>
           <% end %>
         </td>
       </tr>
