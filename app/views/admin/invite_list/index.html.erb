@@ -2,6 +2,8 @@
   <h2>Invite List</h2>
 </div>
 
+<%= link_to 'Export as CSV', admin_invite_list_index_path(format: :csv), class: 'btn btn-primary' %>
+
 <%= form_with url: admin_invite_list_index_path, method: :get, local: true, class: "mb-4" do |f| %>
   <div class="input-group">
     <%= f.label :parent_email, "Search by Parent Email", class: "form-label" %>
