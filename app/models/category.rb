@@ -1,6 +1,5 @@
 class Category < ApplicationRecord
   default_scope { where(deleted_at: nil) }
-  scope :deleted, -> { where.not(deleted_at: nil) }
 
   validates :name, presence: true
 
