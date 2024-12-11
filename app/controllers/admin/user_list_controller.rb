@@ -60,6 +60,7 @@ class Admin::UserListController < ApplicationController
     )
 
     if order.save
+      order.pay!
       flash[:notice] = 'Increase order created successfully!'
       redirect_to admin_user_list_path(@user)
     else
@@ -85,12 +86,21 @@ class Admin::UserListController < ApplicationController
       coin: params[:order][:coin]
     )
 
-    if order.save
-      flash[:notice] = 'Deduct order created successfully!'
-      redirect_to admin_user_list_path(@user)
+    if order.user.coins >= order.coin
+      if order.may_pay?
+        order.pay!
+        order.save
+        redirect_to admin_user_list_path, notice: 'Deduct order created successfully!'
+      else
+        flash[:alert] = order.errors.full_messages.to_sentence
+        redirect_to admin_order_index_path, alert: 'Unable to mark the order as deduct.'
+      end
     else
-      flash[:alert] = order.errors.full_messages.to_sentence
-      render :show
+      if order.may_cancel?
+        order.cancel!
+        order.save
+        redirect_to admin_user_list_path, alert: 'Insufficient coins to proceed deduction. Order cancelled.'
+      end
     end
   end
 
