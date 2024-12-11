@@ -2,9 +2,42 @@ class Admin::ItemsController < ApplicationController
   layout 'admin'
   before_action :authenticate_admin_user!
   before_action :set_item, only: [:show, :edit, :update, :destroy]
+  require 'csv'
 
   def index
     @items = Item.includes(:categories).order(:name).page(params[:page]).per(5)
+
+    respond_to do |format|
+      format.html # For the HTML view
+      format.csv do
+        csv_string = CSV.generate(headers: true) do |csv|
+          # Add header row
+          csv << [
+            'Name', 'Image', 'Quantity', 'Minimum Tickets', 'State',
+            'Batch Count', 'Online At', 'Offline At', 'Start At',
+            'Status', 'Categories'
+          ]
+
+          # Add data rows
+          @items.each do |item|
+            csv << [
+              item.name,
+              item.item_image.url,
+              item.quantity,
+              item.minimum_tickets,
+              item.state,
+              item.batch_count,
+              item.online_at,
+              item.offline_at,
+              item.start_at,
+              item.status,
+              item.categories.pluck(:name).join(', ')
+            ]
+          end
+        end
+        send_data csv_string, filename: "items_list_#{Date.today}.csv"
+      end
+      end
   end
 
   def show

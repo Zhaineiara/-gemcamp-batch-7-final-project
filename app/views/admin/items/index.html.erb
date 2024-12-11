@@ -3,6 +3,7 @@
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h2>Item List</h2>
   <div class="d-flex ms-auto">
+    <%= link_to 'Export as CSV', admin_items_path(format: :csv), class: 'btn btn-secondary me-2' %>
     <%= link_to 'New Item', new_admin_item_path, class: 'btn btn-primary me-2' %>
     <%= link_to 'View   Category', admin_categories_path, class: 'btn btn-success' %>
   </div>
