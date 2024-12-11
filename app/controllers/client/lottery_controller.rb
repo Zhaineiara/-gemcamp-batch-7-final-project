@@ -6,14 +6,12 @@ class Client::LotteryController < ApplicationController
     @categories = Category.order(:name)
 
     if params[:category_id].present?
-      @items = Item.includes(:categories)
-                   .where(status: 'active', state: 'starting')
+      @items = Item.active.starting.includes(:categories)
                    .where(categories: { id: params[:category_id] })
                    .order(:name)
                    .page(params[:page]).per(10)
     else
-      @items = Item.includes(:categories)
-                   .where(status: 'active', state: 'starting')
+      @items = Item.active.starting.includes(:categories)
                    .order(:name)
                    .page(params[:page]).per(10)
     end

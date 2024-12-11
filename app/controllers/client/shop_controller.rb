@@ -3,7 +3,7 @@ class Client::ShopController < ApplicationController
   layout 'client'
 
   def index
-    @offers = Offer.where(status: 'active').order(:name).page(params[:page]).per(10)
+    @offers = Offer.active.order(:name).page(params[:page]).per(10)
     @banners = Banner.active.where("online_at <= ? AND offline_at > ?", Time.current, Time.current)
     @news_tickers = NewsTicker.active.limit(5)
   end
@@ -17,7 +17,6 @@ class Client::ShopController < ApplicationController
       offer_id: offer.id,
       genre: 0,
       remarks: params[:remarks],
-      state: 'pending',
       amount: offer.amount,
       coin: offer.coin
     )

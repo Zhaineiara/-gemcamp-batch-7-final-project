@@ -16,7 +16,6 @@ class Admin::UserListController < ApplicationController
       user_id: @user.id,
       genre: 'increase',
       remarks: params[:order][:remarks].to_sym,
-      state: 'pending',
       amount: params[:order][:amount],
       coin: params[:order][:coin]
     )
@@ -43,7 +42,6 @@ class Admin::UserListController < ApplicationController
       user_id: @user.id,
       genre: 'deduct',
       remarks: params[:order][:remarks].to_sym,
-      state: 'pending',
       amount: params[:order][:amount],
       coin: params[:order][:coin]
     )
