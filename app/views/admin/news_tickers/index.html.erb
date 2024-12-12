@@ -13,6 +13,7 @@
     <th>#</th>
     <th>Content</th>
     <th>State</th>
+    <th>Sort</th>
     <th>Admin</th>
     <th>Actions</th>
   </tr>
@@ -23,6 +24,13 @@
       <td><%= numbering + 1 %></td>
       <td><%= news_ticker.content %></td>
       <td><%= news_ticker.status %></td>
+      <td>
+        <% if news_ticker.sort == 0 %>
+          Default
+        <% else %>
+          <%= news_ticker.sort %>
+        <% end %>
+      </td>
       <td><%= news_ticker.admin.email %></td>
       <td class="text-center">
         <div class="d-inline-flex gap-2">

@@ -2,9 +2,10 @@ class Admin::NewsTickersController < ApplicationController
   layout 'admin'
   before_action :authenticate_admin_user!
   before_action :set_news_ticker, only: [:edit, :update, :destroy]
+  before_action :set_available_sort_values, only: [:new, :edit]
 
   def index
-    @news_tickers = NewsTicker.order(status: :desc).page(params[:page]).per(10)
+    @news_tickers = NewsTicker.order(sort: :asc).page(params[:page]).per(10)
   end
 
   def new
@@ -46,6 +47,13 @@ class Admin::NewsTickersController < ApplicationController
   end
 
   def news_ticker_params
-    params.require(:news_ticker).permit(:content, :status)
+    params.require(:news_ticker).permit(:content, :status, :sort)
+  end
+
+  def set_available_sort_values
+    taken_sort_values = NewsTicker.where.not(sort: nil).pluck(:sort)
+    max_sort = NewsTicker.count
+    @available_sort_values = (1..max_sort).to_a - taken_sort_values
+    @available_sort_values.unshift(["Default", 0])
   end
 end

@@ -11,6 +11,11 @@
     <%= form.select :status, NewsTicker.statuses.keys.map { |key| [key.titleize, key] }, {prompt: "Select Status"}, class: "form-control", required: true %>
   </div>
 
+  <div class="mb-3">
+    <%= form.label :sort, 'Sort Order', class: 'form-label' %>
+    <%= form.select :sort, @available_sort_values || [], {}, class: 'form-select' %>
+  </div>
+
   <div class="form-group text-center">
     <%= form.submit "Create News Ticker", class: "btn btn-primary w-100" %>
   </div>
