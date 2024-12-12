@@ -15,5 +15,38 @@ class Admin::TicketController < ApplicationController
       @tickets = @tickets.where('created_at >= ?', start_date.beginning_of_day).page(params[:page]).per(10) if start_date
       @tickets = @tickets.where('created_at <= ?', end_date.end_of_day).page(params[:page]).per(10) if end_date
     end
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        csv_string = CSV.generate(headers: true) do |csv|
+          # Add header row
+          csv << [
+            Ticket.human_attribute_name(:id),
+            'Item Name',
+            'User Email',
+            'Batch Count',
+            'Coin',
+            Ticket.human_attribute_name(:serial_number),
+            Ticket.human_attribute_name(:state),
+            Ticket.human_attribute_name(:created_at)
+          ]
+
+          @tickets.each do |ticket|
+            csv << [
+              ticket.id,
+              ticket.item&.name || 'N/A',
+              ticket.user&.email || 'N/A',
+              ticket.batch_count || 'N/A',
+              ticket.coins || 'N/A',
+              ticket.serial_number || 'N/A',
+              ticket.state || 'N/A',
+              ticket.created_at
+            ]
+          end
+        end
+        send_data csv_string, filename: "tickets_#{Date.today}.csv"
+      end
+    end
   end
 end
