@@ -98,9 +98,42 @@
       <td><%= order.genre %></td>
       <td><%= order.created_at.strftime("%B %d, %Y") %></td>
       <td>
-        <%= button_to 'Submit', submit_admin_order_path(order), method: :put, data: { confirm: 'Are you sure you want to submit?' }, class: 'btn btn-primary btn-sm d-inline' %>
-        <%= button_to 'Cancel', cancel_admin_order_path(order), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
-        <%= button_to 'Pay', pay_admin_order_path(order), method: :put, class: 'btn btn-success btn-sm d-inline' %>
+        <% if order.deposit? %>
+          <% if order.pending? %>
+            <%= button_to 'Submit', submit_admin_order_path(order), method: :put, class: 'btn btn-primary btn-sm d-inline' %>
+            <%= button_to 'Cancel', cancel_admin_order_path(order), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
+          <% end %>
+
+          <% if order.submitted? %>
+            <%= button_to 'Pay', pay_admin_order_path(order), method: :put, class: 'btn btn-success btn-sm d-inline' %>
+          <% end %>
+
+          <% if order.paid? %>
+            <%= button_to 'Cancel', cancel_admin_order_path(order), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
+          <% end %>
+
+          <% if order.cancelled? %>
+            <span class="text-muted">Order Cancelled</span>
+          <% end %>
+
+        <% elsif order.increase? || order.deduct? %>
+          <% if order.pending? %>
+            <%= button_to 'Cancel', cancel_admin_order_path(order), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
+            <%= button_to 'Pay', pay_admin_order_path(order), method: :put, class: 'btn btn-success btn-sm d-inline' %>
+          <% end %>
+
+          <% if order.submitted? %>
+            <%= button_to 'Pay', pay_admin_order_path(order), method: :put, class: 'btn btn-success btn-sm d-inline' %>
+          <% end %>
+
+          <% if order.paid? %>
+            <%= button_to 'Cancel', cancel_admin_order_path(order), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
+          <% end %>
+
+          <% if order.cancelled? %>
+            <span class="text-muted">Order Cancelled</span>
+          <% end %>
+        <% end %>
       </td>
     </tr>
   <% end %>
@@ -110,14 +143,12 @@
 <div class="card mt-3">
   <div class="card-body">
     <div class="d-flex justify-content-between">
-      <!-- Subtotal Section -->
       <div>
         <h5 class="card-title">Subtotal:</h5>
         <p class="card-text">Amount: <%= number_to_currency(@subtotal_amount, unit: "₱", precision: 2) %></p>
         <p class="card-text">Coins: <%= @subtotal_coins %></p>
       </div>
 
-      <!-- Total Section -->
       <div>
         <h5 class="card-title">Total:</h5>
         <p class="card-text">Amount: <%= number_to_currency(@total_amount, unit: "₱", precision: 2) %></p>

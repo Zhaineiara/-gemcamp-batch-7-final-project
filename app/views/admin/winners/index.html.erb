@@ -29,13 +29,29 @@
       <td><%= winner.state %></td>
 
       <td>
-        <%= button_to 'Claim', claim_admin_winner_path(winner), method: :put, class: 'btn btn-primary btn-sm d-inline' %>
-        <%= button_to 'Submit', submit_admin_winner_path(winner), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
-        <%= button_to 'Pay', pay_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm d-inline' %>
-        <%= button_to 'Ship', ship_admin_winner_path(winner), method: :put, class: 'btn btn-primary btn-sm d-inline' %>
-        <%= button_to 'Deliver', deliver_admin_winner_path(winner), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
-        <%= button_to 'Publish', publish_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm d-inline' %>
-        <%= button_to 'Remove Publish', remove_publish_admin_winner_path(winner), method: :put, class: 'btn btn-danger btn-sm d-inline' %>
+        <% if winner.claimed? %>
+          <%= button_to 'Submit', submit_admin_winner_path(winner), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
+        <% end %>
+
+        <% if winner.submitted? %>
+          <%= button_to 'Pay', pay_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm d-inline' %>
+        <% end %>
+
+        <% if winner.paid? %>
+          <%= button_to 'Ship', ship_admin_winner_path(winner), method: :put, class: 'btn btn-primary btn-sm d-inline' %>
+        <% end %>
+
+        <% if winner.shipped? %>
+          <%= button_to 'Deliver', deliver_admin_winner_path(winner), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
+        <% end %>
+
+        <% if winner.shared? %>
+          <%= button_to 'Publish', publish_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm d-inline' %>
+        <% end %>
+
+        <% if winner.published? %>
+          <%= button_to 'Remove Publish', remove_publish_admin_winner_path(winner), method: :put, class: 'btn btn-danger btn-sm d-inline' %>
+        <% end %>
       </td>
     </tr>
   <% end %>
