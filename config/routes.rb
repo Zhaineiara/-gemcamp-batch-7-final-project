@@ -36,7 +36,7 @@ Rails.application.routes.draw do
       resources :offers
       resources :news_tickers, except: :show
       resources :banner, except: :show
-      resources :winners, only: [:index]
+      resources :winners, only: [:index, :show]
 
       resources :orders, controller: 'order', only: [:index] do
         member do

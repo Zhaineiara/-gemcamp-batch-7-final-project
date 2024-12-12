@@ -1,0 +1,23 @@
+<div class="container d-flex justify-content-center align-items-center mb-5">
+  <div class="card bg-light text-dark p-4 position-relative" style="width: 100%; max-width: 500px;">
+    <%= link_to "", admin_winners_path, class: "btn-close position-absolute top-0 end-0 m-3", aria: { label: "Close" } %>
+    <h3 class="text-center mb-4">Winning Details</h3>
+
+    <div class="form-group text-center">
+      <% if @winner.picture.present? %>
+        <div class="mt-2">
+          <%= image_tag @winner.picture.url, alt: 'Winning Image', class: 'img-fluid rounded shadow' %>
+        </div>
+      <% else %>
+        <p class="text-muted">No image uploaded.</p>
+      <% end %>
+    </div>
+
+    <div class="form-group">
+      <label for="comment" class="form-label fw-bold">Comment:</label>
+      <p class="text-dark border rounded p-3">
+        <%= @winner.comment.presence || 'No comment provided.' %>
+      </p>
+    </div>
+  </div>
+</div>

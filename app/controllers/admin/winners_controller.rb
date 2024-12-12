@@ -7,6 +7,10 @@ class Admin::WinnersController < ApplicationController
     @winners = Winner.order(created_at: :desc).page(params[:page]).per(10)
   end
 
+  def show
+    @winner = Winner.find(params[:id])
+  end
+
   def claim
     @winners = Winner.find_by(id: params[:id])
     if @winners&.may_claim?
@@ -92,5 +96,9 @@ class Admin::WinnersController < ApplicationController
 
   def set_order
     @order = Order.find(params[:id])
+  end
+
+  def winner_params
+    params.require(:winner).permit(:comment, :picture)
   end
 end

@@ -46,10 +46,12 @@
         <% end %>
 
         <% if winner.shared? %>
+          <%= link_to 'Show Feedback', admin_winner_path(winner), class: 'btn btn-secondary mb-2' %>
           <%= button_to 'Publish', publish_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm d-inline' %>
         <% end %>
 
         <% if winner.published? %>
+          <%= link_to 'Show Feedback', admin_winner_path(winner), class: 'btn btn-secondary mb-2' %>
           <%= button_to 'Remove Publish', remove_publish_admin_winner_path(winner), method: :put, class: 'btn btn-danger btn-sm d-inline' %>
         <% end %>
       </td>
