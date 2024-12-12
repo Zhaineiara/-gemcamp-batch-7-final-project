@@ -5,6 +5,40 @@ class Admin::WinnersController < ApplicationController
 
   def index
     @winners = Winner.order(created_at: :desc).page(params[:page]).per(10)
+
+    respond_to do |format|
+      format.html
+      format.csv do
+        headers = [
+          "Item ID", "Ticket ID", "User ID", "Address ID", "Item Batch Count",
+          "State", "Price", "Paid At", "Admin ID", "Picture", "Comment",
+          "Created At", "Updated At"
+        ]
+
+        csv_data = CSV.generate(headers: true) do |csv|
+          csv << headers
+          @winners.each do |winner|
+            csv << [
+              winner.item_id,
+              winner.ticket_id,
+              winner.user_id,
+              winner.address_id || 'N/A',
+              winner.item_batch_count,
+              winner.state,
+              winner.price,
+              winner.paid_at,
+              winner.admin_id || 'N/A',
+              winner.picture || 'N/A',
+              winner.comment || 'N/A',
+              winner.created_at,
+              winner.updated_at
+            ]
+          end
+        end
+
+        send_data csv_data, filename: "winners-#{Date.today}.csv"
+      end
+    end
   end
 
   def show
