@@ -4,7 +4,7 @@ class Admin::WinnersController < ApplicationController
   before_action :set_order, only: [:claim, :submit, :pay, :ship, :deliver, :share, :publish, :remove_publish]
 
   def index
-    @winners = Winner.order(created_at: :asc).page(params[:page]).per(10)
+    @winners = Winner.order(created_at: :desc).page(params[:page]).per(10)
   end
 
   def claim

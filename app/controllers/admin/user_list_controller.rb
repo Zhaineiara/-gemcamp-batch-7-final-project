@@ -4,7 +4,7 @@ class Admin::UserListController < ApplicationController
   require 'csv'
 
   def index
-    @users = User.where(role: 0).includes(:children).page(params[:page]).per(10)
+    @users = User.client.includes(:children).order(created_at: :desc).page(params[:page]).per(10)
 
     respond_to do |format|
       format.html

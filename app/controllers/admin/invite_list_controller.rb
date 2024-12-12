@@ -9,7 +9,7 @@ class Admin::InviteListController < ApplicationController
                  .joins("LEFT JOIN users parents ON users.parent_id = parents.id")
                  .select("users.*, parents.email AS parent_email")
                  .group("users.id, parents.email")
-                 .order(:parent_email)
+                 .order(created_at: :desc)
                  .page(params[:page]).per(10)
 
     if params[:parent_email].present?

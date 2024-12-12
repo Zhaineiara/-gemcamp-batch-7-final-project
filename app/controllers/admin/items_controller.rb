@@ -5,7 +5,7 @@ class Admin::ItemsController < ApplicationController
   require 'csv'
 
   def index
-    @items = Item.includes(:categories).order(:name).page(params[:page]).per(5)
+    @items = Item.includes(:categories).order(created_at: :desc).page(params[:page]).per(5)
 
     respond_to do |format|
       format.html # For the HTML view
