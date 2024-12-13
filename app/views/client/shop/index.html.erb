@@ -1,3 +1,19 @@
+<div class="alert-container">
+  <% if flash[:error] %>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="alert">
+      <%= flash[:error] %>
+    </div>
+    <script>
+        setTimeout(function () {
+            var error = document.getElementById('error');
+            if (error) {
+                error.style.display = 'none';
+            }
+        }, 3000);
+    </script>
+  <% end %>
+</div>
+
 <%= render 'client/shared/banner', banners: @banners %>
 
 <!-- Cards -->

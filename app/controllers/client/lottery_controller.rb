@@ -30,7 +30,7 @@ class Client::LotteryController < ApplicationController
 
     if current_client_user.coins < number_of_tickets
       flash[:error] = "Insufficient coins. You need #{number_of_tickets - current_client_user.coins} more coin(s) to complete this purchase."
-      redirect_to client_lottery_path(item) and return
+      redirect_to client_shop_index_path, flash: { error: flash[:error] } and return
     end
 
     number_of_tickets.times do

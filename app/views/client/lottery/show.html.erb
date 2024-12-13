@@ -57,6 +57,18 @@
 
       <!-- Ticket Count Controls -->
       <% if client_user_signed_in? %>
+        <div class="row text-center mb-3">
+          <div class="d-flex justify-content-center">
+            <!-- Form for Quick Increase Buttons -->
+            <% [1, 5, 10, 20].each do |value| %>
+              <%= form_with model: @item, url: client_lottery_index_path(item_id: @item), method: :post, class: "d-inline-block mx-1" do |f| %>
+                <%= f.hidden_field :minimum_tickets, id: 'ticket-count', class: 'form-control', min: 1, required: true, value: value %>
+                <%= f.submit "+#{value}", class: "btn btn-secondary" %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+
         <%= form_with model: @item, url: client_lottery_index_path(item_id: @item), method: :post, class: "ticket-form" do |f| %>
           <div class="row text-center mb-3">
             <div class="d-flex justify-content-center align-items-center">
