@@ -14,6 +14,7 @@
     <th>Preview</th>
     <th>Online At</th>
     <th>Offline At</th>
+    <th>Sort</th>
     <th>Status</th>
   </tr>
   </thead>
@@ -24,6 +25,13 @@
       <td class="text-center"><%= image_tag banner.preview.url, width: "150px" if banner.preview.present? %></td>
       <td><%= banner.online_at %></td>
       <td><%= banner.online_at %></td>
+      <td>
+        <% if banner.sort == 0 %>
+          Default
+        <% else %>
+          <%= banner.sort %>
+        <% end %>
+      </td>
       <td><%= banner.status %></td>
       <td class="text-center">
         <div class="d-inline-flex gap-2">
