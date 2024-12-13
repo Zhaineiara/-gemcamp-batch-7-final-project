@@ -3,7 +3,7 @@ class Client::LotteryController < ApplicationController
   layout 'client'
 
   def index
-    @categories = Category.order(:name)
+    @categories = Category.order(Arel.sql("CASE WHEN sort = 0 THEN 1 ELSE 0 END, sort ASC"))
 
     if params[:category_id].present?
       @items = Item.active.starting.includes(:categories)

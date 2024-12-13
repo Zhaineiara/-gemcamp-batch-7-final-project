@@ -1,11 +1,12 @@
 class Admin::CategoriesController < ApplicationController
   layout 'admin'
   before_action :authenticate_admin_user!
-
   before_action :set_category, only: [:edit, :update, :destroy]
+  before_action :category_sort_values, only: [:new, :edit]
 
   def index
-    @categories = Category.order(:name).page(params[:page]).per(10)
+    @categories = Category.page(params[:page]).per(10)
+                          .order(Arel.sql("CASE WHEN sort = 0 THEN 1 ELSE 0 END, sort ASC"))
   end
 
   def new
@@ -48,6 +49,13 @@ class Admin::CategoriesController < ApplicationController
   end
 
   def category_params
-    params.require(:category).permit(:name)
+    params.require(:category).permit(:name, :sort)
+  end
+
+  def category_sort_values
+    category_sort_values = Category.where.not(sort: nil).pluck(:sort)
+    category_max_sort = Category.count
+    @category_sort_values = (1..category_max_sort).to_a - category_sort_values
+    @category_sort_values.unshift(["Default", 0])
   end
 end
