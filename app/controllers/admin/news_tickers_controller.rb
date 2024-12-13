@@ -5,7 +5,8 @@ class Admin::NewsTickersController < ApplicationController
   before_action :set_available_sort_values, only: [:new, :edit]
 
   def index
-    @news_tickers = NewsTicker.order(sort: :asc).page(params[:page]).per(10)
+    @news_tickers = NewsTicker.page(params[:page]).per(10).order(status: :desc)
+                              .order(Arel.sql("CASE WHEN sort = 0 THEN 1 ELSE 0 END, sort ASC"))
   end
 
   def new
