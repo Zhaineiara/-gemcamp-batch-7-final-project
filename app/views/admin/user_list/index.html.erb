@@ -36,30 +36,30 @@
   <table class="table table-hover table-bordered mx-auto w-100 align-middle"
          style="border-collapse: separate; border-spacing: 0;">
     <thead class="table-primary text-center"
-           style="position: sticky; top: 0; z-index: 1020; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+           style="position: sticky; top: 0; z-index: 1020; background-color: #007bff; border-top-left-radius: 12px; border-top-right-radius: 12px;">
     <tr>
-      <th scope="col">#</th>
-      <th scope="col">Parent Email</th>
-      <th scope="col">Email</th>
-      <th scope="col">Total Deposit</th>
-      <th scope="col">Member Total Deposits</th>
-      <th scope="col">Coins</th>
-      <th scope="col">Total Used Coins</th>
-      <th scope="col">Children Members</th>
-      <th scope="col">Phone Number</th>
-      <th scope="col">Action</th>
+      <th scope="col" class="py-2">#</th>
+      <th scope="col" class="py-2">Parent Email</th>
+      <th scope="col" class="py-2">Email</th>
+      <th scope="col" class="py-2">Total Deposit</th>
+      <th scope="col" class="py-2">Member Total Deposits</th>
+      <th scope="col" class="py-2">Coins</th>
+      <th scope="col" class="py-2">Total Used Coins</th>
+      <th scope="col" class="py-2">Children Members</th>
+      <th scope="col" class="py-2">Phone Number</th>
+      <th scope="col" class="py-2">Action</th>
     </tr>
     </thead>
     <tbody>
     <% @users.each_with_index do |user, index| %>
       <tr>
-        <td class="text-center"><%= index + 1 %></td>
-        <td><%= user.parent&.email || 'N/A' %></td>
-        <td><%= user.email %></td>
-        <td class="text-end"><%= number_to_currency(user.total_deposit, unit: "$") %></td>
-        <td class="text-end"><%= number_to_currency(user.children&.sum { |child| child.total_deposit || 0 } || 0, unit: "$") %></td>
-        <td class="text-end"><%= user.coins %></td>
-        <td class="text-end"><%= "total used coins" %></td>
+        <td><%= index + 1 %></td>
+        <td class="text-center"><%= user.parent&.email || 'N/A' %></td>
+        <td class="text-center"><%= user.email %></td>
+        <td class="text-start"><%= number_to_currency(user.total_deposit, unit: "₱") %></td>
+        <td class="text-start"><%= number_to_currency(user.children&.sum { |child| child.total_deposit || 0 } || 0, unit: "₱") %></td>
+        <td class="text-center"><%= user.coins %></td>
+        <td class="text-center"><%= @total_used_coins[user.id] || 0 %></td>
         <td class="text-center"><%= user.children_members %></td>
         <td class="text-center"><%= user.phone || 'N/A' %></td>
         <td class="text-center">

@@ -5,6 +5,7 @@ class Admin::UserListController < ApplicationController
 
   def index
     @users = User.client.includes(:children).order(created_at: :desc).page(params[:page]).per(10)
+    @total_used_coins = @users.map { |user| [user.id, Ticket.where(user_id: user.id).sum(:coins)] }.to_h
 
     respond_to do |format|
       format.html
