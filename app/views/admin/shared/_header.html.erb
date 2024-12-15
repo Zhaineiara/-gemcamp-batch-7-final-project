@@ -38,4 +38,8 @@
   <% if current_page?(admin_winners_path) %>
     <h2 class="text-center mt-1 font-weight-bold fs-3">Winning Tickets List</h2>
   <% end %>
+
+  <% if @user && current_page?(admin_user_list_path(@user)) %>
+    <h2 class="text-center mt-1 font-weight-bold fs-3">Balance Operate</h2>
+  <% end %>
 </nav>

@@ -1,12 +1,31 @@
-<h1>Offer Details</h1>
+<div class="offer-details card mx-auto shadow-lg p-4" style="max-width: 500px;">
+  <div class="card-body">
+    <h2 class="text-center mb-2">Offer Details</h2>
+    <p class="mb-3">
+      <strong>Name:</strong> <span class="text-primary"><%= @offer.name %></span>
+    </p>
+    <p class="mb-3">
+      <strong>Status:</strong>
+      <span class="<%= @offer.status == 'Active' ? 'badge bg-success' : 'badge bg-danger' %>">
+        <%= @offer.status %>
+      </span>
+    </p>
+    <p class="mb-3">
+      <strong>Amount:</strong> <span class="text-success"><%= number_to_currency(@offer.amount, unit: "₱", precision: 2) %></span>
+    </p>
+    <p class="mb-3">
+      <strong>Coin:</strong> <span class="text-info"><%= @offer.coin %></span>
+    </p>
 
-<div class="offer-details">
-  <p><strong>Name:</strong> <%= @offer.name %></p>
-  <p><strong>Status:</strong> <%= @offer.status %></p>
-  <p><strong>Amount:</strong> <%= number_to_currency(@offer.amount, unit: "₱", precision: 2) %></p>
-  <p><strong>Coin:</strong> <%= @offer.coin %></p>
+    <% if @offer.image.present? %>
+      <div class="text-center mb-3">
+        <%= image_tag @offer.image.url, class: "rounded border", style: "max-width: 100%; height: auto;" %>
+      </div>
+    <% end %>
 
-  <%= image_tag @offer.image.url, size: "100x100" if @offer.image.present? %>
-
-  <%= link_to 'Back to Offers', admin_offers_path, class: 'btn btn-secondary mt-4' %>
+    <div class="text-center">
+      <%= link_to 'Back to Offers', admin_offers_path, class: 'btn btn-secondary' %>
+    </div>
+  </div>
 </div>
+

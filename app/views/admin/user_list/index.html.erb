@@ -60,7 +60,7 @@
         <td class="text-start"><%= number_to_currency(user.children&.sum { |child| child.total_deposit || 0 } || 0, unit: "₱") %></td>
         <td class="text-center"><%= user.coins %></td>
         <td class="text-center"><%= @total_used_coins[user.id] || 0 %></td>
-        <td class="text-center"><%= user.children_members %></td>
+        <td class="text-center"><%= user.children_members || 'N/A' %></td>
         <td class="text-center"><%= user.phone || 'N/A' %></td>
         <td class="text-center">
           <%= link_to 'Balance Operate', admin_user_list_path(user), class: 'btn btn-success btn-sm' %>
