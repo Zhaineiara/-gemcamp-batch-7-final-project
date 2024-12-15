@@ -3,3 +3,4 @@
 //= link footer
 //= link card_size
 //= link ticker
+//= link sidebar

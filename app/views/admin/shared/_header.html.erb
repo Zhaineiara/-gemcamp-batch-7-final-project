@@ -1,25 +1,41 @@
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-  <div class="container-fluid">
-    <%= link_to 'SYSTEM MANAGEMENT', admin_home_path, class: 'navbar-brand' %>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav ms-auto me-5">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Change Language</a>
-        </li>
+<nav class="navbar navbar-expand">
+  <button class="toggler-btn me-2 mt-1" type="button" aria-expanded="false">
+    <i class="lni lni-text-align-left"></i>
+  </button>
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <%= current_admin_user.username %>
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
-            <li><%= button_to 'Sign Out', destroy_admin_user_session_path, method: :delete, class: 'dropdown-item' %></li>
-          </ul>
-        </li>
-      </ul>
-    </div>
-  </div>
+  <% if current_page?(admin_user_list_index_path) %>
+    <h2 class="text-center mt-1 font-weight-bold fs-3">User List</h2>
+  <% end %>
+
+  <% if current_page?(admin_invite_list_index_path) %>
+    <h2 class="text-center mt-1 font-weight-bold fs-3">Invite List</h2>
+  <% end %>
+
+  <% if current_page?(admin_items_path) %>
+    <h2 class="text-center mt-1 font-weight-bold fs-3">Item List</h2>
+  <% end %>
+
+  <% if current_page?(admin_offers_path) %>
+    <h2 class="text-center mt-1 font-weight-bold fs-3">Offer List</h2>
+  <% end %>
+
+  <% if current_page?(admin_banner_index_path) %>
+    <h2 class="text-center mt-1 font-weight-bold fs-3">Banner List</h2>
+  <% end %>
+
+  <% if current_page?(admin_news_tickers_path) %>
+    <h2 class="text-center mt-1 font-weight-bold fs-3">News Ticker List</h2>
+  <% end %>
+
+  <% if current_page?(admin_ticket_index_path) %>
+    <h2 class="text-center mt-1 font-weight-bold fs-3">Ticket List</h2>
+  <% end %>
+
+  <% if current_page?(admin_order_index_path) %>
+    <h2 class="text-center mt-1 font-weight-bold fs-3">Order List</h2>
+  <% end %>
+
+  <% if current_page?(admin_winners_path) %>
+    <h2 class="text-center mt-1 font-weight-bold fs-3">Winning Tickets List</h2>
+  <% end %>
 </nav>

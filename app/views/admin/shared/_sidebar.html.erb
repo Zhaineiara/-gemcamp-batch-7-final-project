@@ -1,44 +1,92 @@
 <!-- Sidebar -->
-<div class="bg-light" style="width: 250px; min-height: 100vh;">
-  <div class="list-group list-group-flush">
-    <%= link_to 'Homepage', admin_home_path, class: 'list-group-item list-group-item-action' %>
-
-    <!-- Member Management -->
-    <a href="#memberManagement" class="list-group-item list-group-item-action" data-bs-toggle="collapse">
-      Member Management
-    </a>
-    <div class="collapse ps-3" id="memberManagement">
-      <%= link_to 'User List', admin_user_list_index_path, class: 'list-group-item list-group-item-action' %>
-      <%= link_to 'Item List', admin_items_path, class: 'list-group-item list-group-item-action' %>
-      <%= link_to 'Ticket List', admin_ticket_index_path, class: 'list-group-item list-group-item-action' %>
-      <%= link_to 'Offer List', admin_offers_path, class: 'list-group-item list-group-item-action' %>
-      <%= link_to 'Order List', admin_order_index_path, class: 'list-group-item list-group-item-action' %>
-      <%= link_to 'Invite List', admin_invite_list_index_path, class: 'list-group-item list-group-item-action' %>
-      <%= link_to 'News Tickers', admin_news_tickers_path, class: 'list-group-item list-group-item-action' %>
-      <%= link_to 'Banner List', admin_banner_index_path, class: 'list-group-item list-group-item-action' %>
-      <%= link_to 'Winner List', admin_winners_path, class: 'list-group-item list-group-item-action' %>
-    </div>
-
-    <!-- Dashboard -->
-    <a href="#dashboardMenu" class="list-group-item list-group-item-action" data-bs-toggle="collapse">
-      Dashboard
-    </a>
-    <div class="collapse ps-3" id="dashboardMenu">
-      <a href="#" class="list-group-item list-group-item-action">Overview</a>
-      <a href="#" class="list-group-item list-group-item-action">Weekly</a>
-      <a href="#" class="list-group-item list-group-item-action">Monthly</a>
-      <a href="#" class="list-group-item list-group-item-action">Annually</a>
-    </div>
-
-    <!-- Orders -->
-    <a href="#ordersMenu" class="list-group-item list-group-item-action" data-bs-toggle="collapse">
-      Orders
-    </a>
-    <div class="collapse ps-3" id="ordersMenu">
-      <a href="#" class="list-group-item list-group-item-action">New</a>
-      <a href="#" class="list-group-item list-group-item-action">Processed</a>
-      <a href="#" class="list-group-item list-group-item-action">Shipped</a>
-      <a href="#" class="list-group-item list-group-item-action">Returned</a>
-    </div>
+<aside id="sidebar" class="sidebar-toggle">
+  <div class="sidebar-logo">
+    <%= link_to 'Lottery System', admin_home_path %>
   </div>
-</div>
+  <!-- Sidebar Navigation -->
+  <ul class="sidebar-nav p-0">
+    <li class="sidebar-header">
+      User Management
+    </li>
+
+    <li class="sidebar-item <%= 'active' if current_page?(admin_user_list_index_path) %>">
+      <%= link_to admin_user_list_index_path, class: "sidebar-link" do %>
+        <i class="bi bi-people-fill"></i>
+        <span>Users</span>
+      <% end %>
+    </li>
+
+    <li class="sidebar-item <%= 'active' if current_page?(admin_invite_list_index_path) %>">
+      <%= link_to admin_invite_list_index_path, class: "sidebar-link" do %>
+        <i class="bi bi-person-plus-fill"></i>
+        <span>Invites</span>
+      <% end %>
+    </li>
+
+    <li class="sidebar-header">
+      Content and Promotion Management
+    </li>
+
+    <li class="sidebar-item <%= 'active' if current_page?(admin_items_path) %>">
+      <%= link_to admin_items_path, class: "sidebar-link" do %>
+        <i class="bi bi-box2-heart-fill"></i>
+        <span>Item</span>
+      <% end %>
+    </li>
+
+    <li class="sidebar-item <%= 'active' if current_page?(admin_offers_path) %>">
+      <%= link_to admin_offers_path, class: "sidebar-link" do %>
+        <i class="bi bi-gift-fill"></i>
+        <span>Offer</span>
+      <% end %>
+    </li>
+
+    <li class="sidebar-item <%= 'active' if current_page?(admin_banner_index_path) %>">
+      <%= link_to admin_banner_index_path, class: "sidebar-link" do %>
+        <i class="bi bi-easel3"></i>
+        <span>Banner</span>
+      <% end %>
+    </li>
+
+    <li class="sidebar-item <%= 'active' if current_page?(admin_news_tickers_path) %>">
+      <%= link_to admin_news_tickers_path, class: "sidebar-link" do %>
+        <i class="bi bi-newspaper"></i>
+        <span>News Ticker</span>
+      <% end %>
+    </li>
+
+    <li class="sidebar-header">
+      Ticket and Order Management
+    </li>
+
+    <li class="sidebar-item <%= 'active' if current_page?(admin_ticket_index_path) %>">
+      <%= link_to admin_ticket_index_path, class: "sidebar-link" do %>
+        <i class="bi bi-ticket-perforated-fill"></i>
+        <span>Ticket</span>
+      <% end %>
+    </li>
+
+    <li class="sidebar-item <%= 'active' if current_page?(admin_order_index_path) %>">
+      <%= link_to admin_order_index_path, class: "sidebar-link" do %>
+        <i class="bi bi-cart-fill"></i>
+        <span>Order</span>
+      <% end %>
+    </li>
+
+    <li class="sidebar-item <%= 'active' if current_page?(admin_winners_path) %>">
+      <%= link_to admin_winners_path, class: "sidebar-link" do %>
+        <i class="bi bi-trophy-fill"></i>
+        <span>Winner</span>
+      <% end %>
+    </li>
+
+  </ul>
+
+  <!-- Sidebar Navigation Ends -->
+  <div class="sidebar-item-sign_out mt-3">
+    <%= button_to destroy_admin_user_session_path, method: :delete, class: "btn btn-danger w-100 d-flex align-items-center justify-content-center" do %>
+      <i class="bi bi-box-arrow-left me-2"></i>
+      Sign out
+    <% end %>
+  </div>
+</aside>
