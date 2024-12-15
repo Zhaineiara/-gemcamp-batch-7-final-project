@@ -1,68 +1,6 @@
 <%= render partial: 'admin/shared/flash_sign_in_out' %>
 
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h2>Winner List</h2>
-</div>
-
-<%= link_to 'Export to CSV', admin_winners_path(format: :csv), class: 'btn btn-primary' %>
-
-<table class="table table-striped table-bordered mt-4 table-responsive">
-  <thead class="thead-dark">
-  <tr>
-    <th>#</th>
-    <th>Item Name</th>
-    <th>Ticket Serial Number</th>
-    <th>Email</th>
-    <th>Address</th>
-    <th>Batch Count</th>
-    <th>State</th>
-    <th>Actions</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% @winners.each_with_index do |winner, numbering| %>
-    <tr>
-      <td><%= numbering + 1 %></td>
-      <td><%= winner.item&.name %></td>
-      <td><%= winner.ticket&.serial_number %></td>
-      <td><%= winner.user&.email %></td>
-      <td><%= "#{winner.user_address&.barangay.name}, #{winner.user_address&.city.name}, #{winner.user_address&.province.name}, #{winner.user_address&.region.name}" %></td>
-      <td><%= winner.item_batch_count %></td>
-      <td><%= winner.state %></td>
-
-      <td>
-        <% if winner.claimed? %>
-          <%= button_to 'Submit', submit_admin_winner_path(winner), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
-        <% end %>
-
-        <% if winner.submitted? %>
-          <%= button_to 'Pay', pay_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm d-inline' %>
-        <% end %>
-
-        <% if winner.paid? %>
-          <%= button_to 'Ship', ship_admin_winner_path(winner), method: :put, class: 'btn btn-primary btn-sm d-inline' %>
-        <% end %>
-
-        <% if winner.shipped? %>
-          <%= button_to 'Deliver', deliver_admin_winner_path(winner), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
-        <% end %>
-
-        <% if winner.shared? %>
-          <%= link_to 'Show Feedback', admin_winner_path(winner), class: 'btn btn-secondary mb-2' %>
-          <%= button_to 'Publish', publish_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm d-inline' %>
-        <% end %>
-
-        <% if winner.published? %>
-          <%= link_to 'Show Feedback', admin_winner_path(winner), class: 'btn btn-secondary mb-2' %>
-          <%= button_to 'Remove Publish', remove_publish_admin_winner_path(winner), method: :put, class: 'btn btn-danger btn-sm d-inline' %>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
-
-<div class="mt-4 d-flex justify-content-center mb-5">
+<div class="mt-3 d-flex justify-content-center mb-3">
   <ul class="pagination">
     <li class="page-item <%= 'disabled' if @winners.first_page? %>">
       <%= link_to 'First', request.params.merge(page: 1), class: 'page-link' %>
@@ -91,4 +29,89 @@
       <%= link_to 'Last', request.params.merge(page: @winners.total_pages), class: 'page-link' %>
     </li>
   </ul>
+</div>
+
+<%= link_to 'Export to CSV', admin_winners_path(format: :csv), class: 'btn btn-primary mb-3' %>
+
+<div class="table-responsive shadow rounded"
+     style="max-height: 600px; overflow-y: auto; border-radius: 12px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+  <table class="table table-hover table-bordered mx-auto w-100 align-middle"
+         style="border-collapse: separate; border-spacing: 0;">
+    <thead class="table-primary text-center"
+           style="position: sticky; top: 0; z-index: 1020; border-top-left-radius: 12px; border-top-right-radius: 12px;">
+    <tr>
+      <th>#</th>
+      <th>Item Name</th>
+      <th>Ticket Serial Number</th>
+      <th>Email</th>
+      <th>Address</th>
+      <th>Batch Count</th>
+      <th>State</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @winners.each_with_index do |winner, index| %>
+      <tr>
+        <td class="text-center"><%= index + 1 %></td>
+        <td class="text-center"><%= winner.item&.name || 'N/A' %></td>
+        <td class="text-center"><%= winner.ticket&.serial_number || 'N/A' %></td>
+        <td class="text-center"><%= winner.user&.email || 'N/A' %></td>
+        <td class="text-center">
+          <% if winner.user_address.present? %>
+            <%= "#{winner.user_address.barangay.name}, #{winner.user_address.city.name}, #{winner.user_address.province.name}, #{winner.user_address.region.name}" %>
+          <% else %>
+            N/A
+          <% end %>
+        </td>
+        <td class="text-center"><%= winner.item_batch_count || 'N/A' %></td>
+        <td class="text-center">
+          <% badge_classes = {
+            'won' => 'badge text-bg-primary',
+            'claimed' => 'badge text-bg-warning',
+            'submitted' => 'badge text-bg-info',
+            'paid' => 'badge text-bg-success',
+            'shipped' => 'badge text-bg-primary',
+            'delivered' => 'badge text-bg-warning',
+            'shared' => 'badge text-bg-secondary',
+            'published' => 'badge text-bg-dark',
+            'remove_published' => 'badge text-bg-danger'
+          } %>
+          <% state_label = winner.state.humanize %>
+          <span class="<%= badge_classes[winner.state] || 'badge text-bg-secondary' %>">
+    <%= state_label %>
+  </span>
+        </td>
+
+        <td class="text-center">
+          <% if winner.claimed? %>
+            <%= button_to 'Submit', submit_admin_winner_path(winner), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
+          <% end %>
+
+          <% if winner.submitted? %>
+            <%= button_to 'Pay', pay_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm d-inline' %>
+          <% end %>
+
+          <% if winner.paid? %>
+            <%= button_to 'Ship', ship_admin_winner_path(winner), method: :put, class: 'btn btn-primary btn-sm d-inline' %>
+          <% end %>
+
+          <% if winner.shipped? %>
+            <%= button_to 'Deliver', deliver_admin_winner_path(winner), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
+          <% end %>
+
+          <% if winner.shared? %>
+            <%= link_to 'Show Feedback', admin_winner_path(winner), class: 'btn btn-secondary mb-2' %>
+            <%= button_to 'Publish', publish_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm d-inline' %>
+          <% end %>
+
+          <% if winner.published? %>
+            <%= link_to 'Show Feedback', admin_winner_path(winner), class: 'btn btn-secondary mb-2' %>
+            <%= button_to 'Remove Publish', remove_publish_admin_winner_path(winner), method: :put, class: 'btn btn-danger btn-sm d-inline' %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
 </div>
