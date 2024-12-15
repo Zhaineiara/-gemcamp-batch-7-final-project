@@ -1,10 +1,10 @@
 class Client::RegistrationsController < Devise::RegistrationsController
   before_action :store_params, only: [:new]
   def after_sign_up_path_for(resource)
-    client_home_path
+    client_home_index_path
   end
   def after_update_path_for(resource)
-    client_profile_profile_path
+    client_profile_index_path
   end
 
   def new

@@ -70,9 +70,9 @@ class Admin::OrderController < ApplicationController
     if @order&.may_submit?
       @order.submit!
       @order.save
-      redirect_to admin_order_index_path, notice: 'Order has been submitted.'
+      redirect_to admin_orders_path, notice: 'Order has been submitted.'
     else
-      redirect_to admin_order_index_path, alert: 'Unable to submit the order.'
+      redirect_to admin_orders_path, alert: 'Unable to submit the order.'
     end
   end
 
@@ -81,15 +81,15 @@ class Admin::OrderController < ApplicationController
     if @order&.may_cancel?
       if @order.cancel
         @order.save
-        redirect_to admin_order_index_path, notice: 'Order has been cancelled.'
+        redirect_to admin_orders_path, notice: 'Order has been cancelled.'
       else
-        redirect_to admin_order_index_path, alert: @order.errors.full_messages.to_sentence
+        redirect_to admin_orders_path, alert: @order.errors.full_messages.to_sentence
       end
     else
-      redirect_to admin_order_index_path, alert: 'Unable to cancel the order.'
+      redirect_to admin_orders_path, alert: 'Unable to cancel the order.'
     end
   rescue ActiveRecord::Rollback
-    redirect_to admin_order_index_path, alert: 'Insufficient coins or deposit to cancel the order.'
+    redirect_to admin_orders_path, alert: 'Insufficient coins or deposit to cancel the order.'
   end
 
   def pay
@@ -100,18 +100,18 @@ class Admin::OrderController < ApplicationController
         if @order.may_pay?
           @order.pay!
           @order.save
-          redirect_to admin_order_index_path, notice: 'Order has been paid.'
+          redirect_to admin_orders_path, notice: 'Order has been paid.'
         else
-          redirect_to admin_order_index_path, alert: 'Unable to mark the order as paid.'
+          redirect_to admin_orders_path, alert: 'Unable to mark the order as paid.'
         end
       end
     else
       if @order&.may_pay?
         @order.pay!
         @order.save
-        redirect_to admin_order_index_path, notice: 'Order has been paid.'
+        redirect_to admin_orders_path, notice: 'Order has been paid.'
       else
-        redirect_to admin_order_index_path, alert: 'Unable to mark the order as paid.'
+        redirect_to admin_orders_path, alert: 'Unable to mark the order as paid.'
       end
     end
   end

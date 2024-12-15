@@ -94,7 +94,7 @@ class Admin::UserListController < ApplicationController
         redirect_to admin_user_list_path, notice: 'Deduct order created successfully!'
       else
         flash[:alert] = order.errors.full_messages.to_sentence
-        redirect_to admin_order_index_path, alert: 'Unable to mark the order as deduct.'
+        redirect_to admin_orders_path, alert: 'Unable to mark the order as deduct.'
       end
     else
       if order.may_cancel?

@@ -1,7 +1,7 @@
 class Client::HomeController < ApplicationController
   layout 'client'
 
-  def dashboard
+  def index
     @banners = Banner.active.where("online_at <= ? AND offline_at > ?", Time.current, Time.current)
                      .order(Arel.sql("CASE WHEN sort = 0 THEN 1 ELSE 0 END, sort ASC"))
                      .limit(5)

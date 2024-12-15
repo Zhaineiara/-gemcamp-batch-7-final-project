@@ -15,28 +15,15 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'client/home', to: 'client/home#dashboard'
-  get 'admin/home/', to: 'admin/home#dashboard'
-
   constraints(AdminDomainConstraint.new) do
     namespace :admin do
-      resources :user_list, only: [:index, :show] do
-        member do
-          post 'increase', to: 'user_list#create_increase', as: :create_increase
-          post 'deduct', to: 'user_list#create_deduct', as: :create_deduct
-          post 'bonus', to: 'user_list#create_bonus', as: :create_bonus
-        end
-      end
-
-      get 'ticket/index'
-      get 'order/index'
-      resources :invite_list, only: [:index]
-      resources :items
-      resources :categories, except: :show
-      resources :offers
-      resources :news_tickers, except: :show
       resources :banner, except: :show
-      resources :winners, only: [:index, :show]
+      resources :categories, except: :show
+      resources :home, only: [:index]
+      resources :invite_list, only: [:index]
+      resources :news_tickers, except: :show
+      resources :offers
+      resources :ticket, only: [:index]
 
       resources :orders, controller: 'order', only: [:index] do
         member do
@@ -55,7 +42,15 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :winners do
+      resources :user_list, only: [:index, :show] do
+        member do
+          post 'increase', to: 'user_list#create_increase', as: :create_increase
+          post 'deduct', to: 'user_list#create_deduct', as: :create_deduct
+          post 'bonus', to: 'user_list#create_bonus', as: :create_bonus
+        end
+      end
+
+      resources :winners, only: [:index, :show] do
         member do
           put :claim
           put :submit
@@ -73,22 +68,22 @@ Rails.application.routes.draw do
         sessions: 'admin/sessions'
       }
     end
-    root 'admin/home#dashboard', as: :admin_root
+    root 'admin/home#index', as: :admin_root
   end
 
   constraints(ClientDomainConstraint.new) do
     namespace :client do
-      get 'profile/profile'
-      get 'invite_link/index'
-      resources :shop
-      resources :lottery
-      resources :user_addresses, only: [:index, :new, :create, :edit, :update, :destroy]
-      resources :orders, only: [:index]
-      resources :lotteries, only: [:index]
-      resources :invites, only: [:index]
-      resources :winnings, only: [:index]
       resources :claims, only: [:new, :create, :edit, :update]
+      resources :home, only: [:index]
+      resources :invite_link, only: [:index]
+      resources :invites, only: [:index]
+      resources :lotteries, only: [:index]
+      resources :lottery
+      resources :profile, only: [:index]
       resources :share, only: [:edit, :update, :index]
+      resources :shop
+      resources :user_addresses, except: :show
+      resources :winnings, only: [:index]
 
       resources :orders, controller: 'orders', only: [:index] do
         member do

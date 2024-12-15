@@ -18,7 +18,7 @@ class Admin::SessionsController < Devise::SessionsController
     if user&.valid_password?(params[:admin_user][:password])
       set_flash_message!(:notice, :signed_in)
       sign_in(resource_name, user)
-      redirect_to admin_home_path and return
+      redirect_to admin_home_index_path and return
     else
       flash[:alert] = "Invalid email or password."
       redirect_to new_admin_user_session_path and return

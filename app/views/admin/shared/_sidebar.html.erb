@@ -1,7 +1,7 @@
 <!-- Sidebar -->
 <aside id="sidebar" class="sidebar-toggle">
   <div class="sidebar-logo">
-    <%= link_to 'Lottery System', admin_home_path %>
+    <%= link_to 'Lottery System', admin_home_index_path %>
   </div>
   <!-- Sidebar Navigation -->
   <ul class="sidebar-nav p-0">
@@ -66,8 +66,8 @@
       <% end %>
     </li>
 
-    <li class="sidebar-item <%= 'active' if current_page?(admin_order_index_path) %>">
-      <%= link_to admin_order_index_path, class: "sidebar-link" do %>
+    <li class="sidebar-item <%= 'active' if current_page?(admin_orders_path) %>">
+      <%= link_to admin_orders_path, class: "sidebar-link" do %>
         <i class="bi bi-cart-fill"></i>
         <span>Order</span>
       <% end %>
