@@ -6,9 +6,16 @@ class Client::ShopController < ApplicationController
     @offers = Offer.active.order(:name).page(params[:page]).per(10)
     @banners = Banner.active.order(sort: :asc).limit(5)
     @news_tickers = NewsTicker.active.order(sort: :asc).limit(5)
+    if client_user_signed_in?
+      @user_coins = current_client_user.coins
+    end
   end
 
-  def show;end
+  def show
+    if client_user_signed_in?
+      @user_coins = current_client_user.coins
+    end
+  end
 
   def create
     offer = Offer.find(params[:offer_id])

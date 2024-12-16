@@ -18,6 +18,10 @@ class Client::LotteryController < ApplicationController
 
     @banners = Banner.active.order(sort: :asc).limit(5)
     @news_tickers = NewsTicker.active.order(sort: :asc).limit(5)
+
+    if client_user_signed_in?
+      @user_coins = current_client_user.coins
+    end
   end
 
   def create
@@ -41,6 +45,9 @@ class Client::LotteryController < ApplicationController
   end
 
   def show
+    if client_user_signed_in?
+      @user_coins = current_client_user.coins
+    end
     @item = Item.find(params[:id])
     @tickets = @item.tickets.pending
     current_batch_tickets = @tickets.where(batch_count: @item.batch_count)

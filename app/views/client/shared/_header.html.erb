@@ -7,35 +7,50 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav ms-auto me-5">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Coins</a>
+          <a class="nav-link active d-flex align-items-center" aria-current="page" href="#" style="font-size: 1rem; color: #333;">
+            <i class="bi bi-coin" style="font-size: 1.2rem; color: #f9a602; margin-right: 0.5rem;"></i>
+            <span>
+                <%= @user_coins || "Coins" %>
+            </span>
+          </a>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Claim</a>
+          <a class="nav-link active d-flex align-items-center" aria-current="page" href="#" style="font-size: 1rem; color: #333;">
+            <i class="bi bi-gift me-2" style="font-size: 1.2rem; color: #f9a602; margin-right: 0.5rem;"></i>
+            <span>
+                Claim
+            </span>
+          </a>
         </li>
 
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Language</a>
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link active d-flex align-items-center me-1"
+            href="#"
+            id="languageDropdown"
+            role="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            style="font-size: 1rem; color: #333;"
+          >
+            <i class="bi bi-translate me-2" style="font-size: 1.2rem; color: #f9a602; margin-right: 0.5rem;"></i>
+            <span>Language</span>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="languageDropdown">
+            <li><a class="dropdown-item" href="#">English</a></li>
+            <li><a class="dropdown-item" href="#">Spanish</a></li>
+            <li><a class="dropdown-item" href="#">French</a></li>
+          </ul>
         </li>
-
-        <% unless client_user_signed_in? %>
-        <li class="nav-item">
-          <%= link_to 'LOGIN', new_client_user_session_path, class: "btn btn-outline-success #{'active' if current_page?(new_client_user_session_path)}" %>
-        </li>
-        <% end %>
 
         <% if client_user_signed_in? %>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              <% if current_client_user.present? %>
-                <%= current_client_user.username %>
-              <% end %>
-            </a>
-            <ul class="dropdown-menu">
-              <li><%= link_to 'Profile', client_profile_index_path, class: 'dropdown-item' %></li>
-              <li><a class="dropdown-item" href="#">Contact</a></li>
-              <li><%= button_to 'Sign Out', destroy_client_user_session_path, method: :delete, class: 'dropdown-item' %></li>
-            </ul>
+          <li class="nav-item">
+            <%= button_to 'Sign Out', destroy_client_user_session_path, method: :delete, class: 'btn btn-danger px-4 py-2 rounded-pill', data: { confirm: 'Are you sure you want to sign out?' } %>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to 'LOGIN', new_client_user_session_path, class: "btn btn-outline-success px-4 py-2 rounded-pill #{'active' if current_page?(new_client_user_session_path)}" %>
           </li>
         <% end %>
       </ul>

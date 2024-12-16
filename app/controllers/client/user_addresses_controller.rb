@@ -7,6 +7,9 @@ class Client::UserAddressesController < ApplicationController
 
   def index
     @user_addresses = @user.user_addresses.includes(:region, :province, :city, :barangay)
+    if client_user_signed_in?
+      @user_coins = current_client_user.coins
+    end
   end
 
   def new
@@ -24,6 +27,9 @@ class Client::UserAddressesController < ApplicationController
   end
 
   def edit
+    if client_user_signed_in?
+      @user_coins = current_client_user.coins
+    end
     @address = @user.user_addresses.find(params[:id])
 
     if @address.nil?

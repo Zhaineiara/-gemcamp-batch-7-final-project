@@ -14,6 +14,10 @@ class Client::InviteLinkController < ApplicationController
       standalone: true,
       use_path: true
     )
+
+    if client_user_signed_in?
+      @user_coins = current_client_user.coins
+    end
   end
 
   private

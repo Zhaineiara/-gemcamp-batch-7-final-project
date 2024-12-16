@@ -5,9 +5,15 @@ class Client::ShareController < ApplicationController
     @winners = Winner.published.order(created_at: :desc).page(params[:page]).per(10)
     @banners = Banner.active.order(sort: :asc).limit(5)
     @news_tickers = NewsTicker.active.order(sort: :asc).limit(5)
+    if client_user_signed_in?
+      @user_coins = current_client_user.coins
+    end
   end
 
   def edit
+    if client_user_signed_in?
+      @user_coins = current_client_user.coins
+    end
     @winner = Winner.find(params[:id])
   end
 
