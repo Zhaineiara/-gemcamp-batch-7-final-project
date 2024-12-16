@@ -25,7 +25,7 @@
     <% @orders.each_with_index do |order, numbering| %>
       <tr>
         <td class="text-center"><%= numbering + 1 %></td>
-        <td class="text-center"><%= order.offer.name %></td>
+        <td class="text-center"><%= order.offer&.name || 'N/A' %></td>
         <td class="text-center"><%= order.serial_number %></td>
         <td class="text-center">
           <% case order.state.to_sym %>
@@ -41,9 +41,9 @@
             <span class="badge text-bg-light">Unknown</span>
           <% end %>
         </td>
-        <td class="text-center"><%= order.amount %></td>
-        <td class="text-center"><%= order.coin %></td>
-        <td class="text-center"><%= order.remarks %></td>
+        <td class="text-center"><%= order.amount || 'N/A' %></td>
+        <td class="text-center"><%= order.coin || 'N/A' %></td>
+        <td class="text-center"><%= order.remarks || 'N/A' %></td>
         <td class="text-center">
           <% case order.genre %>
           <% when 'deposit' %>
