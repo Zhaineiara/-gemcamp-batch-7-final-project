@@ -15,16 +15,14 @@ class Admin::OffersController < ApplicationController
     @offer = Offer.new
   end
 
-  def show
-    @offer
-  end
-
   def create
     @offer = Offer.new(offer_params)
     if @offer.save
-      redirect_to admin_offers_path, notice: 'Offer was successfully created.'
+      flash[:notice] = 'Offer was successfully created.'
+      redirect_to admin_offers_path
     else
-      render :new
+      flash[:alert] = @offer.errors.full_messages.to_sentence
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -32,15 +30,24 @@ class Admin::OffersController < ApplicationController
 
   def update
     if @offer.update(offer_params)
-      redirect_to admin_offers_path, notice: 'Offer was successfully updated.'
+      flash[:notice] = 'Offer was successfully updated.'
+      redirect_to admin_offers_path
     else
-      render :edit
+      flash[:alert] = @offer.errors.full_messages.to_sentence
+      render :edit, status: :unprocessable_entity
     end
   end
 
+  def show;end
+
   def destroy
-    @offer.destroy
-    redirect_to admin_offers_path, notice: 'Offer was successfully deleted.'
+    if @offer.destroy
+      flash[:notice] = 'Offer was successfully destroyed.'
+      redirect_to admin_offers_path
+    else
+      flash[:alert] = @offer.errors.full_messages.to_sentence
+      redirect_to admin_offers_path
+    end
   end
 
   private
