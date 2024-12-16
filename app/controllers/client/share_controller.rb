@@ -3,12 +3,8 @@ class Client::ShareController < ApplicationController
 
   def index
     @winners = Winner.published.order(created_at: :desc).page(params[:page]).per(10)
-    @banners = Banner.active.where("online_at <= ? AND offline_at > ?", Time.current, Time.current)
-                     .order(Arel.sql("CASE WHEN sort = 0 THEN 1 ELSE 0 END, sort ASC"))
-                     .limit(5)
-    @news_tickers = NewsTicker.order(status: :desc)
-                              .order(Arel.sql("CASE WHEN sort = 0 THEN 1 ELSE 0 END, sort ASC"))
-                              .active.limit(5)
+    @banners = Banner.active.order(sort: :asc).limit(5)
+    @news_tickers = NewsTicker.active.order(sort: :asc).limit(5)
   end
 
   def edit

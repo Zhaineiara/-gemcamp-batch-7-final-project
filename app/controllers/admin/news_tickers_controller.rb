@@ -2,11 +2,10 @@ class Admin::NewsTickersController < ApplicationController
   layout 'admin'
   before_action :authenticate_admin_user!
   before_action :set_news_ticker, only: [:edit, :update, :destroy]
-  before_action :set_available_sort_values, only: [:new, :edit]
+  before_action :news_ticker_sort_values, only: [:new, :edit]
 
   def index
-    @news_tickers = NewsTicker.page(params[:page]).per(10).order(status: :desc)
-                              .order(Arel.sql("CASE WHEN sort = 0 THEN 1 ELSE 0 END, sort ASC"))
+    @news_tickers = NewsTicker.order(status: :desc).order(sort: :asc).page(params[:page]).per(10)
   end
 
   def new
@@ -17,9 +16,11 @@ class Admin::NewsTickersController < ApplicationController
     @news_ticker = NewsTicker.new(news_ticker_params)
     @news_ticker.admin_id = current_admin_user.id
     if @news_ticker.save
-      redirect_to admin_news_tickers_path, notice: 'News ticker was successfully created.'
+      flash[:notice] = 'News ticker was successfully created.'
+      redirect_to admin_news_tickers_path
     else
-      render :new
+      flash[:alert] = @news_ticker.errors.full_messages.to_sentence
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -27,17 +28,21 @@ class Admin::NewsTickersController < ApplicationController
 
   def update
     if @news_ticker.update(news_ticker_params)
-      redirect_to action: 'index'
+      flash[:notice] = 'News ticker was successfully updated.'
+      redirect_to admin_news_tickers_path
     else
-      render :edit
+      flash[:alert] = @news_ticker.errors.full_messages.to_sentence
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     if @news_ticker.destroy
-      redirect_to admin_news_tickers_path, notice: 'News ticker was successfully destroyed.'
+      flash[:notice] = 'News ticker was successfully destroyed.'
+      redirect_to admin_news_tickers_path
     else
-      redirect_to admin_news_tickers_path, notice: 'News ticker could not be destroyed.'
+      flash[:alert] = @news_ticker.errors.full_messages.to_sentence
+      redirect_to admin_news_tickers_path
     end
   end
 
@@ -51,10 +56,10 @@ class Admin::NewsTickersController < ApplicationController
     params.require(:news_ticker).permit(:content, :status, :sort)
   end
 
-  def set_available_sort_values
-    taken_sort_values = NewsTicker.where.not(sort: nil).pluck(:sort)
-    max_sort = NewsTicker.count
-    @available_sort_values = (1..max_sort).to_a - taken_sort_values
-    @available_sort_values.unshift(["Default", 0])
+  def news_ticker_sort_values
+    news_ticker_sort_values = NewsTicker.where.not(sort: nil).pluck(:sort)
+    news_ticker_max_sort = NewsTicker.count
+    @news_ticker_sort_values = (1..news_ticker_max_sort).to_a - news_ticker_sort_values
+    @news_ticker_sort_values.unshift(["Default", 0])
   end
 end

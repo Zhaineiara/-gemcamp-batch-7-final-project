@@ -10,4 +10,16 @@ class Banner < ApplicationRecord
   def destroy
     update(deleted_at: Time.now)
   end
+
+  private
+
+  def check_date
+    if online_at < offline_at
+      true
+    else
+      errors.add(:base, "Check the online at or the offline at")
+      throw(:abort)
+      false
+    end
+  end
 end

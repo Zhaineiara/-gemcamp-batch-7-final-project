@@ -13,7 +13,7 @@
 
   <div class="mb-3">
     <%= form.label :sort, 'Sort Order', class: 'form-label' %>
-    <%= form.select :sort, (@available_sort_values || []), { }, class: 'form-select' %>
+    <%= form.select :sort, (@news_ticker_sort_values || []), { }, class: 'form-select' %>
   </div>
 
   <div class="form-group text-center">

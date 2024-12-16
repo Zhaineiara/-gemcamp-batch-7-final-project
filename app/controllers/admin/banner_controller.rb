@@ -5,8 +5,7 @@ class Admin::BannerController < ApplicationController
   before_action :banner_sort_values, only: [:new, :edit]
 
   def index
-    @banners = Banner.order(status: :desc).page(params[:page]).per(10)
-                     .order(Arel.sql("CASE WHEN sort = 0 THEN 1 ELSE 0 END, sort ASC"))
+    @banners = Banner.order(status: :desc).order(sort: :asc).page(params[:page]).per(10)
   end
 
   def new
@@ -16,9 +15,10 @@ class Admin::BannerController < ApplicationController
   def create
     @banner = Banner.new(banner_params)
     if @banner.save
-      flash[:notice] = 'Banner created successfully'
-      redirect_to admin_banner_index_path, notice: 'News banner was successfully created.'
+      flash[:notice] = 'Banner was successfully created.'
+      redirect_to admin_banner_index_path
     else
+      flash[:alert] = @banner.errors.full_messages.to_sentence
       render :new, status: :unprocessable_entity
     end
   end
@@ -27,17 +27,21 @@ class Admin::BannerController < ApplicationController
 
   def update
     if @banner.update(banner_params)
-      redirect_to admin_banner_index_path, notice: 'Banner was successfully updated.'
+      flash[:notice] = 'Banner was successfully updated.'
+      redirect_to admin_banner_index_path
     else
-      render :edit
+      flash[:alert] = @banner.errors.full_messages.to_sentence
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     if @banner.destroy
-      redirect_to admin_banner_index_path, notice: 'Banner was successfully destroyed.'
+      flash[:notice] = 'Banner was successfully destroyed.'
+      redirect_to admin_banner_index_path
     else
-      redirect_to admin_banner_index_path, notice: 'Banner could not be destroyed.'
+      flash[:alert] = @banner.errors.full_messages.to_sentence
+      redirect_to admin_banner_index_path
     end
   end
 
