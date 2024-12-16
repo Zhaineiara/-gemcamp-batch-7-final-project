@@ -5,7 +5,7 @@ class Admin::CategoriesController < ApplicationController
   before_action :category_sort_values, only: [:new, :edit]
 
   def index
-    @categories = Category.order(status: :desc).order(sort: :asc).page(params[:page]).per(10)
+    @categories = Category.order(sort: :asc).page(params[:page]).per(10)
   end
 
   def new
