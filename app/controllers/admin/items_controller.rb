@@ -40,10 +40,6 @@ class Admin::ItemsController < ApplicationController
       end
   end
 
-  def show
-    @item
-  end
-
   def new
     @item = Item.new
   end
@@ -51,9 +47,11 @@ class Admin::ItemsController < ApplicationController
   def create
     @item = Item.new(item_params)
     if @item.save
-      redirect_to admin_items_path, notice: 'Item created successfully.'
+      flash[:notice] = 'Item created successfully.'
+      redirect_to admin_items_path
     else
-      render :new
+      flash[:alert] = @item.errors.full_messages.to_sentence
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -61,15 +59,23 @@ class Admin::ItemsController < ApplicationController
 
   def update
     if @item.update(item_params)
-      redirect_to admin_items_path, notice: 'Item updated successfully.'
+      flash[:notice] = 'Item updated successfully.'
+      redirect_to admin_items_path
     else
-      render :edit
+      flash[:alert] = @item.errors.full_messages.to_sentence
+      render :edit, status: :unprocessable_entity
     end
   end
 
+  def show;end
+
   def destroy
     if @item.destroy
-      redirect_to admin_items_path, notice: 'Item deleted successfully.'
+      flash[:notice] = 'Item deleted successfully.'
+      redirect_to admin_items_path
+    else
+      flash[:alert] = @item.errors.full_messages.to_sentence
+      redirect_to admin_items_path
     end
   end
 
@@ -108,6 +114,7 @@ class Admin::ItemsController < ApplicationController
     @item = Item.find_by(id: params[:id])
     if @item&.may_pause?
       @item.pause!
+      flash[:notice] = 'Item successfully paused.'
       redirect_to admin_items_path
     else
       redirect_to admin_items_path, alert: @item.nil? ? 'Item not found.' : 'Cannot pause this item.'
@@ -123,16 +130,12 @@ class Admin::ItemsController < ApplicationController
 
     if total_tickets < minimum_tickets
       redirect_to admin_items_path, alert: 'Cannot end this item. The minimum number of tickets in an item must be reach.'
-      return
-    end
-
-    if @item&.may_end?
+    elsif @item&.may_end?
       @item.end!
+      flash[:notice] = 'Item successfully ended.'
       redirect_to admin_items_path
-      return
     else
       redirect_to admin_items_path, alert: @item.nil? ? 'Item not found.' : 'Cannot end this item.'
-      return
     end
   end
 
@@ -140,6 +143,7 @@ class Admin::ItemsController < ApplicationController
     @item = Item.find_by(id: params[:id])
     if @item&.may_cancel?
       @item.cancel!
+      flash[:notice] = 'Item successfully cancelled.'
       redirect_to admin_items_path
     else
       redirect_to admin_items_path, alert: @item.nil? ? 'Item not found.' : 'Cannot cancel this item.'
