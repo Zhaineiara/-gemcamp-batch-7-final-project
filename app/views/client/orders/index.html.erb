@@ -4,16 +4,16 @@
 <table class="table mb-5">
   <thead>
   <tr>
-    <th>#</th>
-    <th>Offer</th>
-    <th>Serial Number</th>
-    <th>State</th>
-    <th>Amount</th>
-    <th>Coins</th>
-    <th>Remarks</th>
-    <th>Genre</th>
-    <th>Created At</th>
-    <th>Action</th>
+    <th class="text-center">#</th>
+    <th class="text-center">Offer</th>
+    <th class="text-center">Serial Number</th>
+    <th class="text-center">State</th>
+    <th class="text-center">Amount</th>
+    <th class="text-center">Coins</th>
+    <th class="text-center">Remarks</th>
+    <th class="text-center">Genre</th>
+    <th class="text-center">Created At</th>
+    <th class="text-center">Action</th>
   </tr>
   </thead>
   <tbody>
@@ -24,16 +24,44 @@
   <% else %>
     <% @orders.each_with_index do |order, numbering| %>
       <tr>
-        <td><%= numbering + 1 %></td>
-        <td><%= order.offer.name %></td>
-        <td><%= order.serial_number %></td>
-        <td><%= order.state %></td>
-        <td><%= order.amount %></td>
-        <td><%= order.coin %></td>
-        <td><%= order.remarks %></td>
-        <td><%= order.genre %></td>
-        <td><%= order.created_at.strftime('%b %d, %Y') %></td>
-        <td>
+        <td class="text-center"><%= numbering + 1 %></td>
+        <td class="text-center"><%= order.offer.name %></td>
+        <td class="text-center"><%= order.serial_number %></td>
+        <td class="text-center">
+          <% case order.state.to_sym %>
+          <% when :pending %>
+            <span class="badge text-bg-primary">Pending</span>
+          <% when :submitted %>
+            <span class="badge text-bg-success">Submitted</span>
+          <% when :cancelled %>
+            <span class="badge text-bg-danger">Cancelled</span>
+          <% when :paid %>
+            <span class="badge text-bg-secondary">Paid</span>
+          <% else %>
+            <span class="badge text-bg-light">Unknown</span>
+          <% end %>
+        </td>
+        <td class="text-center"><%= order.amount %></td>
+        <td class="text-center"><%= order.coin %></td>
+        <td class="text-center"><%= order.remarks %></td>
+        <td class="text-center">
+          <% case order.genre %>
+          <% when 'deposit' %>
+            <span class="badge text-bg-primary">Deposit</span>
+          <% when 'increase' %>
+            <span class="badge text-bg-success">Increase</span>
+          <% when 'deduct' %>
+            <span class="badge text-bg-danger">Deduct</span>
+          <% when 'bonus' %>
+            <span class="badge text-bg-warning">Bonus</span>
+          <% when 'share' %>
+            <span class="badge text-bg-secondary">Share</span>
+          <% else %>
+            <span class="badge text-bg-dark">Unspecified</span>
+          <% end %>
+        </td>
+        <td class="text-center"><%= order.created_at.strftime('%b %d, %Y') %></td>
+        <td class="text-center">
           <% if order.may_cancel? %>
             <% if order.submitted? %>
             <%= button_to 'Cancel Order', cancel_client_order_path(order), method: :put, class: 'btn btn-danger btn-sm d-inline' %>
