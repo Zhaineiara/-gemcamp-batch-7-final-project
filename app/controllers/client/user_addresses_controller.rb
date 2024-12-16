@@ -1,5 +1,6 @@
 class Client::UserAddressesController < ApplicationController
   layout 'client'
+  before_action :authenticate_client_user!
 
   before_action :set_user
   before_action :set_user_address, only: [:edit, :update, :destroy]

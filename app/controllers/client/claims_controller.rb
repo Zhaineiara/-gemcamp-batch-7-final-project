@@ -1,5 +1,6 @@
 class Client::ClaimsController < ApplicationController
   layout 'client'
+  before_action :authenticate_client_user!
 
   def new
     @winner = Winner.find(params[:winner_id])
