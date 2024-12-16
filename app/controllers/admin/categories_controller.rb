@@ -5,8 +5,7 @@ class Admin::CategoriesController < ApplicationController
   before_action :category_sort_values, only: [:new, :edit]
 
   def index
-    @categories = Category.page(params[:page]).per(10)
-                          .order(Arel.sql("CASE WHEN sort = 0 THEN 1 ELSE 0 END, sort ASC"))
+    @categories = Category.order(status: :desc).order(sort: :asc).page(params[:page]).per(10)
   end
 
   def new
@@ -19,6 +18,7 @@ class Admin::CategoriesController < ApplicationController
       flash[:notice] = 'Category created successfully'
       redirect_to admin_categories_path
     else
+      flash[:alert] = @category.errors.full_messages.to_sentence
       render :new, status: :unprocessable_entity
     end
   end
@@ -30,15 +30,18 @@ class Admin::CategoriesController < ApplicationController
       flash[:notice] = 'Category updated successfully'
       redirect_to admin_categories_path
     else
+      flash[:alert] = @category.errors.full_messages.to_sentence
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     if @category.destroy
-      redirect_to admin_categories_path, notice: "Category was successfully deleted."
+      flash[:notice] = "Category was successfully deleted."
+      redirect_to admin_categories_path
     else
-      redirect_to admin_categories_path, alert: "Failed to delete the category."
+      flash[:alert] = @banner.errors.full_messages.to_sentence
+      redirect_to admin_categories_path
     end
   end
 
