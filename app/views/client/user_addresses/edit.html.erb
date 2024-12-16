@@ -1,7 +1,7 @@
 <!--Edit Address Form-->
 <div class="container d-flex justify-content-center align-items-center mt-5 mb-5" style="min-height: 80vh;">
   <div class="card bg-light text-dark p-4" style="width: 100%; max-width: 600px;">
-    <h1 class="text-center mb-4">New Address</h1>
+    <h1 class="text-center mb-4">Edit Address</h1>
 
     <%= form_with(model: @user_address, url: client_user_address_path(@user_address), data: { controller: :location, turbo: false }) do |form| %>
       <%= render partial: 'client/shared/validation_address' %>

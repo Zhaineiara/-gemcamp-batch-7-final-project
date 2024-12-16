@@ -9,11 +9,17 @@ class Client::UserAddressesController < ApplicationController
     @user_addresses = @user.user_addresses.includes(:region, :province, :city, :barangay)
     if client_user_signed_in?
       @user_coins = current_client_user.coins
+      @won_count = current_client_user.winners.won.count
     end
   end
 
   def new
     @user_address = @user.user_addresses.new
+
+    if client_user_signed_in?
+      @user_coins = current_client_user.coins
+      @won_count = current_client_user.winners.won.count
+    end
   end
 
   def create
@@ -29,6 +35,7 @@ class Client::UserAddressesController < ApplicationController
   def edit
     if client_user_signed_in?
       @user_coins = current_client_user.coins
+      @won_count = current_client_user.winners.won.count
     end
     @address = @user.user_addresses.find(params[:id])
 

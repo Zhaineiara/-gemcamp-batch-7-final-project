@@ -7,12 +7,14 @@ class Client::ShareController < ApplicationController
     @news_tickers = NewsTicker.active.order(sort: :asc).limit(5)
     if client_user_signed_in?
       @user_coins = current_client_user.coins
+      @won_count = current_client_user.winners.won.count
     end
   end
 
   def edit
     if client_user_signed_in?
       @user_coins = current_client_user.coins
+      @won_count = current_client_user.winners.won.count
     end
     @winner = Winner.find(params[:id])
   end

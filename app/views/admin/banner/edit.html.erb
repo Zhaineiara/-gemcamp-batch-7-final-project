@@ -1,3 +1,4 @@
+<%= render partial: 'admin/shared/flash_sign_in_out' %>
 <h1>Edit Banner</h1>
 
 <%= form_with(model: @banner, url: admin_banner_path, method: :patch, local: true, class: 'form') do |form| %>

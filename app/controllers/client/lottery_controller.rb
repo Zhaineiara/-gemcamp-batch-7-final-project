@@ -21,6 +21,7 @@ class Client::LotteryController < ApplicationController
 
     if client_user_signed_in?
       @user_coins = current_client_user.coins
+      @won_count = current_client_user.winners.won.count
     end
   end
 
@@ -47,6 +48,7 @@ class Client::LotteryController < ApplicationController
   def show
     if client_user_signed_in?
       @user_coins = current_client_user.coins
+      @won_count = current_client_user.winners.won.count
     end
     @item = Item.find(params[:id])
     @tickets = @item.tickets.pending

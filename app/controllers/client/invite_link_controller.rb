@@ -17,6 +17,7 @@ class Client::InviteLinkController < ApplicationController
 
     if client_user_signed_in?
       @user_coins = current_client_user.coins
+      @won_count = current_client_user.winners.won.count
     end
   end
 

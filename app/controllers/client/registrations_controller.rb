@@ -1,4 +1,5 @@
 class Client::RegistrationsController < Devise::RegistrationsController
+  layout 'client'
   before_action :store_params, only: [:new]
   def after_sign_up_path_for(resource)
     client_home_index_path
@@ -23,6 +24,13 @@ class Client::RegistrationsController < Devise::RegistrationsController
         user = User.client.new(sign_up_params)
         user.save
       end
+    end
+  end
+
+  def edit
+    if client_user_signed_in?
+      @user_coins = current_client_user.coins
+      @won_count = current_client_user.winners.won.count
     end
   end
 

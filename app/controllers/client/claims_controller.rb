@@ -5,6 +5,11 @@ class Client::ClaimsController < ApplicationController
   def new
     @winner = Winner.find(params[:winner_id])
     @user_address = current_client_user.user_addresses.build
+
+    if client_user_signed_in?
+      @user_coins = current_client_user.coins
+      @won_count = current_client_user.winners.won.count
+    end
   end
   def create
     Rails.logger.debug "Params: #{params.inspect}"
@@ -23,6 +28,11 @@ class Client::ClaimsController < ApplicationController
   def edit
     @winner = Winner.find(params[:id])
     @user_addresses = current_client_user.user_addresses
+
+    if client_user_signed_in?
+      @user_coins = current_client_user.coins
+      @won_count = current_client_user.winners.won.count
+    end
   end
 
   def update
