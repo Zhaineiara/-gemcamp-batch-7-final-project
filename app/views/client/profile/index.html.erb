@@ -13,21 +13,37 @@
     <th>Remarks</th>
     <th>Genre</th>
     <th>Created At</th>
+    <th>Action</th>
   </tr>
   </thead>
   <tbody>
-  <% @orders.each_with_index do |order, numbering| %>
+  <% if @orders.empty? %>
     <tr>
-      <td><%= numbering + 1 %></td>
-      <td><%= order.offer.name %></td>
-      <td><%= order.serial_number %></td>
-      <td><%= order.state %></td>
-      <td><%= order.amount %></td>
-      <td><%= order.coin %></td>
-      <td><%= order.remarks %></td>
-      <td><%= order.genre %></td>
-      <td><%= order.created_at.strftime('%b %d, %Y') %></td>
+      <td colspan="10" class="text-center">No order history available.</td>
     </tr>
+  <% else %>
+    <% @orders.each_with_index do |order, numbering| %>
+      <tr>
+        <td><%= numbering + 1 %></td>
+        <td><%= order.offer.name %></td>
+        <td><%= order.serial_number %></td>
+        <td><%= order.state %></td>
+        <td><%= order.amount %></td>
+        <td><%= order.coin %></td>
+        <td><%= order.remarks %></td>
+        <td><%= order.genre %></td>
+        <td><%= order.created_at.strftime('%b %d, %Y') %></td>
+        <td>
+          <% if order.may_cancel? %>
+            <% if order.submitted? %>
+              <%= button_to 'Cancel Order', cancel_client_order_path(order), method: :put, class: 'btn btn-danger btn-sm d-inline' %>
+            <% end %>
+          <% elsif order.cancelled? %>
+            <span class="text-muted">Cancelled</span>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
   <% end %>
   </tbody>
 </table>
