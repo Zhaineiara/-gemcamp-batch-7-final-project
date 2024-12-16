@@ -105,6 +105,25 @@ class Admin::UserListController < ApplicationController
     end
   end
 
+  def create_bonus
+    @user = User.find(params[:id])
+    order = Order.new(
+      user_id: @user.id,
+      genre: 'bonus',
+      amount: params[:order][:amount],
+      coin: params[:order][:coin]
+    )
+
+    if order.save
+      order.pay!
+      flash[:notice] = 'Increase order created successfully!'
+      redirect_to admin_user_list_path(@user)
+    else
+      flash[:alert] = order.errors.full_messages.to_sentence
+      render :show
+    end
+  end
+
   private
 
   def user_params

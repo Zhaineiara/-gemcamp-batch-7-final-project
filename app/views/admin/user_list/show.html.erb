@@ -71,21 +71,21 @@
 
             <!-- Bonus Tab -->
             <div class="tab-pane fade" id="bonus" role="tabpanel" aria-labelledby="bonus-tab">
-              <form action="#" method="post">
-                <div class="mb-3">
-                  <label for="bonus-coins" class="form-label">Coins</label>
-                  <input type="text" id="bonus-coins" class="form-control">
-                </div>
-                <div class="mb-3">
-                  <label for="bonus-genre" class="form-label">Genre</label>
-                  <input type="text" id="bonus-genre" class="form-control">
-                </div>
-                <div class="mb-3">
-                  <label for="bonus-remarks" class="form-label">Remarks</label>
-                  <input type="text" id="bonus-remarks" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </form>
+              <div class="tab-pane fade show active" id="increase" role="tabpanel" aria-labelledby="increase-tab">
+                <%= form_with url: create_bonus_admin_user_list_path(@user), method: :post, local: true do |f| %>
+                  <div class="mb-3">
+                    <%= f.label :coins, 'Coins', class: 'form-label' %>
+                    <%= f.number_field :coins, name: 'order[coin]', class: 'form-control', required: true %>
+                  </div>
+                  <div class="mb-3">
+                    <%= f.label :genre, 'Genre', class: 'form-label' %>
+                    <%= f.text_field :genre, value: 'bonus', class: 'form-control', readonly: true %>
+                  </div>
+                  <div class="mb-3">
+                    <%= f.submit 'Submit', class: 'btn btn-primary' %>
+                  </div>
+                <% end %>
+              </div>
             </div>
           </div>
         </div>

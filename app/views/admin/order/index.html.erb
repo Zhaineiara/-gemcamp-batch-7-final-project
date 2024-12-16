@@ -176,6 +176,7 @@
               <% else %>
                 <span class="text-muted">Order Cancelled</span>
               <% end %>
+
             <% elsif order.increase? || order.deduct? %>
               <% if order.pending? %>
                 <%= button_to 'Cancel', cancel_admin_order_path(order), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
@@ -187,6 +188,14 @@
               <% else %>
                 <span class="text-muted">Order Cancelled</span>
               <% end %>
+
+            <% elsif order.bonus? %>
+              <% if order.paid? %>
+                <%= button_to 'Cancel', cancel_admin_order_path(order), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
+              <% else %>
+                <span class="text-muted">Order Cancelled</span>
+              <% end %>
+
             <% end %>
           </div>
         </td>
@@ -202,7 +211,8 @@
     <div class="card-body">
       <h5 class="card-title text-center">Subtotal</h5>
       <hr>
-      <p class="card-text mb-1">Amount: <span class="fw-bold"><%= number_to_currency(@subtotal_amount, unit: "₱", precision: 2) %></span></p>
+      <p class="card-text mb-1">Amount:
+        <span class="fw-bold"><%= number_to_currency(@subtotal_amount, unit: "₱", precision: 2) %></span></p>
       <p class="card-text">Coins: <span class="fw-bold"><%= @subtotal_coins %></span></p>
     </div>
   </div>
@@ -212,7 +222,8 @@
     <div class="card-body">
       <h5 class="card-title text-center">Total</h5>
       <hr>
-      <p class="card-text mb-1">Amount: <span class="fw-bold"><%= number_to_currency(@total_amount, unit: "₱", precision: 2) %></span></p>
+      <p class="card-text mb-1">Amount:
+        <span class="fw-bold"><%= number_to_currency(@total_amount, unit: "₱", precision: 2) %></span></p>
       <p class="card-text">Coins: <span class="fw-bold"><%= @total_coins %></span></p>
     </div>
   </div>
