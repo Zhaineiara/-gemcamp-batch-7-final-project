@@ -6,9 +6,6 @@ class Admin::InviteListController < ApplicationController
   def index
     @users = User.includes(:parent)
                  .where.not(parent_id: nil)
-                 .joins("LEFT JOIN users parents ON users.parent_id = parents.id")
-                 .select("users.*, parents.email AS parent_email")
-                 .group("users.id, parents.email")
                  .order(created_at: :desc)
                  .page(params[:page]).per(10)
 

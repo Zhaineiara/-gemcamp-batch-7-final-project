@@ -63,7 +63,7 @@
     <% @users.each_with_index do |user, numbering| %>
       <tr>
         <td><%= numbering+1 %></td>
-        <td><%= user.parent_email %></td>
+        <td><%= user.parent&.email %></td>
         <td><%= user.email %></td>
         <td class="text-start"><%= number_to_currency(user.total_deposit || 0, unit: "₱") %></td>
         <td class="text-start"><%= number_to_currency(user.children.sum(:total_deposit) || 0, unit: "₱") %></td>
