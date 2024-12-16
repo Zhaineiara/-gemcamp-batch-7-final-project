@@ -4,13 +4,13 @@
 <table class="table mb-5">
   <thead>
   <tr>
-    <th>#</th>
-    <th>Item</th>
-    <th>Batch Count</th>
-    <th>Coins</th>
-    <th>State</th>
-    <th>Serial Number</th>
-    <th>Created At</th>
+    <th class="text-center">#</th>
+    <th class="text-center">Item</th>
+    <th class="text-center">Batch Count</th>
+    <th class="text-center">Coins</th>
+    <th class="text-center">State</th>
+    <th class="text-center">Serial Number</th>
+    <th class="text-center">Created At</th>
   </tr>
   </thead>
   <tbody>
@@ -21,13 +21,26 @@
   <% else %>
     <% @tickets.each_with_index do |ticket, numbering| %>
       <tr>
-        <td><%= numbering + 1 %></td>
-        <td><%= ticket.item&.name %></td>
-        <td><%= ticket.batch_count %></td>
-        <td><%= ticket.coins %></td>
-        <td><%= ticket.state %></td>
-        <td><%= ticket.serial_number %></td>
-        <td><%= ticket.created_at.strftime('%b %d, %Y') %></td>
+        <td class="text-center"><%= numbering + 1 %></td>
+        <td class="text-center"><%= ticket.item&.name %></td>
+        <td class="text-center"><%= ticket.batch_count %></td>
+        <td class="text-center"><%= ticket.coins %></td>
+        <td class="text-center">
+          <% case ticket.state.to_sym %>
+          <% when :pending %>
+            <span class="badge text-bg-primary">Pending</span>
+          <% when :won %>
+            <span class="badge text-bg-success">Won</span>
+          <% when :lost %>
+            <span class="badge text-bg-secondary">Lost</span>
+          <% when :cancelled %>
+            <span class="badge text-bg-danger">Cancelled</span>
+          <% else %>
+            <span class="badge text-bg-light">Unknown</span>
+          <% end %>
+        </td>
+        <td class="text-center"><%= ticket.serial_number %></td>
+        <td class="text-center"><%= ticket.created_at.strftime('%b %d, %Y') %></td>
       </tr>
     <% end %>
   <% end %>
