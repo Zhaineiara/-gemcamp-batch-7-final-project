@@ -96,6 +96,6 @@ Rails.application.routes.draw do
         sessions: 'client/sessions'
       }
     end
-    root 'client/home#dashboard', as: :client_root
+    root 'client/home#index', as: :client_root
   end
 end

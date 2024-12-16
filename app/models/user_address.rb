@@ -1,5 +1,5 @@
 class UserAddress < ApplicationRecord
-  before_save :ensure_single_default, if: :is_default?
+  before_save :single_default_validation, if: :is_default?
 
   belongs_to :user
   belongs_to :region, class_name: 'Address::Region'
@@ -7,12 +7,12 @@ class UserAddress < ApplicationRecord
   belongs_to :city, class_name: 'Address::City'
   belongs_to :barangay, class_name: 'Address::Barangay'
 
-  enum genre: { home: 0, office: 1 }
-
-  validates :name, :street_address, :phone_number, presence: true
   validates :is_default, inclusion: { in: [true, false] }
+  validates :name, :street_address, :phone_number, presence: true
   validate :max_address_limit, on: :create
   validates :phone_number, phone: { possible: true, allow_blank: true, types: %i[voip mobile], countries: [:ph] }
+
+  enum genre: { home: 0, office: 1 }
 
   private
 
@@ -22,7 +22,7 @@ class UserAddress < ApplicationRecord
     end
   end
 
-  def ensure_single_default
+  def single_default_validation
     if is_default && user.user_addresses.where(is_default: true).exists?
       user.user_addresses.where(is_default: true).update_all(is_default: false)
     end

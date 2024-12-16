@@ -4,16 +4,15 @@ class Order < ApplicationRecord
   before_create :generate_serial_number
   after_create :update_serial_number
 
-  validates :state, :genre, presence: true
-  validates :offer_id, presence: true, if: -> { genre == "deposit" }
-  validates :serial_number, presence: true, uniqueness: true, on: :update
-  validates :amount, presence: true, if: -> { genre == "deposit" }
-  validates :amount, numericality: { greater_than: 0 }, if: -> { genre == "deposit" }
-  validates :coin, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :remarks, length: { maximum: 500 }, allow_blank: true
-
   belongs_to :user
   belongs_to :offer, optional: true
+
+  validates :amount, presence: true, numericality: { greater_than: 0 }, if: -> { deposit? }
+  validates :coin, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :genre, :state, presence: true
+  validates :offer_id, presence: true, if: -> { deposit? }
+  validates :remarks, length: { maximum: 500 }, allow_blank: true
+  validates :serial_number, presence: true, uniqueness: true, on: :update
 
   enum genre: { deposit: 0, increase: 1, deduct: 2, bonus: 3, share: 4 }
 
@@ -42,7 +41,6 @@ class Order < ApplicationRecord
   end
 
   def update_serial_number
-    # After the order is saved and has an id, update the serial number
     number_count = format('%04d', Order.where(user_id: user_id).count)
     self.update_column(:serial_number, "#{Time.current.strftime('%y%m%d')}-#{self.id}-#{user_id}-#{number_count}")
   end
@@ -83,12 +81,14 @@ class Order < ApplicationRecord
       errors.add(:base, "Not enough total deposit to deduct.")
       raise ActiveRecord::Rollback
     end
-
   end
 
   def handle_paid_state
-    increase_coins unless genre == "deduct"
-    decrease_coins if genre == "deduct"
+    if genre == "deduct"
+      decrease_coins
+    else
+      increase_coins
+    end
     increase_total_deposit
   end
 

@@ -1,10 +1,10 @@
 class Item < ApplicationRecord
   include AASM
+  default_scope { where(deleted_at: nil) }
 
   has_many :item_category_ships
   has_many :categories, through: :item_category_ships
   has_many :tickets
-  default_scope { where(deleted_at: nil) }
 
   validates :name, :quantity, :minimum_tickets, :batch_count, presence: true
   validates :quantity, :minimum_tickets, :batch_count, numericality: { greater_than_or_equal_to: 0 }
@@ -21,7 +21,7 @@ class Item < ApplicationRecord
     state :starting, :paused, :ended, :cancelled
 
     event :start do
-      transitions from: [:pending, :ended, :cancelled], to: :starting, guard: :can_start?, after: :perform_start_actions
+      transitions from: [:pending, :ended, :cancelled], to: :starting, guard: :start_validation, after: :perform_start_actions
       transitions from: :paused, to: :starting
     end
 
@@ -40,16 +40,16 @@ class Item < ApplicationRecord
 
   private
 
-  def can_start?
+  def start_validation
     quantity > 0 && Date.today < offline_at && active?
   end
 
   def perform_start_actions
-    revise_batch_count
+    add_batch_count
     deduct_quantity
   end
 
-  def revise_batch_count
+  def add_batch_count
     update(batch_count: batch_count + 1)
   end
 
