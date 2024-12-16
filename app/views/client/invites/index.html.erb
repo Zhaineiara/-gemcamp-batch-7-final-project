@@ -1,30 +1,35 @@
 <%= render partial: 'client/shared/profile' %>
 
-<h3 class="mt-5">Your Invite List</h3>
-<table class="table mb-5">
-  <thead>
-  <tr>
-    <th class="text-center">#</th>
-    <th class="text-center">Email</th>
-    <th class="text-center">Created At</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% if @users.empty? %>
+<h3 class="mt-5 text-primary fw-bold" style="font-size: 1.5rem; border-bottom: 2px solid #f9a602; padding-bottom: 0.5rem;">
+  Your Invite List
+</h3>
+
+<div class="table-responsive shadow rounded m-2" style="max-height: 600px; overflow-y: auto; border-radius: 12px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+  <table class="table table-hover table-bordered mx-auto w-100 align-middle" style="border-collapse: separate; border-spacing: 0;">
+    <thead class="table-primary text-center" style="position: sticky; top: 0; z-index: 1020; border-top-left-radius: 12px; border-top-right-radius: 12px;">
     <tr>
-      <td colspan="3" class="text-center">No user invite history available.</td>
+      <th scope="col">#</th>
+      <th scope="col">Email</th>
+      <th scope="col">Created At</th>
     </tr>
-  <% else %>
-    <% @users.each_with_index do |user, numbering| %>
+    </thead>
+    <tbody>
+    <% if @users.empty? %>
       <tr>
-        <td class="text-center"><%= numbering + 1 %></td>
-        <td class="text-center"><%= user.email %></td>
-        <td class="text-center"><%= user.created_at.strftime('%b %d, %Y') %></td>
+        <td colspan="3" class="text-center">No user invite history available.</td>
       </tr>
+    <% else %>
+      <% @users.each_with_index do |user, numbering| %>
+        <tr>
+          <td class="text-center"><%= numbering + 1 %></td>
+          <td class="text-center"><%= user.email %></td>
+          <td class="text-center"><%= user.created_at.strftime('%b %d, %Y') || 'N/A' %></td>
+        </tr>
+      <% end %>
     <% end %>
-  <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>
 
 <div class="mt-4 d-flex justify-content-center mb-5">
   <ul class="pagination">

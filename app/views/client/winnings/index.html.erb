@@ -1,77 +1,81 @@
 <%= render partial: 'client/shared/profile' %>
 
-<h3 class="mt-5">Your Winning History</h3>
-<table class="table mb-5">
-  <thead>
-  <tr>
-    <th class="text-center">#</th>
-    <th class="text-center">Item</th>
-    <th class="text-center">Batch Count</th>
-    <th class="text-center">Coins</th>
-    <th class="text-center">State</th>
-    <th class="text-center">Serial Number</th>
-    <th class="text-center">Created At</th>
-    <th class="text-center">Actions</th>
-    <th class="text-center">Share</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% if @winners.empty? %>
+<h3 class="mt-5 text-primary fw-bold" style="font-size: 1.5rem; border-bottom: 2px solid #f9a602; padding-bottom: 0.5rem;">
+  Your Winning History
+</h3>
+
+<div class="table-responsive shadow rounded m-2" style="max-height: 600px; overflow-y: auto; border-radius: 12px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+  <table class="table table-hover table-bordered mx-auto w-100 align-middle" style="border-collapse: separate; border-spacing: 0;">
+    <thead class="table-primary text-center" style="position: sticky; top: 0; z-index: 1020; border-top-left-radius: 12px; border-top-right-radius: 12px;">
     <tr>
-      <td colspan="8" class="text-center">No winning history available.</td>
+      <th scope="col">#</th>
+      <th scope="col">Item</th>
+      <th scope="col">Batch Count</th>
+      <th scope="col">Coins</th>
+      <th scope="col">State</th>
+      <th scope="col">Serial Number</th>
+      <th scope="col">Created At</th>
+      <th scope="col">Actions</th>
+      <th scope="col">Share</th>
     </tr>
-  <% else %>
-    <% @winners.each_with_index do |winner, numbering| %>
+    </thead>
+    <tbody>
+    <% if @winners.empty? %>
       <tr>
-        <td class="text-center"><%= numbering + 1 %></td>
-        <td class="text-center"><%= winner.ticket.item.name %></td>
-        <td class="text-center"><%= winner.ticket.batch_count %></td>
-        <td class="text-center"><%= winner.ticket.coins %></td>
-
-        <td class="text-center">
-          <% badge_classes = {
-            'won' => 'badge text-bg-primary',
-            'claimed' => 'badge text-bg-warning',
-            'submitted' => 'badge text-bg-info',
-            'paid' => 'badge text-bg-success',
-            'shipped' => 'badge text-bg-primary',
-            'delivered' => 'badge text-bg-warning',
-            'shared' => 'badge text-bg-secondary',
-            'published' => 'badge text-bg-dark',
-            'remove_published' => 'badge text-bg-danger'
-          } %>
-          <% state_label = winner.state.humanize %>
-          <span class="<%= badge_classes[winner.state] || 'badge text-bg-secondary' %>">
-            <%= state_label %>
-          </span>
-        </td>
-        <td class="text-center"><%= winner.ticket.serial_number %></td>
-        <td class="text-center"><%= winner.created_at.strftime('%b %d, %Y') %></td>
-
-        <td class="text-center">
-          <% if winner.state == 'won' %>
-            <% if winner.user.user_addresses.exists? %>
-              <%= link_to "Claim Prize", edit_client_claim_path(winner), class: "btn btn-primary btn-sm" %>
-            <% else %>
-              <%= link_to "Claim Prize", new_client_claim_path(winner_id: winner.id), class: "btn btn-primary btn-sm" %>
-            <% end %>
-          <% else %>
-            <span class="text-muted">Already Claimed</span>
-          <% end %>
-        </td>
-
-        <td class="text-center">
-          <% if winner.may_share? %>
-            <%= link_to "Share", edit_client_share_path(winner), class: "btn btn-danger btn-sm" %>
-          <% elsif winner.shared? %>
-            <span class="text-muted">Shared</span>
-          <% end %>
-        </td>
+        <td colspan="9" class="text-center">No winning history available.</td>
       </tr>
+    <% else %>
+      <% @winners.each_with_index do |winner, numbering| %>
+        <tr>
+          <td class="text-center"><%= numbering + 1 %></td>
+          <td class="text-center"><%= winner.ticket.item.name %></td>
+          <td class="text-center"><%= winner.ticket.batch_count %></td>
+          <td class="text-center"><%= winner.ticket.coins %></td>
+          <td class="text-center">
+            <% badge_classes = {
+              'won' => 'badge text-bg-primary',
+              'claimed' => 'badge text-bg-warning',
+              'submitted' => 'badge text-bg-info',
+              'paid' => 'badge text-bg-success',
+              'shipped' => 'badge text-bg-primary',
+              'delivered' => 'badge text-bg-warning',
+              'shared' => 'badge text-bg-secondary',
+              'published' => 'badge text-bg-dark',
+              'remove_published' => 'badge text-bg-danger'
+            } %>
+            <% state_label = winner.state.humanize %>
+            <span class="<%= badge_classes[winner.state] || 'badge text-bg-secondary' %>">
+                <%= state_label %>
+              </span>
+          </td>
+          <td class="text-center"><%= winner.ticket.serial_number %></td>
+          <td class="text-center"><%= winner.created_at.strftime('%b %d, %Y') %></td>
+
+          <td class="text-center">
+            <% if winner.state == 'won' %>
+              <% if winner.user.user_addresses.exists? %>
+                <%= link_to "Claim Prize", edit_client_claim_path(winner), class: "btn btn-primary btn-sm" %>
+              <% else %>
+                <%= link_to "Claim Prize", new_client_claim_path(winner_id: winner.id), class: "btn btn-primary btn-sm" %>
+              <% end %>
+            <% else %>
+              <span class="text-muted">Already Claimed</span>
+            <% end %>
+          </td>
+
+          <td class="text-center">
+            <% if winner.may_share? %>
+              <%= link_to "Share", edit_client_share_path(winner), class: "btn btn-danger btn-sm" %>
+            <% elsif winner.shared? %>
+              <span class="text-muted">Shared</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
-  <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>
 
 <div class="mt-4 d-flex justify-content-center mb-5">
   <ul class="pagination">

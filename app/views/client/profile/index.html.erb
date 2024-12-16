@@ -1,77 +1,113 @@
 <%= render partial: 'client/shared/profile' %>
 
-<h3 class="mt-5">Your Order History</h3>
-<table class="table mb-5">
-  <thead>
-  <tr>
-    <th class="text-center">#</th>
-    <th class="text-center">Offer</th>
-    <th class="text-center">Serial Number</th>
-    <th class="text-center">State</th>
-    <th class="text-center">Amount</th>
-    <th class="text-center">Coins</th>
-    <th class="text-center">Remarks</th>
-    <th class="text-center">Genre</th>
-    <th class="text-center">Created At</th>
-    <th class="text-center">Action</th>
-  </tr>
-  </thead>
-  <tbody>
-  <% if @orders.empty? %>
+<h3 class="mt-5 text-primary fw-bold" style="font-size: 1.5rem; border-bottom: 2px solid #f9a602; padding-bottom: 0.5rem;">
+  Your Order History
+</h3>
+
+<div class="table-responsive shadow rounded m-2" style="max-height: 600px; overflow-y: auto; border-radius: 12px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);">
+  <table class="table table-hover table-bordered mx-auto w-100 align-middle" style="border-collapse: separate; border-spacing: 0;">
+    <thead class="table-primary text-center" style="position: sticky; top: 0; z-index: 1020; border-top-left-radius: 12px; border-top-right-radius: 12px;">
     <tr>
-      <td colspan="10" class="text-center">No order history available.</td>
+      <th scope="col">#</th>
+      <th scope="col">Offer</th>
+      <th scope="col">Serial Number</th>
+      <th scope="col">State</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Coins</th>
+      <th scope="col">Remarks</th>
+      <th scope="col">Genre</th>
+      <th scope="col">Created At</th>
+      <th scope="col">Action</th>
     </tr>
-  <% else %>
-    <% @orders.each_with_index do |order, numbering| %>
+    </thead>
+    <tbody>
+    <% if @orders.empty? %>
       <tr>
-        <td class="text-center"><%= numbering + 1 %></td>
-        <td class="text-center"><%= order.offer&.name || 'N/A' %></td>
-        <td class="text-center"><%= order.serial_number %></td>
-        <td class="text-center">
-          <% case order.state.to_sym %>
-          <% when :pending %>
-            <span class="badge text-bg-primary">Pending</span>
-          <% when :submitted %>
-            <span class="badge text-bg-success">Submitted</span>
-          <% when :cancelled %>
-            <span class="badge text-bg-danger">Cancelled</span>
-          <% when :paid %>
-            <span class="badge text-bg-secondary">Paid</span>
-          <% else %>
-            <span class="badge text-bg-light">Unknown</span>
-          <% end %>
-        </td>
-        <td class="text-center"><%= order.amount || 'N/A'%></td>
-        <td class="text-center"><%= order.coin || 'N/A' %></td>
-        <td class="text-center"><%= order.remarks || 'N/A'%></td>
-        <td class="text-center">
-          <% case order.genre %>
-          <% when 'deposit' %>
-            <span class="badge text-bg-primary">Deposit</span>
-          <% when 'increase' %>
-            <span class="badge text-bg-success">Increase</span>
-          <% when 'deduct' %>
-            <span class="badge text-bg-danger">Deduct</span>
-          <% when 'bonus' %>
-            <span class="badge text-bg-warning">Bonus</span>
-          <% when 'share' %>
-            <span class="badge text-bg-secondary">Share</span>
-          <% else %>
-            <span class="badge text-bg-dark">Unspecified</span>
-          <% end %>
-        </td>
-        <td class="text-center"><%= order.created_at.strftime('%b %d, %Y') %></td>
-        <td class="text-center">
-          <% if order.may_cancel? %>
-            <% if order.submitted? %>
-              <%= button_to 'Cancel Order', cancel_client_order_path(order), method: :put, class: 'btn btn-danger btn-sm d-inline' %>
-            <% end %>
-          <% elsif order.cancelled? %>
-            <span class="text-muted">Cancelled</span>
-          <% end %>
-        </td>
+        <td colspan="10" class="text-center">No order history available.</td>
       </tr>
+    <% else %>
+      <% @orders.each_with_index do |order, numbering| %>
+        <tr>
+          <td class="text-center"><%= numbering + 1 %></td>
+          <td class="text-center"><%= order.offer&.name || 'N/A' %></td>
+          <td class="text-center"><%= order.serial_number %></td>
+          <td class="text-center">
+            <% case order.state.to_sym %>
+            <% when :pending %>
+              <span class="badge text-bg-primary">Pending</span>
+            <% when :submitted %>
+              <span class="badge text-bg-success">Submitted</span>
+            <% when :cancelled %>
+              <span class="badge text-bg-danger">Cancelled</span>
+            <% when :paid %>
+              <span class="badge text-bg-secondary">Paid</span>
+            <% else %>
+              <span class="badge text-bg-light">Unknown</span>
+            <% end %>
+          </td>
+          <td class="text-center"><%= order.amount || 'N/A' %></td>
+          <td class="text-center"><%= order.coin || 'N/A' %></td>
+          <td class="text-center"><%= order.remarks || 'N/A' %></td>
+          <td class="text-center">
+            <% case order.genre %>
+            <% when 'deposit' %>
+              <span class="badge text-bg-primary">Deposit</span>
+            <% when 'increase' %>
+              <span class="badge text-bg-success">Increase</span>
+            <% when 'deduct' %>
+              <span class="badge text-bg-danger">Deduct</span>
+            <% when 'bonus' %>
+              <span class="badge text-bg-warning">Bonus</span>
+            <% when 'share' %>
+              <span class="badge text-bg-secondary">Share</span>
+            <% else %>
+              <span class="badge text-bg-dark">Unspecified</span>
+            <% end %>
+          </td>
+          <td class="text-center"><%= order.created_at.strftime('%b %d, %Y') %></td>
+          <td class="text-center">
+            <% if order.may_cancel? %>
+              <% if order.submitted? %>
+                <%= button_to 'Cancel Order', cancel_client_order_path(order), method: :put, class: 'btn btn-danger btn-sm d-inline' %>
+              <% end %>
+            <% elsif order.cancelled? %>
+              <span class="text-muted">Cancelled</span>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
     <% end %>
-  <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>
+
+<div class="mt-4 d-flex justify-content-center mb-5">
+  <ul class="pagination">
+    <li class="page-item <%= 'disabled' if @orders.first_page? %>">
+      <%= link_to 'First', request.params.merge(page: 1), class: 'page-link' %>
+    </li>
+
+    <li class="page-item <%= 'disabled' if @orders.first_page? %>">
+      <%= link_to 'Previous', request.params.merge(page: @orders.prev_page), class: 'page-link' %>
+    </li>
+
+    <%
+      start_page = [@orders.current_page - 1, 1].max
+      end_page = [start_page + 2, @orders.total_pages].min
+      start_page = [end_page - 2, 1].max
+    %>
+    <% (start_page..end_page).each do |page| %>
+      <li class="page-item <%= 'active' if page == @orders.current_page %>">
+        <%= link_to page, request.params.merge(page: page), class: 'page-link' %>
+      </li>
+    <% end %>
+
+    <li class="page-item <%= 'disabled' if @orders.last_page? %>">
+      <%= link_to 'Next', request.params.merge(page: @orders.next_page), class: 'page-link' %>
+    </li>
+
+    <li class="page-item <%= 'disabled' if @orders.last_page? %>">
+      <%= link_to 'Last', request.params.merge(page: @orders.total_pages), class: 'page-link' %>
+    </li>
+  </ul>
+</div>
