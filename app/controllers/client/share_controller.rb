@@ -17,6 +17,20 @@ class Client::ShareController < ApplicationController
     if @winner.update(winner_params)
       if @winner.may_share?
         @winner.share!
+
+        order = Order.new(
+          user_id: @winner.user_id,
+          genre: 'share',
+          amount: 0,
+          coin: 1
+        )
+
+        if order.save
+          if order.may_pay?
+            order.pay!
+          end
+        end
+
         redirect_to client_winnings_path, notice: "Your winning has been shared successfully!"
       else
         redirect_to client_winnings_path, alert: "The winning can only be shared if it is in the 'delivered' state."
