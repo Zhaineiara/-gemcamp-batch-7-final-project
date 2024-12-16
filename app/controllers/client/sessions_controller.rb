@@ -1,4 +1,6 @@
 class Client::SessionsController < Devise::SessionsController
+  layout 'client'
+
   def after_sign_out_path_for(resource_or_scope)
     new_client_user_session_path
   end

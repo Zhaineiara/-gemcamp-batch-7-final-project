@@ -18,11 +18,9 @@
         <li class="nav-item">
           <%= link_to client_winnings_path, class: "nav-link active d-flex align-items-center position-relative hover-claim", style: "font-size: 1rem; color: #333; text-decoration: none;" do %>
             <i class="bi bi-gift me-2 position-relative" style="font-size: 1.3rem; color: #f9a602; margin-right: 0.5rem; transition: transform 0.3s ease;">
-              <% if @won_count > 0 %>
                 <span class="position-absolute badge bg-danger" style="top: -10px; right: -10px; font-size: 0.7rem; padding: 0.2em 0.4em; border-radius: 50%;">
                   <%= @won_count || 0 %>
                 </span>
-              <% end %>
             </i>
           <% end %>
         </li>
