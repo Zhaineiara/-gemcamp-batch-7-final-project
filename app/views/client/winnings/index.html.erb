@@ -4,15 +4,15 @@
 <table class="table mb-5">
   <thead>
   <tr>
-    <th>#</th>
-    <th>Item</th>
-    <th>Batch Count</th>
-    <th>Coins</th>
-    <th>State</th>
-    <th>Serial Number</th>
-    <th>Created At</th>
-    <th>Actions</th>
-    <th>Share</th>
+    <th class="text-center">#</th>
+    <th class="text-center">Item</th>
+    <th class="text-center">Batch Count</th>
+    <th class="text-center">Coins</th>
+    <th class="text-center">State</th>
+    <th class="text-center">Serial Number</th>
+    <th class="text-center">Created At</th>
+    <th class="text-center">Actions</th>
+    <th class="text-center">Share</th>
   </tr>
   </thead>
   <tbody>
@@ -23,14 +23,32 @@
   <% else %>
     <% @winners.each_with_index do |winner, numbering| %>
       <tr>
-        <td><%= numbering + 1 %></td>
-        <td><%= winner.ticket.item.name %></td>
-        <td><%= winner.ticket.batch_count %></td>
-        <td><%= winner.ticket.coins %></td>
-        <td><%= winner.state %></td>
-        <td><%= winner.ticket.serial_number %></td>
-        <td><%= winner.created_at.strftime('%b %d, %Y') %></td>
-        <td>
+        <td class="text-center"><%= numbering + 1 %></td>
+        <td class="text-center"><%= winner.ticket.item.name %></td>
+        <td class="text-center"><%= winner.ticket.batch_count %></td>
+        <td class="text-center"><%= winner.ticket.coins %></td>
+
+        <td class="text-center">
+          <% badge_classes = {
+            'won' => 'badge text-bg-primary',
+            'claimed' => 'badge text-bg-warning',
+            'submitted' => 'badge text-bg-info',
+            'paid' => 'badge text-bg-success',
+            'shipped' => 'badge text-bg-primary',
+            'delivered' => 'badge text-bg-warning',
+            'shared' => 'badge text-bg-secondary',
+            'published' => 'badge text-bg-dark',
+            'remove_published' => 'badge text-bg-danger'
+          } %>
+          <% state_label = winner.state.humanize %>
+          <span class="<%= badge_classes[winner.state] || 'badge text-bg-secondary' %>">
+            <%= state_label %>
+          </span>
+        </td>
+        <td class="text-center"><%= winner.ticket.serial_number %></td>
+        <td class="text-center"><%= winner.created_at.strftime('%b %d, %Y') %></td>
+
+        <td class="text-center">
           <% if winner.state == 'won' %>
             <% if winner.user.user_addresses.exists? %>
               <%= link_to "Claim Prize", edit_client_claim_path(winner), class: "btn btn-primary btn-sm" %>
@@ -41,8 +59,8 @@
             <span class="text-muted">Already Claimed</span>
           <% end %>
         </td>
-        <td>
 
+        <td class="text-center">
           <% if winner.may_share? %>
             <%= link_to "Share", edit_client_share_path(winner), class: "btn btn-danger btn-sm" %>
           <% elsif winner.shared? %>

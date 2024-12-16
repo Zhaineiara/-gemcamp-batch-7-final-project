@@ -79,35 +79,39 @@
           } %>
           <% state_label = winner.state.humanize %>
           <span class="<%= badge_classes[winner.state] || 'badge text-bg-secondary' %>">
-    <%= state_label %>
-  </span>
+            <%= state_label %>
+          </span>
         </td>
-
         <td class="text-center">
           <% if winner.claimed? %>
-            <%= button_to 'Submit', submit_admin_winner_path(winner), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
+            <%= button_to 'Submit', submit_admin_winner_path(winner), method: :put, class: 'btn btn-warning btn-sm mx-1' %>
           <% end %>
 
           <% if winner.submitted? %>
-            <%= button_to 'Pay', pay_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm d-inline' %>
+            <%= button_to 'Pay', pay_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm mx-1' %>
           <% end %>
 
           <% if winner.paid? %>
-            <%= button_to 'Ship', ship_admin_winner_path(winner), method: :put, class: 'btn btn-primary btn-sm d-inline' %>
+            <%= button_to 'Ship', ship_admin_winner_path(winner), method: :put, class: 'btn btn-primary btn-sm mx-1' %>
           <% end %>
 
           <% if winner.shipped? %>
-            <%= button_to 'Deliver', deliver_admin_winner_path(winner), method: :put, class: 'btn btn-warning btn-sm d-inline' %>
+            <%= button_to 'Deliver', deliver_admin_winner_path(winner), method: :put, class: 'btn btn-warning btn-sm mx-1' %>
           <% end %>
 
           <% if winner.shared? %>
-            <%= link_to 'Show Feedback', admin_winner_path(winner), class: 'btn btn-secondary mb-2' %>
-            <%= button_to 'Publish', publish_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm d-inline' %>
+            <%= link_to 'Show Feedback', admin_winner_path(winner), class: 'btn btn-secondary btn-sm mx-1' %>
+            <%= button_to 'Publish', publish_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm mx-1' %>
           <% end %>
 
           <% if winner.published? %>
-            <%= link_to 'Show Feedback', admin_winner_path(winner), class: 'btn btn-secondary mb-2' %>
-            <%= button_to 'Remove Publish', remove_publish_admin_winner_path(winner), method: :put, class: 'btn btn-danger btn-sm d-inline' %>
+            <%= link_to 'Show Feedback', admin_winner_path(winner), class: 'btn btn-secondary btn-sm mx-1' %>
+            <%= button_to 'Remove Publish', remove_publish_admin_winner_path(winner), method: :put, class: 'btn btn-danger btn-sm mx-1' %>
+          <% end %>
+
+          <% if winner.remove_published? %>
+            <%= link_to 'Show Feedback', admin_winner_path(winner), class: 'btn btn-secondary btn-sm mx-1' %>
+            <%= button_to 'Publish', publish_admin_winner_path(winner), method: :put, class: 'btn btn-success btn-sm mx-1' %>
           <% end %>
         </td>
       </tr>
