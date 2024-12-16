@@ -1,13 +1,13 @@
 <%= stylesheet_link_tag "footer", "data-turbo-track": "reload" %>
 
-<footer class="fixed-bottom bg-light">
+<footer class="fixed-bottom bg-primary-subtle">
   <div class="container">
-    <div class="d-flex justify-content-around py-2">
-        <%= link_to 'Share', client_share_index_path, class: 'text-center footer_link' %></li>
-        <%= link_to 'Invite', client_invite_link_index_path, class: 'text-center footer_link' %></li>
-        <%= link_to 'Lottery', client_lottery_index_path, class: 'text-center footer_link' %></li>
-        <%= link_to 'Shop', client_shop_index_path, class: 'text-center footer_link' %></li>
-        <%= link_to 'Me', client_profile_index_path, class: 'text-center footer_link' %></li>
+    <div class="footer-box">
+      <%= link_to 'Share', client_share_index_path, class: "footer_link #{'active' if current_page?(client_share_index_path)}" %>
+      <%= link_to 'Invite', client_invite_link_index_path, class: "footer_link #{'active' if current_page?(client_invite_link_index_path)}" %>
+      <%= link_to 'Lottery', client_lottery_index_path, class: "footer_link #{'active' if current_page?(client_lottery_index_path)}" %>
+      <%= link_to 'Shop', client_shop_index_path, class: "footer_link #{'active' if current_page?(client_shop_index_path)}" %>
+      <%= link_to 'Me', client_profile_index_path, class: "footer_link #{'active' if current_page?(client_profile_index_path) || current_page?(client_orders_path) || current_page?(client_lotteries_path) || current_page?(client_invites_path) || current_page?(client_winnings_path)}" %>
     </div>
   </div>
 </footer>

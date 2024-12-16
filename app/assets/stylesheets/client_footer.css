@@ -1,0 +1,36 @@
+body {
+    background-color: #e5edfa;
+}
+
+.footer-box {
+    display: flex;
+    justify-content: space-around;
+    padding: 7px 0;
+    background-color: #cfe2ff;
+}
+
+.footer_link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500; /* Medium font-weight */
+    padding: 10px 15px; /* Add padding for better spacing */
+    transition: all 0.3s ease-in-out; /* Smooth transition for hover effects */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20%; /* Ensure uniform width if needed */
+}
+
+.footer_link.active {
+    color: dodgerblue; /* Highlight color for active links */
+    font-weight: bold; /* Optional: Make text bold */
+}
+
+/* Footer active link styling */
+.history_link.active {
+    background-color: #0080ff;
+    color: white;
+    text-decoration: none;
+    border-bottom: 5px solid #2c2c2a
+}
+
